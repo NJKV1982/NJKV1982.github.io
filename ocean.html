@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Ocean — ROAM Travel Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1410;--muted:#6b6056;--cream:#f7f3ed;--sand:#e8dfd0;
+  --earth:#b8956a;--bark:#7a5c3a;--accent:#0a4a6e;--accent-light:#4da6d4;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost','Helvetica Neue',Arial,sans-serif
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-weight:300;line-height:1.8;overflow-x:hidden}
+nav{position:fixed;inset:0 0 auto;z-index:200;display:flex;justify-content:space-between;
+align-items:center;padding:1.5rem 4rem;transition:all .4s}
+nav.solid{background:rgba(247,243,237,.97);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(26,20,16,.07)}
+.logo{font-family:var(--serif);font-size:1.6rem;letter-spacing:.22em;color:#fff;text-decoration:none;transition:color .4s}
+nav.solid .logo{color:var(--ink)}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75);text-decoration:none;transition:color .3s}
+nav.solid .nav-links a{color:var(--muted)}
+.nav-links a:hover,.nav-links a.active{color:var(--accent-light)}
+nav.solid .nav-links a:hover,nav.solid .nav-links a.active{color:var(--accent)}
+.nav-back{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none}
+
+.hero{height:90vh;min-height:580px;position:relative;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.5)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,20,35,.8) 0%,rgba(5,20,35,.1) 60%)}
+.hero-content{position:absolute;bottom:5rem;left:5rem;z-index:4}
+.hero-badge{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--accent-light);
+border:1px solid var(--accent-light);display:inline-block;padding:.35rem 1rem;margin-bottom:1.4rem}
+.hero-title{font-family:var(--serif);font-size:clamp(3rem,7vw,6rem);font-weight:300;color:#fff;line-height:1.05;letter-spacing:.04em;margin-bottom:1rem}
+.hero-sub{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:rgba(255,255,255,.6);letter-spacing:.06em}
+.accent-bar{width:50px;height:2px;background:var(--accent-light);margin:1.5rem 0}
+
+.intro{padding:5rem 4rem;background:linear-gradient(135deg,#edf4fa,#f0f8ff)}
+.intro .inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.eye{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem}
+.sec-h{font-family:var(--serif);font-size:clamp(2rem,4vw,2.8rem);font-weight:300;line-height:1.2;margin-bottom:1.2rem}
+.sec-p{font-size:.9rem;color:var(--muted);line-height:1.95;margin-bottom:1rem}
+.feature-list{list-style:none;margin-top:1.5rem}
+.feature-list li{font-size:.85rem;color:var(--muted);padding:.4rem 0;border-bottom:.5px solid var(--sand);display:flex;gap:.8rem;align-items:baseline}
+.feature-list li::before{content:'—';color:var(--accent-light);flex-shrink:0;font-size:.7rem}
+.pkg-preview{background:#fff;border:1px solid var(--sand);border-top:3px solid var(--accent);padding:2.5rem}
+.pkg-label{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.pkg-title{font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--ink);margin-bottom:.3rem}
+.pkg-sub{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+.pkg-body{font-size:.85rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem}
+.pkg-price{font-family:var(--serif);font-size:1rem;color:var(--earth);border-top:.5px solid var(--sand);padding-top:1rem;margin-bottom:.8rem}
+.pkg-cta{display:inline-block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;transition:color .3s}
+.pkg-cta:hover{color:var(--bark)}
+
+.dest-section{padding:5rem 4rem;background:linear-gradient(135deg,#edf4fa,#f7fbff)}
+.dest-section .inner{max-width:1120px;margin:0 auto}
+.dest-h{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:300;color:var(--ink);margin-bottom:2.5rem;line-height:1.3}
+.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.dest-card{background:#fff;border:.5px solid var(--sand);padding:1.8rem 1.6rem;transition:box-shadow .3s,transform .3s}
+.dest-card:hover{box-shadow:0 8px 32px rgba(10,74,110,.1);transform:translateY(-3px)}
+.dest-flag{font-size:1.4rem;margin-bottom:.8rem;display:block}
+.dest-name{font-family:var(--serif);font-size:1.2rem;color:var(--ink);font-weight:400;margin-bottom:.15rem}
+.dest-region{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}
+.dest-tagline{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--bark);margin-bottom:1rem;line-height:1.6}
+.dest-highlights{list-style:none;margin-bottom:1.2rem}
+.dest-highlights li{font-size:.78rem;color:var(--muted);padding:.25rem 0;border-bottom:.5px solid var(--sand);display:flex;align-items:baseline;gap:.5rem}
+.dest-highlights li::before{content:'—';color:var(--earth);flex-shrink:0;font-size:.7rem}
+.dest-season{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--earth);margin-top:.8rem}
+
+.mode-switch{background:var(--ink);padding:3rem 4rem;text-align:center}
+.mode-switch p{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(247,243,237,.35);margin-bottom:1.5rem}
+.mode-btns{display:flex;justify-content:center;gap:1px}
+.mode-btn{padding:1rem 3rem;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;background:rgba(255,255,255,.04);color:rgba(247,243,237,.5);transition:all .3s;flex:1;max-width:200px;text-align:center}
+.mode-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.mode-btn.ocean-btn{border-top:2px solid var(--accent-light);color:var(--accent-light)}
+.mode-btn.road-btn:hover{border-top:2px solid #c87820;color:#c87820}
+.mode-btn.air-btn:hover{border-top:2px solid #4a2870;color:#9b6fd4}
+
+footer{background:#0f0c09;padding:3.5rem 4rem;display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:3rem}
+.ft-logo{font-family:var(--serif);font-size:1.8rem;letter-spacing:.2em;color:var(--cream);font-weight:300;margin-bottom:.4rem}
+.ft-sub{font-family:var(--serif);font-style:italic;font-size:.85rem;color:var(--bark);margin-bottom:.4rem}
+.ft-modes{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(247,243,237,.2);margin-bottom:1.2rem}
+.ft-social{display:flex;gap:1rem}
+.ft-social a{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(107,96,86,.7);text-decoration:none;transition:color .3s}
+.ft-social a:hover{color:var(--earth)}
+.ft-col h4{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--earth);margin-bottom:1rem}
+.ft-col ul{list-style:none}
+.ft-col li{margin-bottom:.5rem}
+.ft-col a{font-size:.82rem;color:rgba(107,96,86,.7);text-decoration:none;transition:color .3s}
+.ft-col a:hover{color:var(--cream)}
+.ft-bar{background:#0f0c09;padding:1.2rem 4rem;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between}
+.ft-bar p{font-size:.65rem;color:rgba(107,96,86,.35);letter-spacing:.08em}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .hero-content{left:2rem;bottom:3rem}
+  .intro,.dest-section{padding:4rem 1.5rem}
+  .intro .inner{grid-template-columns:1fr}
+  .dest-grid{grid-template-columns:1fr}
+  .mode-switch{padding:2.5rem 1.5rem}
+  .mode-btns{flex-direction:column;align-items:center}
+  footer{grid-template-columns:1fr 1fr;padding:3rem 1.5rem}
+  .ft-bar{padding:1rem 1.5rem;flex-direction:column;gap:.4rem}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="logo" href="index.html">ROAM</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-back">← Home</a></li>
+    <li><a href="road.html">Road</a></li>
+    <li><a href="ocean.html" class="active">Ocean</a></li>
+    <li><a href="air.html">Air</a></li>
+    <li><a href="mailto:hello@roamtravel.co" style="border:1px solid rgba(255,255,255,.3);padding:.4rem 1.2rem">Begin</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean travel — sailing"/>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge">02 · Ocean</span>
+    <h1 class="hero-title">The ocean has no<br/>straight lines.<br/>Neither do we.</h1>
+    <div class="accent-bar"></div>
+    <p class="hero-sub">Sailing · Expedition Cruise · Island Hopping · Coastal Voyage</p>
+  </div>
+</div>
+
+<div class="intro">
+  <div class="inner">
+    <div>
+      <p class="eye">Ocean Journeys</p>
+      <h2 class="sec-h">71% of Earth is ocean.<br/>Most travellers never<br/>truly encounter it.</h2>
+      <p class="sec-p">Oceans cover 71% of the Earth — and most travellers never truly encounter them. We change that. From private sailing charters threading through the Greek Cyclades to Antarctic expedition voyages and transoceanic crossings on tall ships.</p>
+      <p class="sec-p">Our ocean journeys put you on the water, not beside it. Every vessel chosen for the destination, every anchorage selected for what lies beneath the surface.</p>
+      <ul class="feature-list">
+        <li>Private Sailing Charters — Mediterranean & Caribbean</li>
+        <li>Antarctica & Arctic Expedition Cruises</li>
+        <li>South Pacific Island Hopping</li>
+        <li>Maldives & Indian Ocean Liveaboards</li>
+        <li>Norwegian Fjord Cruise Routes</li>
+        <li>Raja Ampat & Coral Triangle Expeditions</li>
+      </ul>
+    </div>
+    <div class="pkg-preview">
+      <p class="pkg-label">Ocean Package</p>
+      <h3 class="pkg-title">Blue Horizon</h3>
+      <p class="pkg-sub">Sailing or Cruise · 7–14 days</p>
+      <p class="pkg-body">Private charter or boutique expedition vessel, threading through island chains, fjords or open ocean. We handle the vessel, the crew, the route and the moments between. Every anchorage matters.</p>
+      <p class="pkg-price">From $11,000 per person</p>
+      <a href="mailto:ocean@roamtravel.co" class="pkg-cta">Enquire about an ocean journey →</a>
+    </div>
+  </div>
+</div>
+
+<div class="dest-section">
+  <div class="inner">
+    <p class="eye">Ocean · Islands · Cruises Worldwide</p>
+    <h3 class="dest-h">Where the sea takes you somewhere extraordinary</h3>
+    <div class="dest-grid">
+
+      <div class="dest-card">
+        <span class="dest-flag">🇲🇻</span>
+        <h4 class="dest-name">Maldives</h4>
+        <p class="dest-region">Indian Ocean</p>
+        <p class="dest-tagline">1,200 coral islands — overwater bungalows above the clearest water on Earth.</p>
+        <ul class="dest-highlights">
+          <li>Bioluminescent plankton beaches at night</li>
+          <li>Manta ray & whale shark snorkelling</li>
+          <li>Private island resorts accessible only by seaplane</li>
+        </ul>
+        <p class="dest-season">Best: Nov – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇬🇷</span>
+        <h4 class="dest-name">Greek Cyclades</h4>
+        <p class="dest-region">Aegean Sea, Greece</p>
+        <p class="dest-tagline">Sailing between white villages, ancient ruins and volcanic caldera views.</p>
+        <ul class="dest-highlights">
+          <li>Santorini caldera — the world's most dramatic harbour</li>
+          <li>Mykonos, Naxos, Paros, Milos — each unique</li>
+          <li>Ancient Delos — mythological island sanctuary</li>
+        </ul>
+        <p class="dest-season">Best: May – Jun, Sep – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇴</span>
+        <h4 class="dest-name">Norwegian Fjords Cruise</h4>
+        <p class="dest-region">Western Norway</p>
+        <p class="dest-tagline">Sail into glacier-carved walls 1,000m high — one of Earth's greatest spectacles.</p>
+        <ul class="dest-highlights">
+          <li>Geirangerfjord & Nærøyfjord — dual UNESCO sites</li>
+          <li>Waterfalls dropping directly into the sea</li>
+          <li>Village stops: Flåm, Ålesund, Bergen</li>
+        </ul>
+        <p class="dest-season">Best: May – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇶</span>
+        <h4 class="dest-name">Antarctica</h4>
+        <p class="dest-region">Southern Ocean</p>
+        <p class="dest-tagline">The last great wilderness — penguin colonies, tabular icebergs, polar silence.</p>
+        <ul class="dest-highlights">
+          <li>Drake Passage crossing — the world's roughest sea</li>
+          <li>Zodiac landings among emperor penguin colonies</li>
+          <li>Humpback whale feeding in icy bays</li>
+        </ul>
+        <p class="dest-season">Best: Nov – Mar</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇪🇨</span>
+        <h4 class="dest-name">Galápagos Islands</h4>
+        <p class="dest-region">Pacific Ocean, Ecuador</p>
+        <p class="dest-tagline">Darwin's living laboratory — wildlife that shows no fear of humans.</p>
+        <ul class="dest-highlights">
+          <li>Giant tortoises, marine iguanas, blue-footed boobies</li>
+          <li>Snorkelling with sea lions and hammerhead sharks</li>
+          <li>Each island a distinct ecosystem</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇸🇨</span>
+        <h4 class="dest-name">Seychelles</h4>
+        <p class="dest-region">Indian Ocean</p>
+        <p class="dest-tagline">115 granite islands — prehistoric boulders, aldabra tortoises, pure isolation.</p>
+        <ul class="dest-highlights">
+          <li>Anse Source d'Argent — world's most photographed beach</li>
+          <li>Vallée de Mai — ancient coco de mer palm forest</li>
+          <li>Private island resorts: North, Fregate, Desroches</li>
+        </ul>
+        <p class="dest-season">Best: Apr – May, Oct – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇻🇳</span>
+        <h4 class="dest-name">Ha Long Bay</h4>
+        <p class="dest-region">Gulf of Tonkin, Vietnam</p>
+        <p class="dest-tagline">2,000 limestone karsts rising from emerald sea — a UNESCO masterpiece.</p>
+        <ul class="dest-highlights">
+          <li>Junk boat overnight cruise through the karsts</li>
+          <li>Kayaking into hidden caves and lagoons</li>
+          <li>Fishing villages floating between the islands</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇩</span>
+        <h4 class="dest-name">Raja Ampat</h4>
+        <p class="dest-region">West Papua, Indonesia</p>
+        <p class="dest-tagline">The world's richest marine biodiversity — 75% of all known coral species.</p>
+        <ul class="dest-highlights">
+          <li>Misool, Waigeo, Batanta — four main island groups</li>
+          <li>Manta rays gliding through crystal channels</li>
+          <li>Mushroom-shaped karst islands above the surface</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇫</span>
+        <h4 class="dest-name">Bora Bora & French Polynesia</h4>
+        <p class="dest-region">South Pacific</p>
+        <p class="dest-tagline">The romanticised lagoon island — turquoise atoll with Mount Otemanu at its heart.</p>
+        <ul class="dest-highlights">
+          <li>Overwater bungalows above a coral garden</li>
+          <li>Lagoon safari — sharks, rays, turtles</li>
+          <li>Island hop: Moorea, Huahine, Tikehau</li>
+        </ul>
+        <p class="dest-season">Best: May – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇭</span>
+        <h4 class="dest-name">Palawan</h4>
+        <p class="dest-region">Philippines</p>
+        <p class="dest-tagline">An island of islands — limestone cliffs, hidden lagoons and underground rivers.</p>
+        <ul class="dest-highlights">
+          <li>El Nido — kayak through cathedral-like karst lagoons</li>
+          <li>Puerto Princesa Underground River — UNESCO cave wonder</li>
+          <li>Coron — wreck diving among WWII Japanese fleet</li>
+        </ul>
+        <p class="dest-season">Best: Nov – May</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇹</span>
+        <h4 class="dest-name">Azores</h4>
+        <p class="dest-region">Mid-Atlantic, Portugal</p>
+        <p class="dest-tagline">Nine volcanic islands mid-Atlantic — whale watching capital of the world.</p>
+        <ul class="dest-highlights">
+          <li>Sete Cidades twin crater lakes on São Miguel</li>
+          <li>Sperm whale, blue whale and dolphin encounters</li>
+          <li>Thermal pools bubbling into the ocean at Furnas</li>
+        </ul>
+        <p class="dest-season">Best: May – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇺</span>
+        <h4 class="dest-name">Whitsundays</h4>
+        <p class="dest-region">Queensland, Australia</p>
+        <p class="dest-tagline">74 islands in the Coral Sea — Whitehaven Beach is silica so pure it squeaks.</p>
+        <ul class="dest-highlights">
+          <li>Whitehaven Beach — consistently voted world's best</li>
+          <li>Sailing between uninhabited islands</li>
+          <li>Heart Reef in the Great Barrier Reef above</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇴</span>
+        <h4 class="dest-name">Lofoten Islands</h4>
+        <p class="dest-region">Arctic Norway</p>
+        <p class="dest-tagline">Dramatic Arctic peaks rising from the sea — fishing villages painted blood-red.</p>
+        <ul class="dest-highlights">
+          <li>Midnight sun from June – July with full daylight</li>
+          <li>Northern Lights reflected in perfect fjord water</li>
+          <li>Reine — consistently ranked world's most scenic village</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Aug (sun); Dec – Feb (lights)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇨🇷</span>
+        <h4 class="dest-name">Caribbean Islands</h4>
+        <p class="dest-region">Caribbean Sea</p>
+        <p class="dest-tagline">700 islands, 26 languages, one endless summer — from jungle to turquoise.</p>
+        <ul class="dest-highlights">
+          <li>St Lucia — volcanic Pitons above yacht-filled bay</li>
+          <li>Belize Barrier Reef — second largest in the world</li>
+          <li>BVI, Turks & Caicos, Grenada — each a world apart</li>
+        </ul>
+        <p class="dest-season">Best: Dec – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇯🇵</span>
+        <h4 class="dest-name">Okinawa Islands</h4>
+        <p class="dest-region">East China Sea, Japan</p>
+        <p class="dest-tagline">Japan's tropical secret — mangroves, coral gardens and ancient Ryukyu culture.</p>
+        <ul class="dest-highlights">
+          <li>Kerama Islands — clearest water in Japan (Kerama Blue)</li>
+          <li>Iriomote — jungle river kayaking in a near-wilderness</li>
+          <li>Whale shark diving at Yonaguni, Japan's westernmost island</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Jun, Sep – Nov</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="mode-switch">
+  <p>Explore another mode of travel</p>
+  <div class="mode-btns">
+    <a href="road.html" class="mode-btn road-btn">Road</a>
+    <a href="ocean.html" class="mode-btn ocean-btn">Ocean</a>
+    <a href="air.html" class="mode-btn air-btn">Air</a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <p class="ft-logo">ROAM</p>
+    <p class="ft-sub">Travel that moves you — in every sense.</p>
+    <p class="ft-modes">Road · Ocean · Air · Movement</p>
+    <div class="ft-social">
+      <a href="#">Instagram</a>
+      <a href="#">Pinterest</a>
+      <a href="mailto:hello@roamtravel.co">hello@roamtravel.co</a>
+    </div>
+  </div>
+  <div class="ft-col">
+    <h4>Modes</h4>
+    <ul>
+      <li><a href="road.html">Road</a></li>
+      <li><a href="ocean.html">Ocean</a></li>
+      <li><a href="air.html">Air</a></li>
+    </ul>
+  </div>
+  <div class="ft-col">
+    <h4>Destinations</h4>
+    <ul>
+      <li><a href="#">Americas</a></li>
+      <li><a href="#">Europe</a></li>
+      <li><a href="#">Asia Pacific</a></li>
+      <li><a href="#">Africa</a></li>
+      <li><a href="#">Polar</a></li>
+    </ul>
+  </div>
+  <div class="ft-col">
+    <h4>Company</h4>
+    <ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Journal</a></li>
+      <li><a href="#">Sustainability</a></li>
+      <li><a href="mailto:hello@roamtravel.co">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="ft-bar">
+  <p>© 2026 ROAM Travel Consulting. All rights reserved.</p>
+  <p>hello@roamtravel.co</p>
+</div>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('solid', window.scrollY > 80));
+</script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Air — ROAM Travel Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1410;--muted:#6b6056;--cream:#f7f3ed;--sand:#e8dfd0;
+  --earth:#b8956a;--bark:#7a5c3a;--accent:#4a2870;--accent-light:#9b6fd4;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost','Helvetica Neue',Arial,sans-serif
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-weight:300;line-height:1.8;overflow-x:hidden}
+nav{position:fixed;inset:0 0 auto;z-index:200;display:flex;justify-content:space-between;
+align-items:center;padding:1.5rem 4rem;transition:all .4s}
+nav.solid{background:rgba(247,243,237,.97);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(26,20,16,.07)}
+.logo{font-family:var(--serif);font-size:1.6rem;letter-spacing:.22em;color:#fff;text-decoration:none;transition:color .4s}
+nav.solid .logo{color:var(--ink)}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75);text-decoration:none;transition:color .3s}
+nav.solid .nav-links a{color:var(--muted)}
+.nav-links a:hover,.nav-links a.active{color:var(--accent-light)}
+nav.solid .nav-links a:hover,nav.solid .nav-links a.active{color:var(--accent)}
+.nav-back{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none}
+
+.hero{height:90vh;min-height:580px;position:relative;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.45)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,5,40,.8) 0%,rgba(20,5,40,.1) 60%)}
+.hero-content{position:absolute;bottom:5rem;left:5rem;z-index:4}
+.hero-badge{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--accent-light);
+border:1px solid var(--accent-light);display:inline-block;padding:.35rem 1rem;margin-bottom:1.4rem}
+.hero-title{font-family:var(--serif);font-size:clamp(3rem,7vw,6rem);font-weight:300;color:#fff;line-height:1.05;letter-spacing:.04em;margin-bottom:1rem}
+.hero-sub{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:rgba(255,255,255,.6);letter-spacing:.06em}
+.accent-bar{width:50px;height:2px;background:var(--accent-light);margin:1.5rem 0}
+
+.intro{padding:5rem 4rem;background:linear-gradient(135deg,#f5f0ff,#ede8f5)}
+.intro .inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.eye{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem}
+.sec-h{font-family:var(--serif);font-size:clamp(2rem,4vw,2.8rem);font-weight:300;line-height:1.2;margin-bottom:1.2rem}
+.sec-p{font-size:.9rem;color:var(--muted);line-height:1.95;margin-bottom:1rem}
+.feature-list{list-style:none;margin-top:1.5rem}
+.feature-list li{font-size:.85rem;color:var(--muted);padding:.4rem 0;border-bottom:.5px solid var(--sand);display:flex;gap:.8rem;align-items:baseline}
+.feature-list li::before{content:'—';color:var(--accent-light);flex-shrink:0;font-size:.7rem}
+.pkg-preview{background:#fff;border:1px solid var(--sand);border-top:3px solid var(--accent);padding:2.5rem}
+.pkg-label{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.pkg-title{font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--ink);margin-bottom:.3rem}
+.pkg-sub{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+.pkg-body{font-size:.85rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem}
+.pkg-price{font-family:var(--serif);font-size:1rem;color:var(--earth);border-top:.5px solid var(--sand);padding-top:1rem;margin-bottom:.8rem}
+.pkg-cta{display:inline-block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;transition:color .3s}
+.pkg-cta:hover{color:var(--bark)}
+
+.dest-section{padding:5rem 4rem;background:linear-gradient(135deg,#f8f5ff,#f2eeff)}
+.dest-section .inner{max-width:1120px;margin:0 auto}
+.dest-h{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:300;color:var(--ink);margin-bottom:2.5rem;line-height:1.3}
+.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.dest-card{background:#fff;border:.5px solid var(--sand);padding:1.8rem 1.6rem;transition:box-shadow .3s,transform .3s}
+.dest-card:hover{box-shadow:0 8px 32px rgba(74,40,112,.1);transform:translateY(-3px)}
+.dest-flag{font-size:1.4rem;margin-bottom:.8rem;display:block}
+.dest-name{font-family:var(--serif);font-size:1.2rem;color:var(--ink);font-weight:400;margin-bottom:.15rem}
+.dest-region{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}
+.dest-tagline{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--bark);margin-bottom:1rem;line-height:1.6}
+.dest-highlights{list-style:none;margin-bottom:1.2rem}
+.dest-highlights li{font-size:.78rem;color:var(--muted);padding:.25rem 0;border-bottom:.5px solid var(--sand);display:flex;align-items:baseline;gap:.5rem}
+.dest-highlights li::before{content:'—';color:var(--earth);flex-shrink:0;font-size:.7rem}
+.dest-season{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--earth);margin-top:.8rem}
+
+.mode-switch{background:var(--ink);padding:3rem 4rem;text-align:center}
+.mode-switch p{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(247,243,237,.35);margin-bottom:1.5rem}
+.mode-btns{display:flex;justify-content:center;gap:1px}
+.mode-btn{padding:1rem 3rem;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;background:rgba(255,255,255,.04);color:rgba(247,243,237,.5);transition:all .3s;flex:1;max-width:200px;text-align:center}
+.mode-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.mode-btn.air-btn{border-top:2px solid var(--accent-light);color:var(--accent-light)}
+.mode-btn.road-btn:hover{border-top:2px solid #c87820;color:#c87820}
+.mode-btn.ocean-btn:hover{border-top:2px solid #0a4a6e;color:#4da6d4}
+
+footer{background:#0f0c09;padding:3.5rem 4rem;display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:3rem}
+.ft-logo{font-family:var(--serif);font-size:1.8rem;letter-spacing:.2em;color:var(--cream);font-weight:300;margin-bottom:.4rem}
+.ft-sub{font-family:var(--serif);font-style:italic;font-size:.85rem;color:var(--bark);margin-bottom:.4rem}
+.ft-modes{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(247,243,237,.2);margin-bottom:1.2rem}
+.ft-social{display:flex;gap:1rem}
+.ft-social a{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(107,96,86,.7);text-decoration:none;transition:color .3s}
+.ft-social a:hover{color:var(--earth)}
+.ft-col h4{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--earth);margin-bottom:1rem}
+.ft-col ul{list-style:none}
+.ft-col li{margin-bottom:.5rem}
+.ft-col a{font-size:.82rem;color:rgba(107,96,86,.7);text-decoration:none;transition:color .3s}
+.ft-col a:hover{color:var(--cream)}
+.ft-bar{background:#0f0c09;padding:1.2rem 4rem;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between}
+.ft-bar p{font-size:.65rem;color:rgba(107,96,86,.35);letter-spacing:.08em}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .hero-content{left:2rem;bottom:3rem}
+  .intro,.dest-section{padding:4rem 1.5rem}
+  .intro .inner{grid-template-columns:1fr}
+  .dest-grid{grid-template-columns:1fr}
+  .mode-switch{padding:2.5rem 1.5rem}
+  .mode-btns{flex-direction:column;align-items:center}
+  footer{grid-template-columns:1fr 1fr;padding:3rem 1.5rem}
+  .ft-bar{padding:1rem 1.5rem;flex-direction:column;gap:.4rem}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="logo" href="index.html">ROAM</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-back">← Home</a></li>
+    <li><a href="road.html">Road</a></li>
+    <li><a href="ocean.html">Ocean</a></li>
+    <li><a href="air.html" class="active">Air</a></li>
+    <li><a href="mailto:hello@roamtravel.co" style="border:1px solid rgba(255,255,255,.3);padding:.4rem 1.2rem">Begin</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air travel — aerial view"/>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge">03 · Air</span>
+    <h1 class="hero-title">To see the Earth<br/>from above is to<br/>understand it differently.</h1>
+    <div class="accent-bar"></div>
+    <p class="hero-sub">Balloon · Helicopter · Seaplane · Private Charter</p>
+  </div>
+</div>
+
+<div class="intro">
+  <div class="inner">
+    <div>
+      <p class="eye">Air Journeys</p>
+      <h2 class="sec-h">Altitude changes<br/>perspective in<br/>every sense.</h2>
+      <p class="sec-p">We curate air journeys that go beyond getting from A to B — hot air balloon sunrises over Cappadocia's rock formations, helicopter descents into remote mountain lodges, seaplane arrivals at private island resorts.</p>
+      <p class="sec-p">Private jet itineraries that compress continents into days. Views the Earth reserves for those willing to leave the ground entirely.</p>
+      <ul class="feature-list">
+        <li>Hot Air Balloons — Cappadocia, Serengeti, Loire Valley</li>
+        <li>Helicopter Glacier Landings — New Zealand & Alaska</li>
+        <li>Seaplane Safaris — Maldives & Botswana</li>
+        <li>Private Jet Multi-Continent Itineraries</li>
+        <li>Scenic Flights — Grand Canyon, Milford Sound, Namib</li>
+        <li>Aurora Flights — Iceland & Norwegian Arctic</li>
+      </ul>
+    </div>
+    <div class="pkg-preview">
+      <p class="pkg-label">Air Package</p>
+      <h3 class="pkg-title">Above the Clouds</h3>
+      <p class="pkg-sub">Aerial Experiences · Bespoke</p>
+      <p class="pkg-body">A carefully assembled sequence of aerial moments — balloons at dawn, helicopter approaches to remote lodges, seaplane arrivals and the kind of views that stay with you for decades. Every ascent a revelation.</p>
+      <p class="pkg-price">From $6,000 per experience</p>
+      <a href="mailto:air@roamtravel.co" class="pkg-cta">Enquire about an air experience →</a>
+    </div>
+  </div>
+</div>
+
+<div class="dest-section">
+  <div class="inner">
+    <p class="eye">Air · Scenic Flights · Aerial Wonders</p>
+    <h3 class="dest-h">Views the Earth keeps for those who fly</h3>
+    <div class="dest-grid">
+
+      <div class="dest-card">
+        <span class="dest-flag">🇹🇷</span>
+        <h4 class="dest-name">Cappadocia Balloon Flight</h4>
+        <p class="dest-region">Göreme, Turkey</p>
+        <p class="dest-tagline">Sunrise over a lunar landscape of fairy chimneys — the world's finest balloon flight.</p>
+        <ul class="dest-highlights">
+          <li>100+ balloons rising together at dawn</li>
+          <li>Rock-carved churches and underground cities below</li>
+          <li>Champagne landing in a vineyard after 1hr in the air</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Jun, Sep – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇺🇸</span>
+        <h4 class="dest-name">Grand Canyon Helicopter</h4>
+        <p class="dest-region">Arizona, USA</p>
+        <p class="dest-tagline">Descend 1,500m below the rim — the canyon only truly reveals itself from above.</p>
+        <ul class="dest-highlights">
+          <li>West Rim, South Rim & North Rim routes</li>
+          <li>Land on the canyon floor beside the Colorado River</li>
+          <li>Dawn flights when the light turns the rock to fire</li>
+        </ul>
+        <p class="dest-season">Best: Mar – May, Sep – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇹🇿</span>
+        <h4 class="dest-name">Serengeti Balloon Safari</h4>
+        <p class="dest-region">Tanzania</p>
+        <p class="dest-tagline">Float above the Great Migration — millions of wildebeest from 300 metres up.</p>
+        <ul class="dest-highlights">
+          <li>Lions, elephants and cheetah from the air at dawn</li>
+          <li>Mara River crossing visible from above</li>
+          <li>Full bush breakfast on landing in the plains</li>
+        </ul>
+        <p class="dest-season">Best: Jul – Oct (migration peak)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇿</span>
+        <h4 class="dest-name">Milford Sound Scenic Flight</h4>
+        <p class="dest-region">Fiordland, New Zealand</p>
+        <p class="dest-tagline">Fly over the eighth wonder — glaciers, waterfalls and black fjord from a floatplane.</p>
+        <ul class="dest-highlights">
+          <li>Mitre Peak — 1,692m straight out of the sea</li>
+          <li>Doubtful Sound and Dusky Sound from above</li>
+          <li>Glacier neve landings by ski-plane</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇦</span>
+        <h4 class="dest-name">Namib Desert Aerial</h4>
+        <p class="dest-region">Namibia</p>
+        <p class="dest-tagline">The world's oldest desert from above — star dunes 300m high meeting the Atlantic.</p>
+        <ul class="dest-highlights">
+          <li>Sossusvlei dunes — apricot and ochre from the air</li>
+          <li>Skeleton Coast — shipwrecks in the sand from 500m</li>
+          <li>Fish River Canyon — Africa's Grand Canyon</li>
+        </ul>
+        <p class="dest-season">Best: May – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇨🇭</span>
+        <h4 class="dest-name">Swiss Alps Glacier Flight</h4>
+        <p class="dest-region">Switzerland</p>
+        <p class="dest-tagline">Helicopter landing on the Jungfrau glacier — the Alps in silence above the clouds.</p>
+        <ul class="dest-highlights">
+          <li>Eiger, Mönch & Jungfrau — the triple-summit view</li>
+          <li>Aletsch Glacier — Europe's longest from above</li>
+          <li>Private ski descents from glacier landing</li>
+        </ul>
+        <p class="dest-season">Best: Dec – Apr (snow); Jun – Sep (clear skies)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇺</span>
+        <h4 class="dest-name">Great Barrier Reef Seaplane</h4>
+        <p class="dest-region">Queensland, Australia</p>
+        <p class="dest-tagline">The only living structure visible from space — a 2,300km mosaic of coral from above.</p>
+        <ul class="dest-highlights">
+          <li>Heart Reef — natural coral heart, only viewable by air</li>
+          <li>Whitehaven Beach — 7km of pure silica sand from above</li>
+          <li>Seaplane water landing in the outer reef</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇧🇷</span>
+        <h4 class="dest-name">Amazon Rainforest Flight</h4>
+        <p class="dest-region">Brazil & Peru</p>
+        <p class="dest-tagline">An infinite green ocean — the lungs of the planet viewed from a light aircraft.</p>
+        <ul class="dest-highlights">
+          <li>Meeting of the Waters — Rio Negro meets Amazon from above</li>
+          <li>Flooded forest canopy at high water season</li>
+          <li>Remote lodge access only possible by small aircraft</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇸</span>
+        <h4 class="dest-name">Iceland Northern Lights Flight</h4>
+        <p class="dest-region">Iceland</p>
+        <p class="dest-tagline">Chase the aurora from above the clouds — guaranteed clear-sky viewing by air.</p>
+        <ul class="dest-highlights">
+          <li>Small aircraft fly above cloud cover to find the aurora</li>
+          <li>Volcanic landscape below, celestial curtains above</li>
+          <li>Combination: glacier overflight by day, aurora by night</li>
+        </ul>
+        <p class="dest-season">Best: Sep – Mar</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇹</span>
+        <h4 class="dest-name">Dolomites Helicopter</h4>
+        <p class="dest-region">South Tyrol, Italy</p>
+        <p class="dest-tagline">Three Peaks, rose-lit at sunset — the most theatrical mountain range in Europe.</p>
+        <ul class="dest-highlights">
+          <li>Tre Cime di Lavaredo — three towers from 500m above</li>
+          <li>Cortina d'Ampezzo amphitheatre from the air</li>
+          <li>Glacier landing on Marmolada — highest peak of the Dolomites</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇨🇳</span>
+        <h4 class="dest-name">Zhangjiajie Aerial</h4>
+        <p class="dest-region">Hunan Province, China</p>
+        <p class="dest-tagline">The Avatar mountains — 3,000 sandstone pillars rising through cloud from above.</p>
+        <ul class="dest-highlights">
+          <li>World's longest cable car with glass-bottom cabins</li>
+          <li>Tianmen Mountain — "Heaven's Gate" arch in the cliff</li>
+          <li>Pillar formations reaching 200m from a light aircraft</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇿🇲</span>
+        <h4 class="dest-name">Victoria Falls Flight</h4>
+        <p class="dest-region">Zambia & Zimbabwe</p>
+        <p class="dest-tagline">The smoke that thunders — the world's largest waterfall sheet from a microlight.</p>
+        <ul class="dest-highlights">
+          <li>1.7km wide curtain of water visible for 50km away</li>
+          <li>Microlight flight straight over the falls in the mist</li>
+          <li>Helicopter sunset tour over the Zambezi floodplains</li>
+        </ul>
+        <p class="dest-season">Best: Mar – May (full flow)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇪</span>
+        <h4 class="dest-name">Nazca Lines Flight</h4>
+        <p class="dest-region">Ica Desert, Peru</p>
+        <p class="dest-tagline">2,000-year-old geoglyphs only visible from the air — one of Earth's great mysteries.</p>
+        <ul class="dest-highlights">
+          <li>The Hummingbird, Spider, Monkey — giant earth drawings</li>
+          <li>50km of lines in the coastal Peruvian desert</li>
+          <li>Small Cessna flight at low altitude over the figures</li>
+        </ul>
+        <p class="dest-season">Best: May – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇬🇱</span>
+        <h4 class="dest-name">Greenland Ice Sheet</h4>
+        <p class="dest-region">Greenland</p>
+        <p class="dest-tagline">The world's second largest ice sheet — a white continent seen from a Twin Otter.</p>
+        <ul class="dest-highlights">
+          <li>Ilulissat Icefjord — UNESCO glacier calving into the sea</li>
+          <li>Dog-sled camp landing on the ice cap at 2,500m</li>
+          <li>Musk ox and Arctic fox spotted from low altitude</li>
+        </ul>
+        <p class="dest-season">Best: Mar – Apr, Jun – Aug</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇷</span>
+        <h4 class="dest-name">Patagonia — Torres del Paine</h4>
+        <p class="dest-region">Chilean Patagonia</p>
+        <p class="dest-tagline">The Towers, the Grey Glacier, the Southern Ice Field — one flight, an eternity.</p>
+        <ul class="dest-highlights">
+          <li>Torres del Paine granite spires from a helicopter</li>
+          <li>Perito Moreno Glacier — 60m ice wall calving below</li>
+          <li>Condors riding thermals at eye level</li>
+        </ul>
+        <p class="dest-season">Best: Nov – Mar</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="mode-switch">
+  <p>Explore another mode of travel</p>
+  <div class="mode-btns">
+    <a href="road.html" class="mode-btn road-btn">Road</a>
+    <a href="ocean.html" class="mode-btn ocean-btn">Ocean</a>
+    <a href="air.html" class="mode-btn air-btn">Air</a>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <p class="ft-logo">ROAM</p>
+    <p class="ft-sub">Travel that moves you — in every sense.</p>
+    <p class="ft-modes">Road · Ocean · Air · Movement</p>
+    <div class="ft-social">
+      <a href="#">Instagram</a>
+      <a href="#">Pinterest</a>
+      <a href="mailto:hello@roamtravel.co">hello@roamtravel.co</a>
+    </div>
+  </div>
+  <div class="ft-col">
+    <h4>Modes</h4>
+    <ul>
+      <li><a href="road.html">Road</a></li>
+      <li><a href="ocean.html">Ocean</a></li>
+      <li><a href="air.html">Air</a></li>
+    </ul>
+  </div>
+  <div class="ft-col">
+    <h4>Destinations</h4>
+    <ul>
+      <li><a href="#">Americas</a></li>
+      <li><a href="#">Europe</a></li>
+      <li><a href="#">Asia Pacific</a></li>
+      <li><a href="#">Africa</a></li>
+      <li><a href="#">Polar</a></li>
+    </ul>
+  </div>
+  <div class="ft-col">
+    <h4>Company</h4>
+    <ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Journal</a></li>
+      <li><a href="#">Sustainability</a></li>
+      <li><a href="mailto:hello@roamtravel.co">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="ft-bar">
+  <p>© 2026 ROAM Travel Consulting. All rights reserved.</p>
+  <p>hello@roamtravel.co</p>
+</div>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('solid', window.scrollY > 80));
+</script>
+</body>
+</html>

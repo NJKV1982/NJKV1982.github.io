@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Road — ROAM Travel Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1410;--muted:#6b6056;--cream:#f7f3ed;--sand:#e8dfd0;
+  --earth:#b8956a;--bark:#7a5c3a;--accent:#c87820;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost','Helvetica Neue',Arial,sans-serif
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-weight:300;line-height:1.8;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;inset:0 0 auto;z-index:200;display:flex;justify-content:space-between;
+align-items:center;padding:1.5rem 4rem;transition:all .4s;background:transparent}
+nav.solid{background:rgba(247,243,237,.97);backdrop-filter:blur(8px);box-shadow:0 1px 0 rgba(26,20,16,.07)}
+.logo{font-family:var(--serif);font-size:1.6rem;letter-spacing:.22em;color:#fff;text-decoration:none;transition:color .4s}
+nav.solid .logo{color:var(--ink)}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75);text-decoration:none;transition:color .3s}
+nav.solid .nav-links a{color:var(--muted)}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+nav.solid .nav-links a.active{color:var(--accent)}
+.nav-back{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);text-decoration:none;transition:color .3s}
+nav.solid .nav-back{color:var(--muted)}
+.nav-back:hover{color:var(--accent)}
+
+/* HERO */
+.hero{height:90vh;min-height:580px;position:relative;overflow:hidden}
+.hero img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.55)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,12,9,.7) 0%,rgba(15,12,9,.1) 60%)}
+.hero-content{position:absolute;bottom:5rem;left:5rem;z-index:4}
+.hero-badge{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--accent);
+border:1px solid var(--accent);display:inline-block;padding:.35rem 1rem;margin-bottom:1.4rem}
+.hero-title{font-family:var(--serif);font-size:clamp(3rem,7vw,6rem);font-weight:300;
+color:#fff;line-height:1.05;letter-spacing:.04em;margin-bottom:1rem}
+.hero-sub{font-family:var(--serif);font-style:italic;font-size:1.1rem;
+color:rgba(255,255,255,.6);letter-spacing:.06em}
+.accent-bar{width:50px;height:2px;background:var(--accent);margin:1.5rem 0}
+
+/* INTRO */
+.intro{padding:5rem 4rem;background:var(--cream)}
+.intro .inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.eye{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem}
+.sec-h{font-family:var(--serif);font-size:clamp(2rem,4vw,2.8rem);font-weight:300;line-height:1.2;margin-bottom:1.2rem}
+.sec-p{font-size:.9rem;color:var(--muted);line-height:1.95;margin-bottom:1rem}
+.feature-list{list-style:none;margin-top:1.5rem}
+.feature-list li{font-size:.85rem;color:var(--muted);padding:.4rem 0;border-bottom:.5px solid var(--sand);display:flex;gap:.8rem;align-items:baseline}
+.feature-list li::before{content:'—';color:var(--accent);flex-shrink:0;font-size:.7rem}
+.pkg-preview{background:#fff;border:1px solid var(--sand);border-top:3px solid var(--accent);padding:2.5rem}
+.pkg-label{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.pkg-title{font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--ink);margin-bottom:.3rem}
+.pkg-sub{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+.pkg-body{font-size:.85rem;color:var(--muted);line-height:1.9;margin-bottom:1.5rem}
+.pkg-price{font-family:var(--serif);font-size:1rem;color:var(--earth);border-top:.5px solid var(--sand);padding-top:1rem;margin-bottom:.8rem}
+.pkg-cta{display:inline-block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
+color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:2px;transition:color .3s}
+.pkg-cta:hover{color:var(--bark)}
+
+/* DESTINATIONS */
+.dest-section{padding:5rem 4rem;background:#faf8f4}
+.dest-section .inner{max-width:1120px;margin:0 auto}
+.dest-h{font-family:var(--serif);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:300;color:var(--ink);margin-bottom:2.5rem;line-height:1.3}
+.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.dest-card{background:#fff;border:.5px solid var(--sand);padding:1.8rem 1.6rem;transition:box-shadow .3s,transform .3s}
+.dest-card:hover{box-shadow:0 8px 32px rgba(26,20,16,.08);transform:translateY(-3px)}
+.dest-flag{font-size:1.4rem;margin-bottom:.8rem;display:block}
+.dest-name{font-family:var(--serif);font-size:1.2rem;color:var(--ink);font-weight:400;margin-bottom:.15rem}
+.dest-region{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.9rem}
+.dest-tagline{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--bark);margin-bottom:1rem;line-height:1.6}
+.dest-highlights{list-style:none;margin-bottom:1.2rem}
+.dest-highlights li{font-size:.78rem;color:var(--muted);padding:.25rem 0;border-bottom:.5px solid var(--sand);display:flex;align-items:baseline;gap:.5rem}
+.dest-highlights li::before{content:'—';color:var(--earth);flex-shrink:0;font-size:.7rem}
+.dest-season{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--earth);margin-top:.8rem}
+
+/* MODE SWITCHER */
+.mode-switch{background:var(--ink);padding:3rem 4rem;text-align:center}
+.mode-switch p{font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(247,243,237,.35);margin-bottom:1.5rem}
+.mode-btns{display:flex;justify-content:center;gap:1px}
+.mode-btn{padding:1rem 3rem;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;background:rgba(255,255,255,.04);color:rgba(247,243,237,.5);transition:all .3s;flex:1;max-width:200px;text-align:center}
+.mode-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.mode-btn.road-btn{border-top:2px solid var(--accent);color:var(--accent)}
+.mode-btn.ocean-btn:hover{border-top:2px solid #0a4a6e;color:#4da6d4}
+.mode-btn.air-btn:hover{border-top:2px solid #4a2870;color:#9b6fd4}
+
+/* FOOTER */
+footer{background:#0f0c09;padding:3.5rem 4rem;display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:3rem}
+.ft-logo{font-family:var(--serif);font-size:1.8rem;letter-spacing:.2em;color:var(--cream);font-weight:300;margin-bottom:.4rem}
+.ft-sub{font-family:var(--serif);font-style:italic;font-size:.85rem;color:var(--bark);margin-bottom:.4rem}
+.ft-modes{font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(247,243,237,.2);margin-bottom:1.2rem}
+.ft-social{display:flex;gap:1rem}
+.ft-social a{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(107,96,86,.7);text-decoration:none;transition:color .3s}
+.ft-social a:hover{color:var(--earth)}
+.ft-col h4{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--earth);margin-bottom:1rem}
+.ft-col ul{list-style:none}
+.ft-col li{margin-bottom:.5rem}
+.ft-col a{font-size:.82rem;color:rgba(107,96,86,.7);text-decoration:none;transition:color .3s}
+.ft-col a:hover{color:var(--cream)}
+.ft-bar{background:#0f0c09;padding:1.2rem 4rem;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between}
+.ft-bar p{font-size:.65rem;color:rgba(107,96,86,.35);letter-spacing:.08em}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .hero-content{left:2rem;bottom:3rem}
+  .intro{padding:4rem 1.5rem}
+  .intro .inner{grid-template-columns:1fr}
+  .dest-section{padding:4rem 1.5rem}
+  .dest-grid{grid-template-columns:1fr}
+  .mode-switch{padding:2.5rem 1.5rem}
+  .mode-btns{flex-direction:column;align-items:center}
+  footer{grid-template-columns:1fr 1fr;padding:3rem 1.5rem}
+  .ft-bar{padding:1rem 1.5rem;flex-direction:column;gap:.4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="logo" href="index.html">ROAM</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-back">← Home</a></li>
+    <li><a href="road.html" class="active">Road</a></li>
+    <li><a href="ocean.html">Ocean</a></li>
+    <li><a href="air.html">Air</a></li>
+    <li><a href="mailto:hello@roamtravel.co" style="border:1px solid rgba(255,255,255,.3);padding:.4rem 1.2rem">Begin</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road travel — scenic highway"/>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-badge">01 · Road</span>
+    <h1 class="hero-title">The road doesn't<br/>just take you there.<br/>It shapes you.</h1>
+    <div class="accent-bar"></div>
+    <p class="hero-sub">Highway · Mountain Pass · Desert Trail · Coastal Drive</p>
+  </div>
+</div>
+
+<!-- INTRO + PACKAGE -->
+<div class="intro">
+  <div class="inner">
+    <div>
+      <p class="eye">Road Journeys</p>
+      <h2 class="sec-h">The freedom of moving<br/>at your own pace.</h2>
+      <p class="sec-p">There is a particular kind of freedom that only the road delivers. The ability to stop when something catches your eye. To take the long way. To watch the landscape change through a windscreen as hours blur into discovery.</p>
+      <p class="sec-p">We design road journeys that honour this — self-drives, chauffeured expeditions and guided overland crossings across the world's most dramatic terrain.</p>
+      <ul class="feature-list">
+        <li>Route 66 & Americas Cross-Country</li>
+        <li>Trans-Siberian Highway & Central Asia</li>
+        <li>Patagonia Carretera Austral</li>
+        <li>African Overland Safari Routes</li>
+        <li>Norwegian Atlantic Road & Fjord Passes</li>
+        <li>Amalfi, Stelvio, Transfăgărășan — Europe's legendary passes</li>
+      </ul>
+    </div>
+    <div class="pkg-preview">
+      <p class="pkg-label">Road Package</p>
+      <h3 class="pkg-title">The Open Road</h3>
+      <p class="pkg-sub">Overland Expedition · 10–21 days</p>
+      <p class="pkg-body">A fully planned overland journey across one of the world's great driving landscapes. Self-drive or chauffeured, with curated stops, lodges and no two nights in the same place. Every turn planned; every stop chosen for a reason.</p>
+      <p class="pkg-price">From $8,500 per person</p>
+      <a href="mailto:road@roamtravel.co" class="pkg-cta">Enquire about a road journey →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ROAD DESTINATIONS -->
+<div class="dest-section">
+  <div class="inner">
+    <p class="eye">Road · Scenic Drives Worldwide</p>
+    <h3 class="dest-h">The world's most legendary roads</h3>
+    <div class="dest-grid">
+
+      <div class="dest-card">
+        <span class="dest-flag">🇺🇸</span>
+        <h4 class="dest-name">Route 66</h4>
+        <p class="dest-region">Illinois → California, USA</p>
+        <p class="dest-tagline">"The Mother Road" — America's most iconic highway across eight states.</p>
+        <ul class="dest-highlights">
+          <li>2,400 miles of Americana, diners & desert</li>
+          <li>Cadillac Ranch, Petrified Forest, Mojave Desert</li>
+          <li>Chicago to Santa Monica — coast to coast</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Jun, Sep – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇹</span>
+        <h4 class="dest-name">Amalfi Coast Drive</h4>
+        <p class="dest-region">Salerno to Sorrento, Italy</p>
+        <p class="dest-tagline">Hairpin bends above sheer cliffs, coloured villages clinging to limestone.</p>
+        <ul class="dest-highlights">
+          <li>Positano, Ravello, Praiano — pastel perched towns</li>
+          <li>SS163 — 30km of clifftop Mediterranean drama</li>
+          <li>UNESCO World Heritage coastline</li>
+        </ul>
+        <p class="dest-season">Best: May – Jun, Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇴</span>
+        <h4 class="dest-name">Norwegian Atlantic Road</h4>
+        <p class="dest-region">Kristiansund, Norway</p>
+        <p class="dest-tagline">Eight bridges over open sea — voted the world's most beautiful detour.</p>
+        <ul class="dest-highlights">
+          <li>Storseisundet Bridge — arches over crashing waves</li>
+          <li>Whale watching and Arctic light</li>
+          <li>Connects islands through wild North Atlantic</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Aug</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇺</span>
+        <h4 class="dest-name">Great Ocean Road</h4>
+        <p class="dest-region">Victoria, Australia</p>
+        <p class="dest-tagline">Rainforest meets Southern Ocean — built by returned soldiers as a memorial.</p>
+        <ul class="dest-highlights">
+          <li>Twelve Apostles — limestone stacks rising from the sea</li>
+          <li>Otway Rainforest and koala spotting</li>
+          <li>243km of dramatic coastal scenery</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇷🇴</span>
+        <h4 class="dest-name">Transfăgărășan Highway</h4>
+        <p class="dest-region">Carpathian Mountains, Romania</p>
+        <p class="dest-tagline">Top Gear called it the world's best road — 90km of mountain switchbacks.</p>
+        <ul class="dest-highlights">
+          <li>Peaks above 2,000m through Fagaras Mountains</li>
+          <li>Bâlea Lake — glacial lake at the summit</li>
+          <li>Open only June – October due to snowfall</li>
+        </ul>
+        <p class="dest-season">Best: Jul – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇺🇸</span>
+        <h4 class="dest-name">Pacific Coast Highway</h4>
+        <p class="dest-region">California, USA</p>
+        <p class="dest-tagline">Highway 1 — cliffs, redwoods and surf culture along the California dream.</p>
+        <ul class="dest-highlights">
+          <li>Big Sur — the most dramatic stretch in America</li>
+          <li>Bixby Creek Bridge, McWay Falls</li>
+          <li>San Francisco to Los Angeles — 650 miles</li>
+        </ul>
+        <p class="dest-season">Best: Mar – May, Sep – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇰</span>
+        <h4 class="dest-name">Karakoram Highway</h4>
+        <p class="dest-region">Pakistan & China</p>
+        <p class="dest-tagline">The world's highest paved international road — 8th wonder of the world.</p>
+        <ul class="dest-highlights">
+          <li>Passes three of the world's mightiest mountain ranges</li>
+          <li>Attabad Lake — turquoise glacial water</li>
+          <li>Khunjerab Pass at 4,693m altitude</li>
+        </ul>
+        <p class="dest-season">Best: May – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇸</span>
+        <h4 class="dest-name">Ring Road · Route 1</h4>
+        <p class="dest-region">Iceland</p>
+        <p class="dest-tagline">Circumnavigate an entire island — volcanoes, glaciers, geysers and fjords.</p>
+        <ul class="dest-highlights">
+          <li>1,332km encircling the full island</li>
+          <li>Skaftafell glacier, Jökulsárlón lagoon, Geysir</li>
+          <li>Northern Lights above the road in winter</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Aug (summer); Nov – Feb (lights)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇿🇦</span>
+        <h4 class="dest-name">Garden Route</h4>
+        <p class="dest-region">Western Cape, South Africa</p>
+        <p class="dest-tagline">Forest, lagoon, cliff and coast — South Africa's most celebrated road trip.</p>
+        <ul class="dest-highlights">
+          <li>Knysna Heads, Tsitsikamma Forest, Plettenberg Bay</li>
+          <li>Whale watching at Hermanus</li>
+          <li>800km from Cape Town to Port Elizabeth</li>
+        </ul>
+        <p class="dest-season">Best: Sep – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇿🇦</span>
+        <h4 class="dest-name">Chapman's Peak Drive</h4>
+        <p class="dest-region">Cape Peninsula, South Africa</p>
+        <p class="dest-tagline">Nine kilometres of cliff-carved road between mountain and Atlantic — sheer drama.</p>
+        <ul class="dest-highlights">
+          <li>114 curves blasted from solid granite</li>
+          <li>Hout Bay panorama and Cape fur seals below</li>
+          <li>Sunset from the peak lookout — unmissable</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇺🇸</span>
+        <h4 class="dest-name">Hana Highway</h4>
+        <p class="dest-region">Maui, Hawaii, USA</p>
+        <p class="dest-tagline">620 curves, 59 bridges, one-lane passes — Hawaii's most hypnotic coastal drive.</p>
+        <ul class="dest-highlights">
+          <li>Twin Falls, Wai'anapanapa Black Sand Beach</li>
+          <li>Road to Hana past bamboo forests and sea cliffs</li>
+          <li>Seven Sacred Pools at journey's end</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇨🇱</span>
+        <h4 class="dest-name">Carretera Austral</h4>
+        <p class="dest-region">Patagonia, Chile</p>
+        <p class="dest-tagline">1,240km of unpaved Patagonian wilderness — glaciers, volcanoes and zero crowds.</p>
+        <ul class="dest-highlights">
+          <li>Queulat Hanging Glacier, Marble Caves</li>
+          <li>Coyhaique to Villa O'Higgins — true end of the road</li>
+          <li>Condors circling above ferries crossing fjords</li>
+        </ul>
+        <p class="dest-season">Best: Nov – Mar</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇹</span>
+        <h4 class="dest-name">Stelvio Pass</h4>
+        <p class="dest-region">South Tyrol, Italy</p>
+        <p class="dest-tagline">48 hairpin bends to 2,757m — the Everest of mountain driving.</p>
+        <ul class="dest-highlights">
+          <li>Highest paved mountain pass in the Eastern Alps</li>
+          <li>Ortler glacier visible from the summit</li>
+          <li>Open only Jun – Sep when snow clears</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇿</span>
+        <h4 class="dest-name">Milford Road</h4>
+        <p class="dest-region">Fiordland, New Zealand</p>
+        <p class="dest-tagline">Through the Homer Tunnel into a world of waterfalls and mirror-black fjord.</p>
+        <ul class="dest-highlights">
+          <li>The Divide, Monkey Creek, Mirror Lakes</li>
+          <li>Homer Tunnel — hand-carved through solid rock</li>
+          <li>Chasm Walk at road's end beside Milford Sound</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇲🇦</span>
+        <h4 class="dest-name">Dades Valley Road</h4>
+        <p class="dest-region">High Atlas, Morocco</p>
+        <p class="dest-tagline">Kasbah road through Saharan gorges, rose valleys and Atlas foothills.</p>
+        <ul class="dest-highlights">
+          <li>Aït Benhaddou UNESCO kasbah on the route</li>
+          <li>Gorges du Dadès — dramatic switchbacks above a canyon</li>
+          <li>Sahara access via Merzouga — dune sunrises</li>
+        </ul>
+        <p class="dest-season">Best: Mar – May, Sep – Nov</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODE SWITCHER -->
+<div class="mode-switch">
+  <p>Explore another mode of travel</p>
+  <div class="mode-btns">
+    <a href="road.html" class="mode-btn road-btn">Road</a>
+    <a href="ocean.html" class="mode-btn ocean-btn">Ocean</a>
+    <a href="air.html" class="mode-btn air-btn">Air</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <p class="ft-logo">ROAM</p>
+    <p class="ft-sub">Travel that moves you — in every sense.</p>
+    <p class="ft-modes">Road · Ocean · Air · Movement</p>
+    <div class="ft-social">
+      <a href="#">Instagram</a>
+      <a href="#">Pinterest</a>
+      <a href="mailto:hello@roamtravel.co">hello@roamtravel.co</a>
+    </div>
+  </div>
+  <div class="ft-col">
+    <h4>Modes</h4>
+    <ul>
+      <li><a href="road.html">Road</a></li>
+      <li><a href="ocean.html">Ocean</a></li>
+      <li><a href="air.html">Air</a></li>
+    </ul>
+  </div>
+  <div class="ft-col">
+    <h4>Destinations</h4>
+    <ul>
+      <li><a href="#">Americas</a></li>
+      <li><a href="#">Europe</a></li>
+      <li><a href="#">Asia Pacific</a></li>
+      <li><a href="#">Africa</a></li>
+      <li><a href="#">Polar</a></li>
+    </ul>
+  </div>
+  <div class="ft-col">
+    <h4>Company</h4>
+    <ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Journal</a></li>
+      <li><a href="#">Sustainability</a></li>
+      <li><a href="mailto:hello@roamtravel.co">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="ft-bar">
+  <p>© 2026 ROAM Travel Consulting. All rights reserved.</p>
+  <p>hello@roamtravel.co</p>
+</div>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('solid', window.scrollY > 80));
+</script>
+</body>
+</html>

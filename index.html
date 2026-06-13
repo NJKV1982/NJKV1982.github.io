@@ -11,1227 +11,156 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --ink:#1a1410;--muted:#6b6056;--cream:#f7f3ed;--sand:#e8dfd0;
-  --earth:#b8956a;--bark:#7a5c3a;--sky:#1a3a5c;
+  --earth:#b8956a;--bark:#7a5c3a;
   --road:#c87820;--ocean:#0a4a6e;--air:#4a2870;
   --serif:'Cormorant Garamond',Georgia,serif;
   --sans:'Jost','Helvetica Neue',Arial,sans-serif
 }
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-weight:300;line-height:1.8;overflow-x:hidden}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--sans);background:#0f0c09;color:#fff;font-weight:300}
 
-/* ── NAV ── */
+/* NAV */
 nav{position:fixed;inset:0 0 auto;z-index:200;display:flex;justify-content:space-between;
-align-items:center;padding:1.5rem 4rem;transition:all .4s}
-nav.solid{background:rgba(247,243,237,.97);backdrop-filter:blur(8px);
-box-shadow:0 1px 0 rgba(26,20,16,.07)}
-.logo{font-family:var(--serif);font-size:1.6rem;letter-spacing:.22em;color:#fff;
-text-decoration:none;transition:color .4s;font-weight:400}
-nav.solid .logo{color:var(--ink)}
-.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
-.nav-links a{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
-color:rgba(255,255,255,.8);text-decoration:none;transition:color .3s}
-nav.solid .nav-links a{color:var(--muted)}
-.nav-links a:hover{color:var(--earth)}
-.nav-cta{border:1px solid rgba(255,255,255,.5);padding:.45rem 1.4rem;
-border-radius:0;transition:all .3s}
-nav.solid .nav-cta{border-color:var(--earth);color:var(--earth)!important}
-.nav-cta:hover{background:rgba(255,255,255,.1)!important}
-nav.solid .nav-cta:hover{background:var(--earth)!important;color:var(--cream)!important}
+align-items:center;padding:1.8rem 4rem}
+.logo{font-family:var(--serif);font-size:1.8rem;letter-spacing:.25em;color:#fff;
+text-decoration:none;font-weight:300}
+.nav-cta{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.6);
+text-decoration:none;border:1px solid rgba(255,255,255,.3);padding:.5rem 1.6rem;transition:all .3s}
+.nav-cta:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.6)}
 
-/* ── HERO — full-height 3-panel split ── */
-.hero{height:100vh;min-height:620px;display:grid;grid-template-columns:1fr 1fr 1fr;position:relative}
-.hero-panel{position:relative;overflow:hidden;cursor:pointer}
-.hero-panel img{width:100%;height:100%;object-fit:cover;display:block;
-transition:transform .8s ease,filter .5s;filter:brightness(.68)}
-.hero-panel:hover img{transform:scale(1.04);filter:brightness(.5)}
-.panel-label{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);
-text-align:center;z-index:2;transition:transform .4s}
-.hero-panel:hover .panel-label{transform:translateX(-50%) translateY(-6px)}
-.panel-icon{font-size:2rem;margin-bottom:.5rem;display:block;opacity:.9}
-.panel-name{font-family:var(--serif);font-size:1.7rem;color:#fff;letter-spacing:.12em;display:block}
-.panel-sub{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;
-color:rgba(255,255,255,.65);margin-top:.2rem;display:block}
-.panel-divider{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.2);
-right:0;z-index:3}
+/* HERO — 3 panels */
+.hero{height:100vh;display:grid;grid-template-columns:1fr 1fr 1fr;position:relative}
+
+.panel{position:relative;overflow:hidden;cursor:pointer;text-decoration:none;display:block}
+.panel img{width:100%;height:100%;object-fit:cover;display:block;
+transition:transform .9s ease,filter .5s;filter:brightness(.55)}
+.panel:hover img{transform:scale(1.06);filter:brightness(.35)}
+
+/* divider lines */
+.panel:not(:last-child)::after{content:'';position:absolute;top:0;right:0;bottom:0;
+width:1px;background:rgba(255,255,255,.18);z-index:3}
+
+/* panel label */
+.panel-label{position:absolute;bottom:0;left:0;right:0;
+padding:3rem 2.5rem;z-index:4;
+background:linear-gradient(to top,rgba(15,12,9,.85) 0%,transparent 100%);
+transition:padding .4s}
+.panel:hover .panel-label{padding-bottom:3.5rem}
+
+.panel-mode{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;
+color:rgba(255,255,255,.5);margin-bottom:.5rem;display:block;transition:color .3s}
+.panel:hover .panel-mode{color:rgba(255,255,255,.8)}
+
+.panel-name{font-family:var(--serif);font-size:2.8rem;color:#fff;letter-spacing:.1em;
+display:block;line-height:1;font-weight:300;margin-bottom:.6rem}
+
+.panel-sub{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
+color:rgba(255,255,255,.45);display:block;margin-bottom:1.4rem}
+
+.panel-cta{display:inline-block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+color:#fff;border:1px solid rgba(255,255,255,.35);padding:.5rem 1.4rem;
+opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s,background .3s}
+.panel:hover .panel-cta{opacity:1;transform:translateY(0)}
+.panel-road .panel-cta{border-color:var(--road);color:var(--road)}
+.panel-road:hover .panel-cta{background:var(--road);color:#fff}
+.panel-ocean .panel-cta{border-color:#4da6d4;color:#4da6d4}
+.panel-ocean:hover .panel-cta{background:#0a4a6e;color:#fff}
+.panel-air .panel-cta{border-color:#9b6fd4;color:#9b6fd4}
+.panel-air:hover .panel-cta{background:#4a2870;color:#fff}
+
+/* center overlay */
 .hero-center{position:absolute;inset:0;display:flex;flex-direction:column;
 align-items:center;justify-content:center;z-index:10;pointer-events:none;text-align:center}
-.hero-center h1{font-family:var(--serif);font-size:clamp(5rem,12vw,10rem);font-weight:300;
-color:#fff;letter-spacing:.18em;line-height:1;text-shadow:0 4px 40px rgba(0,0,0,.4)}
-.hero-center p{font-family:var(--serif);font-style:italic;font-size:clamp(.9rem,1.8vw,1.2rem);
-color:rgba(255,255,255,.75);letter-spacing:.08em;margin-top:.8rem}
-.hero-modes{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);
-z-index:10;display:flex;gap:1.5rem;align-items:center}
-.hero-modes span{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.5)}
-.hero-modes .dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.3)}
+.hero-title{font-family:var(--serif);font-size:clamp(5rem,11vw,9rem);font-weight:300;
+color:#fff;letter-spacing:.2em;line-height:1;
+text-shadow:0 2px 60px rgba(0,0,0,.5);
+transition:opacity .4s}
+.hero-tagline{font-family:var(--serif);font-style:italic;
+font-size:clamp(.9rem,1.6vw,1.15rem);color:rgba(255,255,255,.6);
+letter-spacing:.1em;margin-top:.9rem}
 
-/* ── INTRO STRIP ── */
-.strip{background:var(--ink);padding:1.2rem 4rem;display:flex;justify-content:center;
-gap:5rem;align-items:center}
-.strip-item{display:flex;align-items:center;gap:.9rem}
-.strip-num{font-family:var(--serif);font-size:2rem;color:var(--earth);font-weight:300}
-.strip-text{display:flex;flex-direction:column}
-.strip-text strong{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
-color:var(--cream);font-weight:400}
-.strip-text span{font-size:.68rem;color:rgba(247,243,237,.45)}
+/* hint at bottom */
+.hero-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+z-index:10;text-align:center;pointer-events:none;animation:pulse 2.5s ease-in-out infinite}
+.hero-hint span{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:.9}}
 
-/* ── SECTION BASE ── */
-section{padding:7rem 4rem}
-.inner{max-width:1120px;margin:0 auto}
-.eye{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--earth);margin-bottom:.8rem}
-.sec-h{font-family:var(--serif);font-size:clamp(2rem,4.5vw,3rem);font-weight:300;
-line-height:1.2;margin-bottom:1.3rem}
-.sec-p{font-size:.9rem;color:var(--muted);max-width:540px;line-height:1.95}
-.hr{width:44px;height:1px;background:var(--earth);margin:1.8rem 0}
+/* colour accent bars (top of each panel) */
+.panel-road::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+background:var(--road);z-index:5;transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.panel-ocean::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+background:var(--ocean);z-index:5;transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.panel-air::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+background:var(--air);z-index:5;transform:scaleX(0);transform-origin:left;transition:transform .5s}
+.panel:hover::before{transform:scaleX(1)}
 
-/* ── MODES — 3 big feature sections ── */
-.mode-section{padding:0}
-.mode-block{display:grid;grid-template-columns:1fr 1fr;min-height:580px}
-.mode-block.flip{direction:rtl}
-.mode-block.flip>*{direction:ltr}
-.mode-img{position:relative;overflow:hidden}
-.mode-img img{width:100%;height:100%;object-fit:cover;display:block;
-transition:transform .7s ease;filter:brightness(.9)}
-.mode-img:hover img{transform:scale(1.03)}
-.mode-badge{position:absolute;top:2rem;left:2rem;background:rgba(26,20,16,.6);
-backdrop-filter:blur(6px);padding:.5rem 1.1rem;
-font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#fff}
-.mode-block.flip .mode-badge{left:auto;right:2rem}
-.mode-content{padding:5rem 4.5rem;display:flex;flex-direction:column;justify-content:center}
-.mode-icon{font-size:2.5rem;margin-bottom:1.5rem;display:block}
-.mode-title{font-family:var(--serif);font-size:clamp(2rem,3.5vw,2.8rem);font-weight:300;
-line-height:1.2;margin-bottom:.5rem}
-.mode-tag{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem}
-.mode-body{font-size:.88rem;color:var(--muted);line-height:1.95;margin-bottom:2rem;max-width:420px}
-.mode-features{display:flex;flex-direction:column;gap:.8rem;margin-bottom:2.5rem}
-.feature-row{display:flex;align-items:center;gap:.8rem;font-size:.82rem;color:var(--muted)}
-.feature-row::before{content:'';width:18px;height:1px;background:var(--earth);flex-shrink:0}
-.mode-link{display:inline-block;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
-color:var(--ink);text-decoration:none;border-bottom:1px solid var(--earth);
-padding-bottom:3px;transition:color .3s}
-.mode-link:hover{color:var(--bark)}
-
-.road-bg{background:linear-gradient(135deg,#fdf6ec,#f7ede0)}
-.road-accent{color:var(--road)}
-.ocean-bg{background:linear-gradient(135deg,#edf4fa,#dceef7)}
-.ocean-accent{color:var(--ocean)}
-.air-bg{background:linear-gradient(135deg,#f2eef8,#e8e0f5)}
-.air-accent{color:var(--air)}
-
-/* ── DESTINATIONS ── */
-.dest-section{padding:5rem 4rem}
-.dest-section .inner{max-width:1120px;margin:0 auto}
-.dest-h{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:300;
-color:var(--ink);margin-bottom:2.5rem;line-height:1.3}
-.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.dest-card{background:#fff;border:0.5px solid var(--sand);padding:1.8rem 1.6rem;
-position:relative;transition:box-shadow .3s,transform .3s}
-.dest-card:hover{box-shadow:0 8px 32px rgba(26,20,16,.08);transform:translateY(-3px)}
-.dest-flag{font-size:1.4rem;margin-bottom:.8rem;display:block}
-.dest-name{font-family:var(--serif);font-size:1.2rem;color:var(--ink);font-weight:400;margin-bottom:.15rem}
-.dest-region{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.9rem}
-.dest-tagline{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--bark);
-margin-bottom:1rem;line-height:1.6}
-.dest-highlights{list-style:none;margin-bottom:1.2rem}
-.dest-highlights li{font-size:.78rem;color:var(--muted);padding:.25rem 0;
-border-bottom:0.5px solid var(--sand);display:flex;align-items:baseline;gap:.5rem}
-.dest-highlights li::before{content:'—';color:var(--earth);flex-shrink:0;font-size:.7rem}
-.dest-season{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;
-color:var(--earth);margin-top:.8rem}
-@media(max-width:900px){
-  .dest-section{padding:4rem 1.5rem}
-  .dest-grid{grid-template-columns:1fr}
-}
-
-/* ── PACKAGES ── */
-.packages{background:var(--ink)}
-.packages .sec-h{color:var(--cream)}
-.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3.5rem}
-.pkg-card{background:rgba(255,255,255,.04);padding:2.8rem 2.4rem;
-border-top:2px solid transparent;transition:background .3s,border-color .3s}
-.pkg-card:hover{background:rgba(255,255,255,.08)}
-.pkg-card.road-card{border-color:var(--road)}
-.pkg-card.ocean-card{border-color:var(--ocean)}
-.pkg-card.air-card{border-color:var(--air)}
-.pkg-mode{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;margin-bottom:.4rem}
-.pkg-road{color:var(--road)}.pkg-ocean{color:var(--ocean)}.pkg-air{color:var(--air)}
-.pkg-card h3{font-family:var(--serif);font-size:1.6rem;color:var(--cream);
-font-weight:300;margin-bottom:.4rem}
-.pkg-sub{font-size:.7rem;color:rgba(247,243,237,.45);letter-spacing:.1em;
-text-transform:uppercase;margin-bottom:1.4rem}
-.pkg-card p{font-size:.85rem;color:rgba(247,243,237,.6);line-height:1.9;margin-bottom:2rem}
-.pkg-price{font-family:var(--serif);font-size:1rem;color:var(--earth);
-border-top:1px solid rgba(255,255,255,.08);padding-top:1.2rem}
-.pkg-cta{display:inline-block;margin-top:.8rem;font-size:.65rem;letter-spacing:.18em;
-text-transform:uppercase;color:rgba(247,243,237,.5);text-decoration:none;
-border-bottom:1px solid rgba(184,149,106,.4);padding-bottom:2px;transition:color .3s}
-.pkg-cta:hover{color:var(--earth)}
-
-/* ── STATS ── */
-.stats{background:var(--sand);padding:5rem 4rem}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1120px;margin:0 auto}
-.stat{text-align:center;padding:2.5rem 1rem}
-.stat-num{font-family:var(--serif);font-size:clamp(2.5rem,5vw,4rem);font-weight:300;
-color:var(--ink);line-height:1;margin-bottom:.4rem}
-.stat-label{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--bark)}
-
-/* ── EXPERIENCE GRID ── */
-.experiences{background:var(--cream)}
-.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:260px;
-gap:3px;margin-top:3.5rem}
-.exp-item{position:relative;overflow:hidden}
-.exp-item.tall{grid-row:span 2}
-.exp-item.wide{grid-column:span 2}
-.exp-item img{width:100%;height:100%;object-fit:cover;display:block;
-transition:transform .6s;filter:brightness(.75)}
-.exp-item:hover img{transform:scale(1.04)}
-.exp-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,20,16,.8) 0%,transparent 60%)}
-.exp-info{position:absolute;bottom:1.4rem;left:1.4rem;right:1.4rem}
-.exp-info h4{font-family:var(--serif);font-size:1.2rem;color:#fff;font-weight:300}
-.exp-info span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6)}
-
-/* ── FOUNDER ── */
-.founder{background:var(--ink);display:grid;grid-template-columns:1fr 1fr;min-height:560px}
-.founder-visual{position:relative;overflow:hidden;
-background:linear-gradient(160deg,#2a1a0a,#5a3a1a,#8a6030,#c0904a,#e8c080)}
-.founder-initials{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-font-family:var(--serif);font-size:8rem;font-weight:300;color:rgba(255,255,255,.12);letter-spacing:.1em}
-.founder-text{padding:5rem 4.5rem;display:flex;flex-direction:column;justify-content:center}
-.founder-name{font-family:var(--serif);font-size:2.4rem;font-weight:300;color:var(--cream);margin-bottom:.2rem}
-.founder-role{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;
-color:var(--earth);margin-bottom:2rem}
-blockquote{font-family:var(--serif);font-style:italic;font-size:1.15rem;
-color:rgba(247,243,237,.8);line-height:1.75;border-left:2px solid var(--earth);
-padding-left:1.4rem;margin-bottom:1.8rem}
-.founder-body{font-size:.87rem;color:rgba(247,243,237,.5);line-height:1.95}
-
-/* ── CTA ── */
-.cta{position:relative;padding:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr 1fr}
-.cta-panel{position:relative;padding:5rem 3rem;text-align:center;overflow:hidden}
-.cta-panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-filter:brightness(.35);transition:filter .4s}
-.cta-panel:hover img{filter:brightness(.25)}
-.cta-inner{position:relative;z-index:2}
-.cta-icon{font-size:2rem;margin-bottom:1rem;display:block}
-.cta-panel h3{font-family:var(--serif);font-size:1.6rem;color:#fff;font-weight:300;margin-bottom:.6rem}
-.cta-panel p{font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:1.8rem;line-height:1.8}
-.cta-btn{display:inline-block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
-color:#fff;border:1px solid rgba(255,255,255,.4);padding:.7rem 1.8rem;
-text-decoration:none;transition:all .3s}
-.cta-btn:hover{background:rgba(255,255,255,.12);border-color:#fff}
-
-/* ── FOOTER ── */
-footer{background:#0f0c09;padding:4rem;display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:3rem}
-.ft-logo{font-family:var(--serif);font-size:2rem;letter-spacing:.2em;color:var(--cream);
-font-weight:300;margin-bottom:.5rem}
-.ft-sub{font-family:var(--serif);font-style:italic;font-size:.88rem;color:var(--bark);
-margin-bottom:.5rem}
-.ft-modes{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
-color:rgba(247,243,237,.25);margin-bottom:1.5rem}
-.ft-social{display:flex;gap:1.2rem}
-.ft-social a{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
-color:rgba(107,96,86,.8);text-decoration:none;transition:color .3s}
-.ft-social a:hover{color:var(--earth)}
-.ft-col h4{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--earth);margin-bottom:1rem}
-.ft-col ul{list-style:none}
-.ft-col li{margin-bottom:.5rem}
-.ft-col a{font-size:.82rem;color:rgba(107,96,86,.8);text-decoration:none;transition:color .3s}
-.ft-col a:hover{color:var(--cream)}
-.ft-bar{background:#0f0c09;padding:1.3rem 4rem;border-top:1px solid rgba(255,255,255,.04);
-display:flex;justify-content:space-between}
-.ft-bar p{font-size:.65rem;color:rgba(107,96,86,.4);letter-spacing:.08em}
-
-@media(max-width:900px){
-  nav{padding:1rem 1.5rem}
-  .hero{grid-template-columns:1fr}
-  .hero-panel:not(:first-child){display:none}
-  .hero-center h1{font-size:4rem}
-  .strip{flex-direction:column;gap:2rem;padding:2rem 1.5rem}
-  section{padding:5rem 1.5rem}
-  .mode-block,.mode-block.flip{grid-template-columns:1fr;direction:ltr}
-  .mode-img{min-height:300px}
-  .mode-content{padding:3rem 2rem}
-  .pkg-grid,.stats-grid,.exp-grid{grid-template-columns:1fr}
-  .exp-item.tall,.exp-item.wide{grid-column:auto;grid-row:auto}
-  .founder{grid-template-columns:1fr}
-  .founder-visual{min-height:280px}
-  .founder-text{padding:3rem 2rem}
-  .cta{grid-template-columns:1fr}
-  footer{grid-template-columns:1fr 1fr;padding:3rem 1.5rem}
-  .ft-bar{padding:1rem 1.5rem;flex-direction:column;gap:.5rem}
+@media(max-width:768px){
+  html,body{overflow:auto}
+  .hero{grid-template-columns:1fr;height:auto}
+  .panel{height:50vh}
+  .hero-center{display:none}
+  nav{padding:1.2rem 1.5rem}
+  .logo{font-size:1.4rem}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav id="nav">
-  <a class="logo" href="#">ROAM</a>
-  <ul class="nav-links">
-    <li><a href="#road">Road</a></li>
-    <li><a href="#ocean">Ocean</a></li>
-    <li><a href="#air">Air</a></li>
-    <li><a href="#packages">Packages</a></li>
-    <li><a href="#contact" class="nav-cta">Begin</a></li>
-  </ul>
+<nav>
+  <a class="logo" href="index.html">ROAM</a>
+  <a href="mailto:hello@roamtravel.co" class="nav-cta">Begin a Journey</a>
 </nav>
 
-<!-- HERO — 3 panels -->
-<section class="hero">
-  <div class="hero-panel" id="road">
+<!-- HERO — 3 clickable panels -->
+<div class="hero">
+
+  <a class="panel panel-road" href="road.html">
     <img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road travel"/>
-    <div class="panel-divider"></div>
     <div class="panel-label">
-      <span class="panel-icon">🛣️</span>
+      <span class="panel-mode">01 · Road</span>
       <span class="panel-name">ROAD</span>
-      <span class="panel-sub">Highways · Passes · Trails</span>
+      <span class="panel-sub">Highways · Passes · Overland</span>
+      <span class="panel-cta">Explore Road →</span>
     </div>
-  </div>
-  <div class="hero-panel" id="ocean">
+  </a>
+
+  <a class="panel panel-ocean" href="ocean.html">
     <img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean travel"/>
-    <div class="panel-divider"></div>
     <div class="panel-label">
-      <span class="panel-icon">🌊</span>
+      <span class="panel-mode">02 · Ocean</span>
       <span class="panel-name">OCEAN</span>
-      <span class="panel-sub">Sailing · Cruises · Coasts</span>
+      <span class="panel-sub">Sailing · Cruises · Islands</span>
+      <span class="panel-cta">Explore Ocean →</span>
     </div>
-  </div>
-  <div class="hero-panel" id="air">
+  </a>
+
+  <a class="panel panel-air" href="air.html">
     <img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air travel"/>
     <div class="panel-label">
-      <span class="panel-icon">✈️</span>
+      <span class="panel-mode">03 · Air</span>
       <span class="panel-name">AIR</span>
-      <span class="panel-sub">Flights · Balloons · Skies</span>
+      <span class="panel-sub">Balloons · Helicopters · Flights</span>
+      <span class="panel-cta">Explore Air →</span>
     </div>
-  </div>
+  </a>
+
   <div class="hero-center">
-    <h1>ROAM</h1>
-    <p>Road · Ocean · Air · Movement</p>
+    <h1 class="hero-title">ROAM</h1>
+    <p class="hero-tagline">Road · Ocean · Air · Movement</p>
   </div>
-  <div class="hero-modes">
-    <span>Every way to travel the world</span>
+
+  <div class="hero-hint">
+    <span>Choose your way to move through the world</span>
   </div>
-</section>
-
-<!-- STRIP -->
-<div class="strip">
-  <div class="strip-item">
-    <span class="strip-num">60+</span>
-    <div class="strip-text"><strong>Countries</strong><span>across 6 continents</span></div>
-  </div>
-  <div class="strip-item">
-    <span class="strip-num">3</span>
-    <div class="strip-text"><strong>Ways to Travel</strong><span>Road, Ocean & Air</span></div>
-  </div>
-  <div class="strip-item">
-    <span class="strip-num">500+</span>
-    <div class="strip-text"><strong>Journeys Curated</strong><span>since 2015</span></div>
-  </div>
-  <div class="strip-item">
-    <span class="strip-num">100%</span>
-    <div class="strip-text"><strong>Bespoke</strong><span>no two trips alike</span></div>
-  </div>
-</div>
-
-<!-- INTRO -->
-<section>
-  <div class="inner" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
-    <div>
-      <p class="eye">What Is ROAM</p>
-      <h2 class="sec-h">Three paths.<br/>One world.<br/>Infinite journeys.</h2>
-      <div class="hr"></div>
-      <p class="sec-p">Most travel companies sell destinations. We sell the way you get there — because the road through Patagonia, the ocean crossing between islands, the view from 35,000 feet over the Himalayas — these are not just methods of transport. They are the journey itself.</p>
-      <br/>
-      <p class="sec-p">ROAM is a bespoke travel consulting studio built around three modes: Road, Ocean, and Air. We combine them, sequence them, and tailor them entirely to you.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;aspect-ratio:1">
-      <div style="overflow:hidden"><img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85)"/></div>
-      <div style="overflow:hidden"><img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85)"/></div>
-      <div style="grid-column:span 2;overflow:hidden;max-height:200px"><img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85)"/></div>
-    </div>
-  </div>
-</section>
-
-<!-- MODE: ROAD -->
-<section class="mode-section">
-  <div class="mode-block road-bg">
-    <div class="mode-img">
-      <img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road travel"/>
-      <span class="mode-badge">01 · Road</span>
-    </div>
-    <div class="mode-content">
-      <span class="mode-icon">🛣️</span>
-      <h2 class="mode-title">The road doesn't just<br/>take you there.<br/>It shapes you.</h2>
-      <p class="mode-tag road-accent">Highway · Mountain Pass · Desert Trail · Coastal Drive</p>
-      <p class="mode-body">There is a particular kind of freedom that only the road delivers. The ability to stop when something catches your eye. To take the long way. To watch the landscape change through a windscreen as hours blur into discovery. We design road journeys that honour this — self-drives, chauffeured expeditions and guided overland crossings across the world's most dramatic terrain.</p>
-      <div class="mode-features">
-        <div class="feature-row">Route 66 & Americas Cross-Country</div>
-        <div class="feature-row">Trans-Siberian Highway & Central Asia</div>
-        <div class="feature-row">Patagonia Carretera Austral</div>
-        <div class="feature-row">African Overland Safari Routes</div>
-        <div class="feature-row">Norwegian Atlantic Road & Fjord Passes</div>
-      </div>
-      <a href="#packages" class="mode-link">View road packages</a>
-    </div>
-  </div>
-</section>
-
-<!-- MODE: OCEAN -->
-<section class="mode-section">
-  <div class="mode-block flip ocean-bg">
-    <div class="mode-img">
-      <img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean travel"/>
-      <span class="mode-badge">02 · Ocean</span>
-    </div>
-    <div class="mode-content">
-      <span class="mode-icon">🌊</span>
-      <h2 class="mode-title">The ocean has no<br/>straight lines.<br/>Neither do we.</h2>
-      <p class="mode-tag ocean-accent">Sailing · Expedition Cruise · Island Hopping · Coastal Voyage</p>
-      <p class="mode-body">Oceans cover 71% of the Earth — and most travellers never truly encounter them. We change that. From private sailing charters threading through the Greek Cyclades to Antarctic expedition voyages and transoceanic crossings on tall ships, our ocean journeys put you on the water, not beside it.</p>
-      <div class="mode-features">
-        <div class="feature-row">Private Sailing Charters — Mediterranean</div>
-        <div class="feature-row">Antarctica & Arctic Expedition Cruises</div>
-        <div class="feature-row">South Pacific Island Hopping</div>
-        <div class="feature-row">Maldives & Indian Ocean Liveaboards</div>
-        <div class="feature-row">Norwegian Fjord Cruise Routes</div>
-      </div>
-      <a href="#packages" class="mode-link">View ocean packages</a>
-    </div>
-  </div>
-</section>
-
-<!-- MODE: AIR -->
-<section class="mode-section">
-  <div class="mode-block air-bg">
-    <div class="mode-img">
-      <img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air travel"/>
-      <span class="mode-badge">03 · Air</span>
-    </div>
-    <div class="mode-content">
-      <span class="mode-icon">✈️</span>
-      <h2 class="mode-title">To see the Earth<br/>from above is to<br/>understand it differently.</h2>
-      <p class="mode-tag air-accent">Flight · Balloon · Seaplane · Helicopter · Private Charter</p>
-      <p class="mode-body">Altitude changes perspective in every sense. We curate air journeys that go beyond getting from A to B — hot air balloon sunrises over Cappadocia's rock formations, helicopter descents into remote mountain lodges, seaplane arrivals at private island resorts and private jet itineraries that compress continents into days.</p>
-      <div class="mode-features">
-        <div class="feature-row">Hot Air Balloons — Cappadocia, Serengeti, Loire Valley</div>
-        <div class="feature-row">Helicopter Glacier Landings — New Zealand & Alaska</div>
-        <div class="feature-row">Seaplane Safaris — Maldives & Botswana</div>
-        <div class="feature-row">Private Jet Multi-Continent Itineraries</div>
-        <div class="feature-row">Scenic Flights — Grand Canyon, Milford Sound</div>
-      </div>
-      <a href="#packages" class="mode-link">View air packages</a>
-    </div>
-  </div>
-</section>
-
-<!-- ROAD DESTINATIONS -->
-<div class="dest-section" style="background:var(--warm-white,#faf8f4)">
-  <div class="inner">
-    <p class="eye road-accent">Road · Scenic Drives Worldwide</p>
-    <h3 class="dest-h">The world's most legendary roads</h3>
-    <div class="dest-grid">
-
-      <div class="dest-card">
-        <span class="dest-flag">🇺🇸</span>
-        <h4 class="dest-name">Route 66</h4>
-        <p class="dest-region road-accent">Illinois → California, USA</p>
-        <p class="dest-tagline">"The Mother Road" — America's most iconic highway across eight states.</p>
-        <ul class="dest-highlights">
-          <li>2,400 miles of Americana, diners & desert</li>
-          <li>Cadillac Ranch, Petrified Forest, Mojave Desert</li>
-          <li>Chicago to Santa Monica — coast to coast</li>
-        </ul>
-        <p class="dest-season">Best: Apr – Jun, Sep – Oct</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇮🇹</span>
-        <h4 class="dest-name">Amalfi Coast Drive</h4>
-        <p class="dest-region road-accent">Salerno to Sorrento, Italy</p>
-        <p class="dest-tagline">Hairpin bends above sheer cliffs, coloured villages clinging to limestone.</p>
-        <ul class="dest-highlights">
-          <li>Positano, Ravello, Praiano — pastel perched towns</li>
-          <li>SS163 — 30km of clifftop Mediterranean drama</li>
-          <li>UNESCO World Heritage coastline</li>
-        </ul>
-        <p class="dest-season">Best: May – Jun, Sep</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇳🇴</span>
-        <h4 class="dest-name">Norwegian Atlantic Road</h4>
-        <p class="dest-region road-accent">Kristiansund, Norway</p>
-        <p class="dest-tagline">Eight bridges over open sea — voted the world's most beautiful detour.</p>
-        <ul class="dest-highlights">
-          <li>Storseisundet Bridge — arches over crashing waves</li>
-          <li>Whale watching and Arctic light</li>
-          <li>Connects islands through wild North Atlantic</li>
-        </ul>
-        <p class="dest-season">Best: Jun – Aug</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇦🇺</span>
-        <h4 class="dest-name">Great Ocean Road</h4>
-        <p class="dest-region road-accent">Victoria, Australia</p>
-        <p class="dest-tagline">Rainforest meets Southern Ocean — built by returned soldiers as a memorial.</p>
-        <ul class="dest-highlights">
-          <li>Twelve Apostles — limestone stacks rising from the sea</li>
-          <li>Otway Rainforest and koala spotting</li>
-          <li>243km of dramatic coastal scenery</li>
-        </ul>
-        <p class="dest-season">Best: Oct – Apr</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇷🇴</span>
-        <h4 class="dest-name">Transfăgărășan Highway</h4>
-        <p class="dest-region road-accent">Carpathian Mountains, Romania</p>
-        <p class="dest-tagline">Top Gear called it the world's best road — 90km of mountain switchbacks.</p>
-        <ul class="dest-highlights">
-          <li>Peaks above 2,000m through Fagaras Mountains</li>
-          <li>Bâlea Lake — glacial lake at the summit</li>
-          <li>Open only June – October due to snowfall</li>
-        </ul>
-        <p class="dest-season">Best: Jul – Sep</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇺🇸</span>
-        <h4 class="dest-name">Pacific Coast Highway</h4>
-        <p class="dest-region road-accent">California, USA</p>
-        <p class="dest-tagline">Highway 1 — cliffs, redwoods and surf culture along the California dream.</p>
-        <ul class="dest-highlights">
-          <li>Big Sur — the most dramatic stretch in America</li>
-          <li>Bixby Creek Bridge, McWay Falls</li>
-          <li>San Francisco to Los Angeles — 650 miles</li>
-        </ul>
-        <p class="dest-season">Best: Mar – May, Sep – Nov</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇵🇰</span>
-        <h4 class="dest-name">Karakoram Highway</h4>
-        <p class="dest-region road-accent">Pakistan & China</p>
-        <p class="dest-tagline">The world's highest paved international road — 8th wonder of the world.</p>
-        <ul class="dest-highlights">
-          <li>Passes three of the world's mightiest mountain ranges</li>
-          <li>Attabad Lake — turquoise glacial water</li>
-          <li>Khunjerab Pass at 4,693m altitude</li>
-        </ul>
-        <p class="dest-season">Best: May – Oct</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇮🇸</span>
-        <h4 class="dest-name">Ring Road · Route 1</h4>
-        <p class="dest-region road-accent">Iceland</p>
-        <p class="dest-tagline">Circumnavigate an entire island — volcanoes, glaciers, geysers and fjords.</p>
-        <ul class="dest-highlights">
-          <li>1,332km encircling the full island</li>
-          <li>Skaftafell glacier, Jökulsárlón lagoon, Geysir</li>
-          <li>Northern Lights above the road in winter</li>
-        </ul>
-        <p class="dest-season">Best: Jun – Aug (summer); Nov – Feb (lights)</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇿🇦</span>
-        <h4 class="dest-name">Garden Route</h4>
-        <p class="dest-region road-accent">Western Cape, South Africa</p>
-        <p class="dest-tagline">Forest, lagoon, cliff and coast — South Africa's most celebrated road trip.</p>
-        <ul class="dest-highlights">
-          <li>Knysna Heads, Tsitsikamma Forest, Plettenberg Bay</li>
-          <li>Whale watching at Hermanus</li>
-          <li>800km from Cape Town to Port Elizabeth</li>
-        </ul>
-        <p class="dest-season">Best: Sep – Apr</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇿🇦</span>
-        <h4 class="dest-name">Chapman's Peak Drive</h4>
-        <p class="dest-region road-accent">Cape Peninsula, South Africa</p>
-        <p class="dest-tagline">Nine kilometres of cliff-carved road between mountain and Atlantic — sheer drama.</p>
-        <ul class="dest-highlights">
-          <li>114 curves blasted from solid granite</li>
-          <li>Hout Bay panorama and Cape fur seals below</li>
-          <li>Sunset from the peak lookout — unmissable</li>
-        </ul>
-        <p class="dest-season">Best: Oct – Apr</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇺🇸</span>
-        <h4 class="dest-name">Hana Highway</h4>
-        <p class="dest-region road-accent">Maui, Hawaii, USA</p>
-        <p class="dest-tagline">620 curves, 59 bridges, one-lane passes — Hawaii's most hypnotic coastal drive.</p>
-        <ul class="dest-highlights">
-          <li>Twin Falls, Wai'anapanapa Black Sand Beach</li>
-          <li>Road to Hana past bamboo forests and sea cliffs</li>
-          <li>Seven Sacred Pools at journey's end</li>
-        </ul>
-        <p class="dest-season">Best: Apr – Sep</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇨🇱</span>
-        <h4 class="dest-name">Carretera Austral</h4>
-        <p class="dest-region road-accent">Patagonia, Chile</p>
-        <p class="dest-tagline">1,240km of unpaved Patagonian wilderness — glaciers, volcanoes and zero crowds.</p>
-        <ul class="dest-highlights">
-          <li>Queulat Hanging Glacier, Marble Caves</li>
-          <li>Coyhaique to Villa O'Higgins — true end of the road</li>
-          <li>Condors circling above ferries crossing fjords</li>
-        </ul>
-        <p class="dest-season">Best: Nov – Mar</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇮🇹</span>
-        <h4 class="dest-name">Stelvio Pass</h4>
-        <p class="dest-region road-accent">South Tyrol, Italy</p>
-        <p class="dest-tagline">48 hairpin bends to 2,757m — the Everest of mountain driving.</p>
-        <ul class="dest-highlights">
-          <li>Highest paved mountain pass in the Eastern Alps</li>
-          <li>Ortler glacier visible from the summit</li>
-          <li>Open only Jun – Sep when snow clears</li>
-        </ul>
-        <p class="dest-season">Best: Jun – Sep</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇳🇿</span>
-        <h4 class="dest-name">Milford Road</h4>
-        <p class="dest-region road-accent">Fiordland, New Zealand</p>
-        <p class="dest-tagline">Through the Homer Tunnel into a world of waterfalls and mirror-black fjord.</p>
-        <ul class="dest-highlights">
-          <li>The Divide, Monkey Creek, Mirror Lakes</li>
-          <li>Homer Tunnel — hand-carved through solid rock</li>
-          <li>Chasm Walk at road's end beside Milford Sound</li>
-        </ul>
-        <p class="dest-season">Best: Oct – Apr</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇲🇦</span>
-        <h4 class="dest-name">Dades Valley Road</h4>
-        <p class="dest-region road-accent">High Atlas, Morocco</p>
-        <p class="dest-tagline">Kasbah road through Saharan gorges, rose valleys and Atlas foothills.</p>
-        <ul class="dest-highlights">
-          <li>Aït Benhaddou UNESCO kasbah on the route</li>
-          <li>Gorges du Dadès — dramatic switchbacks above a canyon</li>
-          <li>Sahara access via Merzouga — dune sunrises</li>
-        </ul>
-        <p class="dest-season">Best: Mar – May, Sep – Nov</p>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- OCEAN DESTINATIONS -->
-<div class="dest-section" style="background:linear-gradient(135deg,#edf4fa,#f0f8ff)">
-  <div class="inner">
-    <p class="eye ocean-accent">Ocean · Islands · Cruises Worldwide</p>
-    <h3 class="dest-h">Where the sea takes you somewhere extraordinary</h3>
-    <div class="dest-grid">
-
-      <div class="dest-card">
-        <span class="dest-flag">🇲🇻</span>
-        <h4 class="dest-name">Maldives</h4>
-        <p class="dest-region ocean-accent">Indian Ocean</p>
-        <p class="dest-tagline">1,200 coral islands — overwater bungalows above the clearest water on Earth.</p>
-        <ul class="dest-highlights">
-          <li>Bioluminescent plankton beaches at night</li>
-          <li>Manta ray & whale shark snorkelling</li>
-          <li>Private island resorts accessible only by seaplane</li>
-        </ul>
-        <p class="dest-season">Best: Nov – Apr</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇬🇷</span>
-        <h4 class="dest-name">Greek Cyclades</h4>
-        <p class="dest-region ocean-accent">Aegean Sea, Greece</p>
-        <p class="dest-tagline">Sailing between white villages, ancient ruins and volcanic caldera views.</p>
-        <ul class="dest-highlights">
-          <li>Santorini caldera — the world's most dramatic harbour</li>
-          <li>Mykonos, Naxos, Paros, Milos — each unique</li>
-          <li>Ancient Delos — mythological island sanctuary</li>
-        </ul>
-        <p class="dest-season">Best: May – Jun, Sep – Oct</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇳🇴</span>
-        <h4 class="dest-name">Norwegian Fjords Cruise</h4>
-        <p class="dest-region ocean-accent">Western Norway</p>
-        <p class="dest-tagline">Sail into glacier-carved walls 1,000m high — one of Earth's greatest spectacles.</p>
-        <ul class="dest-highlights">
-          <li>Geirangerfjord & Nærøyfjord — dual UNESCO sites</li>
-          <li>Waterfalls dropping directly into the sea</li>
-          <li>Village stops: Flåm, Ålesund, Bergen</li>
-        </ul>
-        <p class="dest-season">Best: May – Sep</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇦🇶</span>
-        <h4 class="dest-name">Antarctica</h4>
-        <p class="dest-region ocean-accent">Southern Ocean</p>
-        <p class="dest-tagline">The last great wilderness — penguin colonies, tabular icebergs, polar silence.</p>
-        <ul class="dest-highlights">
-          <li>Drake Passage crossing — the world's roughest sea</li>
-          <li>Zodiac landings among emperor penguin colonies</li>
-          <li>Humpback whale feeding in icy bays</li>
-        </ul>
-        <p class="dest-season">Best: Nov – Mar</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇪🇨</span>
-        <h4 class="dest-name">Galápagos Islands</h4>
-        <p class="dest-region ocean-accent">Pacific Ocean, Ecuador</p>
-        <p class="dest-tagline">Darwin's living laboratory — wildlife that shows no fear of humans.</p>
-        <ul class="dest-highlights">
-          <li>Giant tortoises, marine iguanas, blue-footed boobies</li>
-          <li>Snorkelling with sea lions and hammerhead sharks</li>
-          <li>Each island a distinct ecosystem</li>
-        </ul>
-        <p class="dest-season">Best: Jun – Nov</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇸🇨</span>
-        <h4 class="dest-name">Seychelles</h4>
-        <p class="dest-region ocean-accent">Indian Ocean</p>
-        <p class="dest-tagline">115 granite islands — prehistoric boulders, aldabra tortoises, pure isolation.</p>
-        <ul class="dest-highlights">
-          <li>Anse Source d'Argent — world's most photographed beach</li>
-          <li>Vallée de Mai — ancient coco de mer palm forest</li>
-          <li>Private island resorts: North, Fregate, Desroches</li>
-        </ul>
-        <p class="dest-season">Best: Apr – May, Oct – Nov</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇻🇳</span>
-        <h4 class="dest-name">Ha Long Bay</h4>
-        <p class="dest-region ocean-accent">Gulf of Tonkin, Vietnam</p>
-        <p class="dest-tagline">2,000 limestone karsts rising from emerald sea — a UNESCO masterpiece.</p>
-        <ul class="dest-highlights">
-          <li>Junk boat overnight cruise through the karsts</li>
-          <li>Kayaking into hidden caves and lagoons</li>
-          <li>Fishing villages floating between the islands</li>
-        </ul>
-        <p class="dest-season">Best: Oct – Apr</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇮🇩</span>
-        <h4 class="dest-name">Raja Ampat</h4>
-        <p class="dest-region ocean-accent">West Papua, Indonesia</p>
-        <p class="dest-tagline">The world's richest marine biodiversity — 75% of all known coral species.</p>
-        <ul class="dest-highlights">
-          <li>Misool, Waigeo, Batanta — four main island groups</li>
-          <li>Manta rays gliding through crystal channels</li>
-          <li>Mushroom-shaped karst islands above the surface</li>
-        </ul>
-        <p class="dest-season">Best: Oct – Apr</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇵🇫</span>
-        <h4 class="dest-name">Bora Bora & French Polynesia</h4>
-        <p class="dest-region ocean-accent">South Pacific</p>
-        <p class="dest-tagline">The romanticised lagoon island — turquoise atoll with Mount Otemanu at its heart.</p>
-        <ul class="dest-highlights">
-          <li>Overwater bungalows above a coral garden</li>
-          <li>Lagoon safari — sharks, rays, turtles</li>
-          <li>Island hop: Moorea, Huahine, Tikehau</li>
-        </ul>
-        <p class="dest-season">Best: May – Oct</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇵🇭</span>
-        <h4 class="dest-name">Palawan</h4>
-        <p class="dest-region ocean-accent">Philippines</p>
-        <p class="dest-tagline">An island of islands — limestone cliffs, hidden lagoons and underground rivers.</p>
-        <ul class="dest-highlights">
-          <li>El Nido — kayak through cathedral-like karst lagoons</li>
-          <li>Puerto Princesa Underground River — UNESCO cave wonder</li>
-          <li>Coron — wreck diving among WWII Japanese fleet</li>
-        </ul>
-        <p class="dest-season">Best: Nov – May</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇵🇹</span>
-        <h4 class="dest-name">Azores</h4>
-        <p class="dest-region ocean-accent">Mid-Atlantic, Portugal</p>
-        <p class="dest-tagline">Nine volcanic islands mid-Atlantic — whale watching capital of the world.</p>
-        <ul class="dest-highlights">
-          <li>Sete Cidades twin crater lakes on São Miguel</li>
-          <li>Sperm whale, blue whale and dolphin encounters</li>
-          <li>Thermal pools bubbling into the ocean at Furnas</li>
-        </ul>
-        <p class="dest-season">Best: May – Sep</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇦🇺</span>
-        <h4 class="dest-name">Whitsundays</h4>
-        <p class="dest-region ocean-accent">Queensland, Australia</p>
-        <p class="dest-tagline">74 islands in the Coral Sea — Whitehaven Beach is silica so pure it squeaks.</p>
-        <ul class="dest-highlights">
-          <li>Whitehaven Beach — consistently voted world's best</li>
-          <li>Sailing between uninhabited islands</li>
-          <li>Heart Reef in the Great Barrier Reef above</li>
-        </ul>
-        <p class="dest-season">Best: Jun – Oct</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇳🇴</span>
-        <h4 class="dest-name">Lofoten Islands</h4>
-        <p class="dest-region ocean-accent">Arctic Norway</p>
-        <p class="dest-tagline">Dramatic Arctic peaks rising from the sea — fishing villages painted blood-red.</p>
-        <ul class="dest-highlights">
-          <li>Midnight sun from June – July with full daylight</li>
-          <li>Northern Lights reflected in perfect fjord water</li>
-          <li>Reine — consistently ranked world's most scenic village</li>
-        </ul>
-        <p class="dest-season">Best: Jun – Aug (sun); Dec – Feb (lights)</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇨🇷</span>
-        <h4 class="dest-name">Caribbean Coast</h4>
-        <p class="dest-region ocean-accent">Caribbean Sea</p>
-        <p class="dest-tagline">700 islands, 26 languages, one endless summer — from jungle to turquoise.</p>
-        <ul class="dest-highlights">
-          <li>St Lucia — volcanic Pitons above yacht-filled bay</li>
-          <li>Belize Barrier Reef — second largest in the world</li>
-          <li>BVI, Turks & Caicos, Grenada — each a world apart</li>
-        </ul>
-        <p class="dest-season">Best: Dec – Apr</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇯🇵</span>
-        <h4 class="dest-name">Okinawa Islands</h4>
-        <p class="dest-region ocean-accent">East China Sea, Japan</p>
-        <p class="dest-tagline">Japan's tropical secret — mangroves, coral gardens and ancient Ryukyu culture.</p>
-        <ul class="dest-highlights">
-          <li>Kerama Islands — clearest water in Japan (Kerama Blue)</li>
-          <li>Iriomote — jungle river kayaking in a near-wilderness</li>
-          <li>Whale shark diving at Yonaguni, Japan's westernmost island</li>
-        </ul>
-        <p class="dest-season">Best: Apr – Jun, Sep – Nov</p>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- AIR DESTINATIONS -->
-<div class="dest-section" style="background:linear-gradient(135deg,#f5f0ff,#ede8f5)">
-  <div class="inner">
-    <p class="eye air-accent">Air · Scenic Flights · Aerial Wonders</p>
-    <h3 class="dest-h">Views the Earth keeps for those who fly</h3>
-    <div class="dest-grid">
-
-      <div class="dest-card">
-        <span class="dest-flag">🇹🇷</span>
-        <h4 class="dest-name">Cappadocia Balloon Flight</h4>
-        <p class="dest-region air-accent">Göreme, Turkey</p>
-        <p class="dest-tagline">Sunrise over a lunar landscape of fairy chimneys — the world's finest balloon flight.</p>
-        <ul class="dest-highlights">
-          <li>100+ balloons rising together at dawn</li>
-          <li>Rock-carved churches and underground cities below</li>
-          <li>Champagne landing in a vineyard after 1hr in the air</li>
-        </ul>
-        <p class="dest-season">Best: Apr – Jun, Sep – Nov</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇺🇸</span>
-        <h4 class="dest-name">Grand Canyon Helicopter</h4>
-        <p class="dest-region air-accent">Arizona, USA</p>
-        <p class="dest-tagline">Descend 1,500m below the rim — the canyon only truly reveals itself from above.</p>
-        <ul class="dest-highlights">
-          <li>West Rim, South Rim & North Rim routes</li>
-          <li>Land on the canyon floor beside the Colorado River</li>
-          <li>Dawn flights when the light turns the rock to fire</li>
-        </ul>
-        <p class="dest-season">Best: Mar – May, Sep – Nov</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇹🇿</span>
-        <h4 class="dest-name">Serengeti Balloon Safari</h4>
-        <p class="dest-region air-accent">Tanzania</p>
-        <p class="dest-tagline">Float above the Great Migration — millions of wildebeest from 300 metres up.</p>
-        <ul class="dest-highlights">
-          <li>Lions, elephants and cheetah from the air at dawn</li>
-          <li>Mara River crossing visible from above</li>
-          <li>Full bush breakfast on landing in the plains</li>
-        </ul>
-        <p class="dest-season">Best: Jul – Oct (migration peak)</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇳🇿</span>
-        <h4 class="dest-name">Milford Sound Scenic Flight</h4>
-        <p class="dest-region air-accent">Fiordland, New Zealand</p>
-        <p class="dest-tagline">Fly over the eighth wonder — glaciers, waterfalls and black fjord from a floatplane.</p>
-        <ul class="dest-highlights">
-          <li>Mitre Peak — 1,692m straight out of the sea</li>
-          <li>Doubtful Sound and Dusky Sound from above</li>
-          <li>Glacier neve landings by ski-plane</li>
-        </ul>
-        <p class="dest-season">Best: Oct – Apr</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇳🇦</span>
-        <h4 class="dest-name">Namib Desert Aerial</h4>
-        <p class="dest-region air-accent">Namibia</p>
-        <p class="dest-tagline">The world's oldest desert from above — star dunes 300m high meeting the Atlantic.</p>
-        <ul class="dest-highlights">
-          <li>Sossusvlei dunes — apricot and ochre from the air</li>
-          <li>Skeleton Coast — shipwrecks in the sand from 500m</li>
-          <li>Fish River Canyon — Africa's Grand Canyon</li>
-        </ul>
-        <p class="dest-season">Best: May – Sep</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇨🇭</span>
-        <h4 class="dest-name">Swiss Alps Glacier Flight</h4>
-        <p class="dest-region air-accent">Switzerland</p>
-        <p class="dest-tagline">Helicopter landing on the Jungfrau glacier — the Alps in silence above the clouds.</p>
-        <ul class="dest-highlights">
-          <li>Eiger, Mönch & Jungfrau — the triple-summit view</li>
-          <li>Aletsch Glacier — Europe's longest from above</li>
-          <li>Private ski descents from glacier landing</li>
-        </ul>
-        <p class="dest-season">Best: Dec – Apr (snow); Jun – Sep (clear skies)</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇦🇺</span>
-        <h4 class="dest-name">Great Barrier Reef Seaplane</h4>
-        <p class="dest-region air-accent">Queensland, Australia</p>
-        <p class="dest-tagline">The only living structure visible from space — a 2,300km mosaic of coral from above.</p>
-        <ul class="dest-highlights">
-          <li>Heart Reef — natural coral heart, only viewable by air</li>
-          <li>Whitehaven Beach — 7km of pure silica sand from above</li>
-          <li>Seaplane water landing in the outer reef</li>
-        </ul>
-        <p class="dest-season">Best: Jun – Oct</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇧🇷</span>
-        <h4 class="dest-name">Amazon Rainforest Flight</h4>
-        <p class="dest-region air-accent">Brazil & Peru</p>
-        <p class="dest-tagline">An infinite green ocean — the lungs of the planet viewed from a light aircraft.</p>
-        <ul class="dest-highlights">
-          <li>Meeting of the Waters — Rio Negro meets Amazon from above</li>
-          <li>Flooded forest canopy at high water season</li>
-          <li>Remote lodge access only possible by small aircraft</li>
-        </ul>
-        <p class="dest-season">Best: Jun – Nov</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇮🇸</span>
-        <h4 class="dest-name">Iceland Northern Lights Flight</h4>
-        <p class="dest-region air-accent">Iceland</p>
-        <p class="dest-tagline">Chase the aurora from above the clouds — guaranteed clear-sky viewing by air.</p>
-        <ul class="dest-highlights">
-          <li>Small aircraft fly above cloud cover to find the aurora</li>
-          <li>Volcanic landscape below, celestial curtains above</li>
-          <li>Combination: glacier overflight by day, aurora by night</li>
-        </ul>
-        <p class="dest-season">Best: Sep – Mar</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇮🇹</span>
-        <h4 class="dest-name">Dolomites Helicopter</h4>
-        <p class="dest-region air-accent">South Tyrol, Italy</p>
-        <p class="dest-tagline">Three Peaks, rose-lit at sunset — the most theatrical mountain range in Europe.</p>
-        <ul class="dest-highlights">
-          <li>Tre Cime di Lavaredo — three towers from 500m above</li>
-          <li>Cortina d'Ampezzo amphitheatre from the air</li>
-          <li>Glacier landing on Marmolada — highest peak of the Dolomites</li>
-        </ul>
-        <p class="dest-season">Best: Jun – Sep</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇨🇳</span>
-        <h4 class="dest-name">Zhangjiajie Aerial</h4>
-        <p class="dest-region air-accent">Hunan Province, China</p>
-        <p class="dest-tagline">The Avatar mountains — 3,000 sandstone pillars rising through cloud from above.</p>
-        <ul class="dest-highlights">
-          <li>World's longest cable car with glass-bottom cabins</li>
-          <li>Tianmen Mountain — "Heaven's Gate" arch in the cliff</li>
-          <li>Pillar formations reaching 200m from a light aircraft</li>
-        </ul>
-        <p class="dest-season">Best: Apr – Oct</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇿🇲</span>
-        <h4 class="dest-name">Victoria Falls Flight</h4>
-        <p class="dest-region air-accent">Zambia & Zimbabwe</p>
-        <p class="dest-tagline">The smoke that thunders — the world's largest waterfall sheet from a microlight.</p>
-        <ul class="dest-highlights">
-          <li>1.7km wide curtain of water visible for 50km away</li>
-          <li>Microlight flight straight over the falls in the mist</li>
-          <li>Helicopter sunset tour over the Zambezi floodplains</li>
-        </ul>
-        <p class="dest-season">Best: Mar – May (full flow)</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇵🇪</span>
-        <h4 class="dest-name">Nazca Lines Flight</h4>
-        <p class="dest-region air-accent">Ica Desert, Peru</p>
-        <p class="dest-tagline">2,000-year-old geoglyphs only visible from the air — one of Earth's great mysteries.</p>
-        <ul class="dest-highlights">
-          <li>The Hummingbird, Spider, Monkey — giant earth drawings</li>
-          <li>50km of lines in the coastal Peruvian desert</li>
-          <li>Small Cessna flight at low altitude over the figures</li>
-        </ul>
-        <p class="dest-season">Best: May – Nov</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇬🇱</span>
-        <h4 class="dest-name">Greenland Ice Sheet</h4>
-        <p class="dest-region air-accent">Greenland</p>
-        <p class="dest-tagline">The world's second largest ice sheet — a white continent seen from a Twin Otter.</p>
-        <ul class="dest-highlights">
-          <li>Ilulissat Icefjord — UNESCO glacier calving into the sea</li>
-          <li>Dog-sled camp landing on the ice cap at 2,500m</li>
-          <li>Musk ox and Arctic fox spotted from low altitude</li>
-        </ul>
-        <p class="dest-season">Best: Mar – Apr, Jun – Aug</p>
-      </div>
-
-      <div class="dest-card">
-        <span class="dest-flag">🇦🇷</span>
-        <h4 class="dest-name">Patagonia — Torres del Paine</h4>
-        <p class="dest-region air-accent">Chilean Patagonia</p>
-        <p class="dest-tagline">The Towers, the Grey Glacier, the Southern Ice Field — one flight, an eternity.</p>
-        <ul class="dest-highlights">
-          <li>Torres del Paine granite spires from a helicopter</li>
-          <li>Perito Moreno Glacier — 60m ice wall calving below</li>
-          <li>Condors riding thermals at eye level</li>
-        </ul>
-        <p class="dest-season">Best: Nov – Mar</p>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- PACKAGES -->
-<section class="packages" id="packages">
-  <div class="inner">
-    <p class="eye" style="color:var(--earth)">Our Packages</p>
-    <h2 class="sec-h" style="color:var(--cream)">Choose your way<br/>to move through the world.</h2>
-    <div class="pkg-grid">
-      <div class="pkg-card road-card">
-        <p class="pkg-mode pkg-road">Road</p>
-        <h3>The Open Road</h3>
-        <p class="pkg-sub">Overland Expedition · 10–21 days</p>
-        <p>A fully planned overland journey across one of the world's great driving landscapes. Self-drive or chauffeured, with curated stops, lodges and no two nights in the same place.</p>
-        <p class="pkg-price">From $8,500 per person</p>
-        <a href="#contact" class="pkg-cta">Enquire →</a>
-      </div>
-      <div class="pkg-card ocean-card">
-        <p class="pkg-mode pkg-ocean">Ocean</p>
-        <h3>Blue Horizon</h3>
-        <p class="pkg-sub">Sailing or Cruise · 7–14 days</p>
-        <p>Private charter or boutique expedition vessel, threading through island chains, fjords or open ocean. We handle the vessel, the crew, the route and the moments between.</p>
-        <p class="pkg-price">From $11,000 per person</p>
-        <a href="#contact" class="pkg-cta">Enquire →</a>
-      </div>
-      <div class="pkg-card air-card">
-        <p class="pkg-mode pkg-air">Air</p>
-        <h3>Above the Clouds</h3>
-        <p class="pkg-sub">Aerial Experiences · Bespoke</p>
-        <p>A carefully assembled sequence of aerial moments — balloons at dawn, helicopter approaches to remote lodges, seaplane arrivals and the kind of views that stay with you for decades.</p>
-        <p class="pkg-price">From $6,000 per experience</p>
-        <a href="#contact" class="pkg-cta">Enquire →</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats">
-  <div class="stats-grid">
-    <div class="stat">
-      <div class="stat-num">60+</div>
-      <div class="stat-label">Countries Covered</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">3</div>
-      <div class="stat-label">Travel Modes</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">500+</div>
-      <div class="stat-label">Journeys Designed</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">11yr</div>
-      <div class="stat-label">Of Experience</div>
-    </div>
-  </div>
-</div>
-
-<!-- EXPERIENCE GRID -->
-<section class="experiences">
-  <div class="inner">
-    <p class="eye">Signature Experiences</p>
-    <h2 class="sec-h">Moments we've built<br/>for travellers like you.</h2>
-  </div>
-  <div class="exp-grid" style="max-width:1120px;margin:3.5rem auto 0">
-    <div class="exp-item tall">
-      <img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road"/>
-      <div class="exp-overlay"></div>
-      <div class="exp-info"><h4>Patagonian Road Cross</h4><span>Road · 18 days · Chile & Argentina</span></div>
-    </div>
-    <div class="exp-item">
-      <img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air"/>
-      <div class="exp-overlay"></div>
-      <div class="exp-info"><h4>Cappadocia at Dawn</h4><span>Air · Balloon · Turkey</span></div>
-    </div>
-    <div class="exp-item">
-      <img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean"/>
-      <div class="exp-overlay"></div>
-      <div class="exp-info"><h4>Greek Islands Sail</h4><span>Ocean · 10 days · Cyclades</span></div>
-    </div>
-    <div class="exp-item wide">
-      <img src="https://design.canva.ai/A-r0K0nPZ8Zgxls" alt="Road 2"/>
-      <div class="exp-overlay"></div>
-      <div class="exp-info"><h4>Atlantic Coast Drive</h4><span>Road · 14 days · Morocco to Portugal</span></div>
-    </div>
-    <div class="exp-item">
-      <img src="https://design.canva.ai/gWoPsWRv-7wL46p" alt="Ocean 2"/>
-      <div class="exp-overlay"></div>
-      <div class="exp-info"><h4>Antarctic Crossing</h4><span>Ocean · Expedition · 21 days</span></div>
-    </div>
-    <div class="exp-item">
-      <img src="https://design.canva.ai/uG9UJhpVjDwKwf0" alt="Air 2"/>
-      <div class="exp-overlay"></div>
-      <div class="exp-info"><h4>Glacier Helicopter</h4><span>Air · New Zealand Alps</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- FOUNDER -->
-<div class="founder">
-  <div class="founder-visual">
-    <div class="founder-initials">JV</div>
-  </div>
-  <div class="founder-text">
-    <p class="eye" style="color:var(--earth)">The Founder</p>
-    <h2 class="founder-name">Janki Vyas</h2>
-    <p class="founder-role">Founder · ROAM Travel Consulting</p>
-    <blockquote>"I've driven through the Namib Desert alone at sunrise, sailed across the Adriatic in a storm, and watched the Alps pass below at 35,000 feet thinking — this is the same Earth. Road, ocean, air. They each show you something different about it."</blockquote>
-    <p class="founder-body">ROAM was born from a simple observation: the way you travel changes what you discover. After a decade of building journeys for clients across every mode of movement, I decided to build a company that took that seriously — one that treats the road, the ocean and the sky not as logistics, but as experiences in themselves.</p>
-  </div>
-</div>
-
-<!-- CTA -->
-<div class="cta" id="contact">
-  <div class="cta-panel">
-    <img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road"/>
-    <div class="cta-inner">
-      <span class="cta-icon">🛣️</span>
-      <h3>Start with Road</h3>
-      <p>Tell us where you want to drive and we'll design the perfect overland route.</p>
-      <a href="mailto:road@roamtravel.co" class="cta-btn">Plan a road trip</a>
-    </div>
-  </div>
-  <div class="cta-panel">
-    <img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean"/>
-    <div class="cta-inner">
-      <span class="cta-icon">🌊</span>
-      <h3>Sail with Us</h3>
-      <p>Private charters, expedition vessels or island-hopping voyages — we'll chart the course.</p>
-      <a href="mailto:ocean@roamtravel.co" class="cta-btn">Plan an ocean journey</a>
-    </div>
-  </div>
-  <div class="cta-panel">
-    <img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air"/>
-    <div class="cta-inner">
-      <span class="cta-icon">✈️</span>
-      <h3>Take to the Sky</h3>
-      <p>Balloons, helicopters, seaplanes or private jets — we'll lift you above the ordinary.</p>
-      <a href="mailto:air@roamtravel.co" class="cta-btn">Plan an air experience</a>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div>
-    <p class="ft-logo">ROAM</p>
-    <p class="ft-sub">Travel that moves you — in every sense.</p>
-    <p class="ft-modes">Road · Ocean · Air · Movement</p>
-    <div class="ft-social">
-      <a href="#">Instagram</a>
-      <a href="#">Pinterest</a>
-      <a href="#">hello@roamtravel.co</a>
-    </div>
-  </div>
-  <div class="ft-col">
-    <h4>Modes</h4>
-    <ul>
-      <li><a href="#road">Road</a></li>
-      <li><a href="#ocean">Ocean</a></li>
-      <li><a href="#air">Air</a></li>
-      <li><a href="#packages">Packages</a></li>
-    </ul>
-  </div>
-  <div class="ft-col">
-    <h4>Destinations</h4>
-    <ul>
-      <li><a href="#">Americas</a></li>
-      <li><a href="#">Europe</a></li>
-      <li><a href="#">Asia Pacific</a></li>
-      <li><a href="#">Africa</a></li>
-      <li><a href="#">Polar</a></li>
-    </ul>
-  </div>
-  <div class="ft-col">
-    <h4>Company</h4>
-    <ul>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Journal</a></li>
-      <li><a href="#">Sustainability</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </div>
-</footer>
-<div class="ft-bar">
-  <p>© 2026 ROAM Travel Consulting. All rights reserved.</p>
-  <p>hello@roamtravel.co</p>
 </div>
 
 <script>
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('solid', window.scrollY > 70);
+// Fade the ROAM title when hovering a panel
+const panels = document.querySelectorAll('.panel');
+const title = document.querySelector('.hero-center');
+panels.forEach(p => {
+  p.addEventListener('mouseenter', () => title.style.opacity = '.15');
+  p.addEventListener('mouseleave', () => title.style.opacity = '1');
 });
 </script>
 </body>
