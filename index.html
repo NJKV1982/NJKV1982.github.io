@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ROAM — Road · Ocean · Air · Movement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1410;--muted:#6b6056;--cream:#f7f3ed;--sand:#e8dfd0;
+  --earth:#b8956a;--bark:#7a5c3a;--sky:#1a3a5c;
+  --road:#c87820;--ocean:#0a4a6e;--air:#4a2870;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost','Helvetica Neue',Arial,sans-serif
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);font-weight:300;line-height:1.8;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;inset:0 0 auto;z-index:200;display:flex;justify-content:space-between;
+align-items:center;padding:1.5rem 4rem;transition:all .4s}
+nav.solid{background:rgba(247,243,237,.97);backdrop-filter:blur(8px);
+box-shadow:0 1px 0 rgba(26,20,16,.07)}
+.logo{font-family:var(--serif);font-size:1.6rem;letter-spacing:.22em;color:#fff;
+text-decoration:none;transition:color .4s;font-weight:400}
+nav.solid .logo{color:var(--ink)}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+.nav-links a{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+color:rgba(255,255,255,.8);text-decoration:none;transition:color .3s}
+nav.solid .nav-links a{color:var(--muted)}
+.nav-links a:hover{color:var(--earth)}
+.nav-cta{border:1px solid rgba(255,255,255,.5);padding:.45rem 1.4rem;
+border-radius:0;transition:all .3s}
+nav.solid .nav-cta{border-color:var(--earth);color:var(--earth)!important}
+.nav-cta:hover{background:rgba(255,255,255,.1)!important}
+nav.solid .nav-cta:hover{background:var(--earth)!important;color:var(--cream)!important}
+
+/* ── HERO — full-height 3-panel split ── */
+.hero{height:100vh;min-height:620px;display:grid;grid-template-columns:1fr 1fr 1fr;position:relative}
+.hero-panel{position:relative;overflow:hidden;cursor:pointer}
+.hero-panel img{width:100%;height:100%;object-fit:cover;display:block;
+transition:transform .8s ease,filter .5s;filter:brightness(.68)}
+.hero-panel:hover img{transform:scale(1.04);filter:brightness(.5)}
+.panel-label{position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);
+text-align:center;z-index:2;transition:transform .4s}
+.hero-panel:hover .panel-label{transform:translateX(-50%) translateY(-6px)}
+.panel-icon{font-size:2rem;margin-bottom:.5rem;display:block;opacity:.9}
+.panel-name{font-family:var(--serif);font-size:1.7rem;color:#fff;letter-spacing:.12em;display:block}
+.panel-sub{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;
+color:rgba(255,255,255,.65);margin-top:.2rem;display:block}
+.panel-divider{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.2);
+right:0;z-index:3}
+.hero-center{position:absolute;inset:0;display:flex;flex-direction:column;
+align-items:center;justify-content:center;z-index:10;pointer-events:none;text-align:center}
+.hero-center h1{font-family:var(--serif);font-size:clamp(5rem,12vw,10rem);font-weight:300;
+color:#fff;letter-spacing:.18em;line-height:1;text-shadow:0 4px 40px rgba(0,0,0,.4)}
+.hero-center p{font-family:var(--serif);font-style:italic;font-size:clamp(.9rem,1.8vw,1.2rem);
+color:rgba(255,255,255,.75);letter-spacing:.08em;margin-top:.8rem}
+.hero-modes{position:absolute;bottom:2.2rem;left:50%;transform:translateX(-50%);
+z-index:10;display:flex;gap:1.5rem;align-items:center}
+.hero-modes span{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.hero-modes .dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.3)}
+
+/* ── INTRO STRIP ── */
+.strip{background:var(--ink);padding:1.2rem 4rem;display:flex;justify-content:center;
+gap:5rem;align-items:center}
+.strip-item{display:flex;align-items:center;gap:.9rem}
+.strip-num{font-family:var(--serif);font-size:2rem;color:var(--earth);font-weight:300}
+.strip-text{display:flex;flex-direction:column}
+.strip-text strong{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+color:var(--cream);font-weight:400}
+.strip-text span{font-size:.68rem;color:rgba(247,243,237,.45)}
+
+/* ── SECTION BASE ── */
+section{padding:7rem 4rem}
+.inner{max-width:1120px;margin:0 auto}
+.eye{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--earth);margin-bottom:.8rem}
+.sec-h{font-family:var(--serif);font-size:clamp(2rem,4.5vw,3rem);font-weight:300;
+line-height:1.2;margin-bottom:1.3rem}
+.sec-p{font-size:.9rem;color:var(--muted);max-width:540px;line-height:1.95}
+.hr{width:44px;height:1px;background:var(--earth);margin:1.8rem 0}
+
+/* ── MODES — 3 big feature sections ── */
+.mode-section{padding:0}
+.mode-block{display:grid;grid-template-columns:1fr 1fr;min-height:580px}
+.mode-block.flip{direction:rtl}
+.mode-block.flip>*{direction:ltr}
+.mode-img{position:relative;overflow:hidden}
+.mode-img img{width:100%;height:100%;object-fit:cover;display:block;
+transition:transform .7s ease;filter:brightness(.9)}
+.mode-img:hover img{transform:scale(1.03)}
+.mode-badge{position:absolute;top:2rem;left:2rem;background:rgba(26,20,16,.6);
+backdrop-filter:blur(6px);padding:.5rem 1.1rem;
+font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#fff}
+.mode-block.flip .mode-badge{left:auto;right:2rem}
+.mode-content{padding:5rem 4.5rem;display:flex;flex-direction:column;justify-content:center}
+.mode-icon{font-size:2.5rem;margin-bottom:1.5rem;display:block}
+.mode-title{font-family:var(--serif);font-size:clamp(2rem,3.5vw,2.8rem);font-weight:300;
+line-height:1.2;margin-bottom:.5rem}
+.mode-tag{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem}
+.mode-body{font-size:.88rem;color:var(--muted);line-height:1.95;margin-bottom:2rem;max-width:420px}
+.mode-features{display:flex;flex-direction:column;gap:.8rem;margin-bottom:2.5rem}
+.feature-row{display:flex;align-items:center;gap:.8rem;font-size:.82rem;color:var(--muted)}
+.feature-row::before{content:'';width:18px;height:1px;background:var(--earth);flex-shrink:0}
+.mode-link{display:inline-block;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+color:var(--ink);text-decoration:none;border-bottom:1px solid var(--earth);
+padding-bottom:3px;transition:color .3s}
+.mode-link:hover{color:var(--bark)}
+
+.road-bg{background:linear-gradient(135deg,#fdf6ec,#f7ede0)}
+.road-accent{color:var(--road)}
+.ocean-bg{background:linear-gradient(135deg,#edf4fa,#dceef7)}
+.ocean-accent{color:var(--ocean)}
+.air-bg{background:linear-gradient(135deg,#f2eef8,#e8e0f5)}
+.air-accent{color:var(--air)}
+
+/* ── PACKAGES ── */
+.packages{background:var(--ink)}
+.packages .sec-h{color:var(--cream)}
+.pkg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3.5rem}
+.pkg-card{background:rgba(255,255,255,.04);padding:2.8rem 2.4rem;
+border-top:2px solid transparent;transition:background .3s,border-color .3s}
+.pkg-card:hover{background:rgba(255,255,255,.08)}
+.pkg-card.road-card{border-color:var(--road)}
+.pkg-card.ocean-card{border-color:var(--ocean)}
+.pkg-card.air-card{border-color:var(--air)}
+.pkg-mode{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;margin-bottom:.4rem}
+.pkg-road{color:var(--road)}.pkg-ocean{color:var(--ocean)}.pkg-air{color:var(--air)}
+.pkg-card h3{font-family:var(--serif);font-size:1.6rem;color:var(--cream);
+font-weight:300;margin-bottom:.4rem}
+.pkg-sub{font-size:.7rem;color:rgba(247,243,237,.45);letter-spacing:.1em;
+text-transform:uppercase;margin-bottom:1.4rem}
+.pkg-card p{font-size:.85rem;color:rgba(247,243,237,.6);line-height:1.9;margin-bottom:2rem}
+.pkg-price{font-family:var(--serif);font-size:1rem;color:var(--earth);
+border-top:1px solid rgba(255,255,255,.08);padding-top:1.2rem}
+.pkg-cta{display:inline-block;margin-top:.8rem;font-size:.65rem;letter-spacing:.18em;
+text-transform:uppercase;color:rgba(247,243,237,.5);text-decoration:none;
+border-bottom:1px solid rgba(184,149,106,.4);padding-bottom:2px;transition:color .3s}
+.pkg-cta:hover{color:var(--earth)}
+
+/* ── STATS ── */
+.stats{background:var(--sand);padding:5rem 4rem}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:1120px;margin:0 auto}
+.stat{text-align:center;padding:2.5rem 1rem}
+.stat-num{font-family:var(--serif);font-size:clamp(2.5rem,5vw,4rem);font-weight:300;
+color:var(--ink);line-height:1;margin-bottom:.4rem}
+.stat-label{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--bark)}
+
+/* ── EXPERIENCE GRID ── */
+.experiences{background:var(--cream)}
+.exp-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:260px;
+gap:3px;margin-top:3.5rem}
+.exp-item{position:relative;overflow:hidden}
+.exp-item.tall{grid-row:span 2}
+.exp-item.wide{grid-column:span 2}
+.exp-item img{width:100%;height:100%;object-fit:cover;display:block;
+transition:transform .6s;filter:brightness(.75)}
+.exp-item:hover img{transform:scale(1.04)}
+.exp-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,20,16,.8) 0%,transparent 60%)}
+.exp-info{position:absolute;bottom:1.4rem;left:1.4rem;right:1.4rem}
+.exp-info h4{font-family:var(--serif);font-size:1.2rem;color:#fff;font-weight:300}
+.exp-info span{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+
+/* ── FOUNDER ── */
+.founder{background:var(--ink);display:grid;grid-template-columns:1fr 1fr;min-height:560px}
+.founder-visual{position:relative;overflow:hidden;
+background:linear-gradient(160deg,#2a1a0a,#5a3a1a,#8a6030,#c0904a,#e8c080)}
+.founder-initials{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+font-family:var(--serif);font-size:8rem;font-weight:300;color:rgba(255,255,255,.12);letter-spacing:.1em}
+.founder-text{padding:5rem 4.5rem;display:flex;flex-direction:column;justify-content:center}
+.founder-name{font-family:var(--serif);font-size:2.4rem;font-weight:300;color:var(--cream);margin-bottom:.2rem}
+.founder-role{font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;
+color:var(--earth);margin-bottom:2rem}
+blockquote{font-family:var(--serif);font-style:italic;font-size:1.15rem;
+color:rgba(247,243,237,.8);line-height:1.75;border-left:2px solid var(--earth);
+padding-left:1.4rem;margin-bottom:1.8rem}
+.founder-body{font-size:.87rem;color:rgba(247,243,237,.5);line-height:1.95}
+
+/* ── CTA ── */
+.cta{position:relative;padding:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr 1fr}
+.cta-panel{position:relative;padding:5rem 3rem;text-align:center;overflow:hidden}
+.cta-panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+filter:brightness(.35);transition:filter .4s}
+.cta-panel:hover img{filter:brightness(.25)}
+.cta-inner{position:relative;z-index:2}
+.cta-icon{font-size:2rem;margin-bottom:1rem;display:block}
+.cta-panel h3{font-family:var(--serif);font-size:1.6rem;color:#fff;font-weight:300;margin-bottom:.6rem}
+.cta-panel p{font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:1.8rem;line-height:1.8}
+.cta-btn{display:inline-block;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;
+color:#fff;border:1px solid rgba(255,255,255,.4);padding:.7rem 1.8rem;
+text-decoration:none;transition:all .3s}
+.cta-btn:hover{background:rgba(255,255,255,.12);border-color:#fff}
+
+/* ── FOOTER ── */
+footer{background:#0f0c09;padding:4rem;display:grid;grid-template-columns:2.5fr 1fr 1fr 1fr;gap:3rem}
+.ft-logo{font-family:var(--serif);font-size:2rem;letter-spacing:.2em;color:var(--cream);
+font-weight:300;margin-bottom:.5rem}
+.ft-sub{font-family:var(--serif);font-style:italic;font-size:.88rem;color:var(--bark);
+margin-bottom:.5rem}
+.ft-modes{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+color:rgba(247,243,237,.25);margin-bottom:1.5rem}
+.ft-social{display:flex;gap:1.2rem}
+.ft-social a{font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+color:rgba(107,96,86,.8);text-decoration:none;transition:color .3s}
+.ft-social a:hover{color:var(--earth)}
+.ft-col h4{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--earth);margin-bottom:1rem}
+.ft-col ul{list-style:none}
+.ft-col li{margin-bottom:.5rem}
+.ft-col a{font-size:.82rem;color:rgba(107,96,86,.8);text-decoration:none;transition:color .3s}
+.ft-col a:hover{color:var(--cream)}
+.ft-bar{background:#0f0c09;padding:1.3rem 4rem;border-top:1px solid rgba(255,255,255,.04);
+display:flex;justify-content:space-between}
+.ft-bar p{font-size:.65rem;color:rgba(107,96,86,.4);letter-spacing:.08em}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .hero{grid-template-columns:1fr}
+  .hero-panel:not(:first-child){display:none}
+  .hero-center h1{font-size:4rem}
+  .strip{flex-direction:column;gap:2rem;padding:2rem 1.5rem}
+  section{padding:5rem 1.5rem}
+  .mode-block,.mode-block.flip{grid-template-columns:1fr;direction:ltr}
+  .mode-img{min-height:300px}
+  .mode-content{padding:3rem 2rem}
+  .pkg-grid,.stats-grid,.exp-grid{grid-template-columns:1fr}
+  .exp-item.tall,.exp-item.wide{grid-column:auto;grid-row:auto}
+  .founder{grid-template-columns:1fr}
+  .founder-visual{min-height:280px}
+  .founder-text{padding:3rem 2rem}
+  .cta{grid-template-columns:1fr}
+  footer{grid-template-columns:1fr 1fr;padding:3rem 1.5rem}
+  .ft-bar{padding:1rem 1.5rem;flex-direction:column;gap:.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="logo" href="#">ROAM</a>
+  <ul class="nav-links">
+    <li><a href="#road">Road</a></li>
+    <li><a href="#ocean">Ocean</a></li>
+    <li><a href="#air">Air</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#contact" class="nav-cta">Begin</a></li>
+  </ul>
+</nav>
+
+<!-- HERO — 3 panels -->
+<section class="hero">
+  <div class="hero-panel" id="road">
+    <img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road travel"/>
+    <div class="panel-divider"></div>
+    <div class="panel-label">
+      <span class="panel-icon">🛣️</span>
+      <span class="panel-name">ROAD</span>
+      <span class="panel-sub">Highways · Passes · Trails</span>
+    </div>
+  </div>
+  <div class="hero-panel" id="ocean">
+    <img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean travel"/>
+    <div class="panel-divider"></div>
+    <div class="panel-label">
+      <span class="panel-icon">🌊</span>
+      <span class="panel-name">OCEAN</span>
+      <span class="panel-sub">Sailing · Cruises · Coasts</span>
+    </div>
+  </div>
+  <div class="hero-panel" id="air">
+    <img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air travel"/>
+    <div class="panel-label">
+      <span class="panel-icon">✈️</span>
+      <span class="panel-name">AIR</span>
+      <span class="panel-sub">Flights · Balloons · Skies</span>
+    </div>
+  </div>
+  <div class="hero-center">
+    <h1>ROAM</h1>
+    <p>Road · Ocean · Air · Movement</p>
+  </div>
+  <div class="hero-modes">
+    <span>Every way to travel the world</span>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-item">
+    <span class="strip-num">60+</span>
+    <div class="strip-text"><strong>Countries</strong><span>across 6 continents</span></div>
+  </div>
+  <div class="strip-item">
+    <span class="strip-num">3</span>
+    <div class="strip-text"><strong>Ways to Travel</strong><span>Road, Ocean & Air</span></div>
+  </div>
+  <div class="strip-item">
+    <span class="strip-num">500+</span>
+    <div class="strip-text"><strong>Journeys Curated</strong><span>since 2015</span></div>
+  </div>
+  <div class="strip-item">
+    <span class="strip-num">100%</span>
+    <div class="strip-text"><strong>Bespoke</strong><span>no two trips alike</span></div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section>
+  <div class="inner" style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
+    <div>
+      <p class="eye">What Is ROAM</p>
+      <h2 class="sec-h">Three paths.<br/>One world.<br/>Infinite journeys.</h2>
+      <div class="hr"></div>
+      <p class="sec-p">Most travel companies sell destinations. We sell the way you get there — because the road through Patagonia, the ocean crossing between islands, the view from 35,000 feet over the Himalayas — these are not just methods of transport. They are the journey itself.</p>
+      <br/>
+      <p class="sec-p">ROAM is a bespoke travel consulting studio built around three modes: Road, Ocean, and Air. We combine them, sequence them, and tailor them entirely to you.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;aspect-ratio:1">
+      <div style="overflow:hidden"><img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85)"/></div>
+      <div style="overflow:hidden"><img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85)"/></div>
+      <div style="grid-column:span 2;overflow:hidden;max-height:200px"><img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean" style="width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.85)"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- MODE: ROAD -->
+<section class="mode-section">
+  <div class="mode-block road-bg">
+    <div class="mode-img">
+      <img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road travel"/>
+      <span class="mode-badge">01 · Road</span>
+    </div>
+    <div class="mode-content">
+      <span class="mode-icon">🛣️</span>
+      <h2 class="mode-title">The road doesn't just<br/>take you there.<br/>It shapes you.</h2>
+      <p class="mode-tag road-accent">Highway · Mountain Pass · Desert Trail · Coastal Drive</p>
+      <p class="mode-body">There is a particular kind of freedom that only the road delivers. The ability to stop when something catches your eye. To take the long way. To watch the landscape change through a windscreen as hours blur into discovery. We design road journeys that honour this — self-drives, chauffeured expeditions and guided overland crossings across the world's most dramatic terrain.</p>
+      <div class="mode-features">
+        <div class="feature-row">Route 66 & Americas Cross-Country</div>
+        <div class="feature-row">Trans-Siberian Highway & Central Asia</div>
+        <div class="feature-row">Patagonia Carretera Austral</div>
+        <div class="feature-row">African Overland Safari Routes</div>
+        <div class="feature-row">Norwegian Atlantic Road & Fjord Passes</div>
+      </div>
+      <a href="#packages" class="mode-link">View road packages</a>
+    </div>
+  </div>
+</section>
+
+<!-- MODE: OCEAN -->
+<section class="mode-section">
+  <div class="mode-block flip ocean-bg">
+    <div class="mode-img">
+      <img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean travel"/>
+      <span class="mode-badge">02 · Ocean</span>
+    </div>
+    <div class="mode-content">
+      <span class="mode-icon">🌊</span>
+      <h2 class="mode-title">The ocean has no<br/>straight lines.<br/>Neither do we.</h2>
+      <p class="mode-tag ocean-accent">Sailing · Expedition Cruise · Island Hopping · Coastal Voyage</p>
+      <p class="mode-body">Oceans cover 71% of the Earth — and most travellers never truly encounter them. We change that. From private sailing charters threading through the Greek Cyclades to Antarctic expedition voyages and transoceanic crossings on tall ships, our ocean journeys put you on the water, not beside it.</p>
+      <div class="mode-features">
+        <div class="feature-row">Private Sailing Charters — Mediterranean</div>
+        <div class="feature-row">Antarctica & Arctic Expedition Cruises</div>
+        <div class="feature-row">South Pacific Island Hopping</div>
+        <div class="feature-row">Maldives & Indian Ocean Liveaboards</div>
+        <div class="feature-row">Norwegian Fjord Cruise Routes</div>
+      </div>
+      <a href="#packages" class="mode-link">View ocean packages</a>
+    </div>
+  </div>
+</section>
+
+<!-- MODE: AIR -->
+<section class="mode-section">
+  <div class="mode-block air-bg">
+    <div class="mode-img">
+      <img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air travel"/>
+      <span class="mode-badge">03 · Air</span>
+    </div>
+    <div class="mode-content">
+      <span class="mode-icon">✈️</span>
+      <h2 class="mode-title">To see the Earth<br/>from above is to<br/>understand it differently.</h2>
+      <p class="mode-tag air-accent">Flight · Balloon · Seaplane · Helicopter · Private Charter</p>
+      <p class="mode-body">Altitude changes perspective in every sense. We curate air journeys that go beyond getting from A to B — hot air balloon sunrises over Cappadocia's rock formations, helicopter descents into remote mountain lodges, seaplane arrivals at private island resorts and private jet itineraries that compress continents into days.</p>
+      <div class="mode-features">
+        <div class="feature-row">Hot Air Balloons — Cappadocia, Serengeti, Loire Valley</div>
+        <div class="feature-row">Helicopter Glacier Landings — New Zealand & Alaska</div>
+        <div class="feature-row">Seaplane Safaris — Maldives & Botswana</div>
+        <div class="feature-row">Private Jet Multi-Continent Itineraries</div>
+        <div class="feature-row">Scenic Flights — Grand Canyon, Milford Sound</div>
+      </div>
+      <a href="#packages" class="mode-link">View air packages</a>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="packages">
+  <div class="inner">
+    <p class="eye" style="color:var(--earth)">Our Packages</p>
+    <h2 class="sec-h" style="color:var(--cream)">Choose your way<br/>to move through the world.</h2>
+    <div class="pkg-grid">
+      <div class="pkg-card road-card">
+        <p class="pkg-mode pkg-road">Road</p>
+        <h3>The Open Road</h3>
+        <p class="pkg-sub">Overland Expedition · 10–21 days</p>
+        <p>A fully planned overland journey across one of the world's great driving landscapes. Self-drive or chauffeured, with curated stops, lodges and no two nights in the same place.</p>
+        <p class="pkg-price">From $8,500 per person</p>
+        <a href="#contact" class="pkg-cta">Enquire →</a>
+      </div>
+      <div class="pkg-card ocean-card">
+        <p class="pkg-mode pkg-ocean">Ocean</p>
+        <h3>Blue Horizon</h3>
+        <p class="pkg-sub">Sailing or Cruise · 7–14 days</p>
+        <p>Private charter or boutique expedition vessel, threading through island chains, fjords or open ocean. We handle the vessel, the crew, the route and the moments between.</p>
+        <p class="pkg-price">From $11,000 per person</p>
+        <a href="#contact" class="pkg-cta">Enquire →</a>
+      </div>
+      <div class="pkg-card air-card">
+        <p class="pkg-mode pkg-air">Air</p>
+        <h3>Above the Clouds</h3>
+        <p class="pkg-sub">Aerial Experiences · Bespoke</p>
+        <p>A carefully assembled sequence of aerial moments — balloons at dawn, helicopter approaches to remote lodges, seaplane arrivals and the kind of views that stay with you for decades.</p>
+        <p class="pkg-price">From $6,000 per experience</p>
+        <a href="#contact" class="pkg-cta">Enquire →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-grid">
+    <div class="stat">
+      <div class="stat-num">60+</div>
+      <div class="stat-label">Countries Covered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Travel Modes</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Journeys Designed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">11yr</div>
+      <div class="stat-label">Of Experience</div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPERIENCE GRID -->
+<section class="experiences">
+  <div class="inner">
+    <p class="eye">Signature Experiences</p>
+    <h2 class="sec-h">Moments we've built<br/>for travellers like you.</h2>
+  </div>
+  <div class="exp-grid" style="max-width:1120px;margin:3.5rem auto 0">
+    <div class="exp-item tall">
+      <img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road"/>
+      <div class="exp-overlay"></div>
+      <div class="exp-info"><h4>Patagonian Road Cross</h4><span>Road · 18 days · Chile & Argentina</span></div>
+    </div>
+    <div class="exp-item">
+      <img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air"/>
+      <div class="exp-overlay"></div>
+      <div class="exp-info"><h4>Cappadocia at Dawn</h4><span>Air · Balloon · Turkey</span></div>
+    </div>
+    <div class="exp-item">
+      <img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean"/>
+      <div class="exp-overlay"></div>
+      <div class="exp-info"><h4>Greek Islands Sail</h4><span>Ocean · 10 days · Cyclades</span></div>
+    </div>
+    <div class="exp-item wide">
+      <img src="https://design.canva.ai/A-r0K0nPZ8Zgxls" alt="Road 2"/>
+      <div class="exp-overlay"></div>
+      <div class="exp-info"><h4>Atlantic Coast Drive</h4><span>Road · 14 days · Morocco to Portugal</span></div>
+    </div>
+    <div class="exp-item">
+      <img src="https://design.canva.ai/gWoPsWRv-7wL46p" alt="Ocean 2"/>
+      <div class="exp-overlay"></div>
+      <div class="exp-info"><h4>Antarctic Crossing</h4><span>Ocean · Expedition · 21 days</span></div>
+    </div>
+    <div class="exp-item">
+      <img src="https://design.canva.ai/uG9UJhpVjDwKwf0" alt="Air 2"/>
+      <div class="exp-overlay"></div>
+      <div class="exp-info"><h4>Glacier Helicopter</h4><span>Air · New Zealand Alps</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER -->
+<div class="founder">
+  <div class="founder-visual">
+    <div class="founder-initials">JV</div>
+  </div>
+  <div class="founder-text">
+    <p class="eye" style="color:var(--earth)">The Founder</p>
+    <h2 class="founder-name">Janki Vyas</h2>
+    <p class="founder-role">Founder · ROAM Travel Consulting</p>
+    <blockquote>"I've driven through the Namib Desert alone at sunrise, sailed across the Adriatic in a storm, and watched the Alps pass below at 35,000 feet thinking — this is the same Earth. Road, ocean, air. They each show you something different about it."</blockquote>
+    <p class="founder-body">ROAM was born from a simple observation: the way you travel changes what you discover. After a decade of building journeys for clients across every mode of movement, I decided to build a company that took that seriously — one that treats the road, the ocean and the sky not as logistics, but as experiences in themselves.</p>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta" id="contact">
+  <div class="cta-panel">
+    <img src="https://design.canva.ai/msfTtD_94ZUbjfX" alt="Road"/>
+    <div class="cta-inner">
+      <span class="cta-icon">🛣️</span>
+      <h3>Start with Road</h3>
+      <p>Tell us where you want to drive and we'll design the perfect overland route.</p>
+      <a href="mailto:road@roamtravel.co" class="cta-btn">Plan a road trip</a>
+    </div>
+  </div>
+  <div class="cta-panel">
+    <img src="https://design.canva.ai/OJIEwbe3NDJyZ9v" alt="Ocean"/>
+    <div class="cta-inner">
+      <span class="cta-icon">🌊</span>
+      <h3>Sail with Us</h3>
+      <p>Private charters, expedition vessels or island-hopping voyages — we'll chart the course.</p>
+      <a href="mailto:ocean@roamtravel.co" class="cta-btn">Plan an ocean journey</a>
+    </div>
+  </div>
+  <div class="cta-panel">
+    <img src="https://design.canva.ai/Ww9bJUSbE-awHER" alt="Air"/>
+    <div class="cta-inner">
+      <span class="cta-icon">✈️</span>
+      <h3>Take to the Sky</h3>
+      <p>Balloons, helicopters, seaplanes or private jets — we'll lift you above the ordinary.</p>
+      <a href="mailto:air@roamtravel.co" class="cta-btn">Plan an air experience</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <p class="ft-logo">ROAM</p>
+    <p class="ft-sub">Travel that moves you — in every sense.</p>
+    <p class="ft-modes">Road · Ocean · Air · Movement</p>
+    <div class="ft-social">
+      <a href="#">Instagram</a>
+      <a href="#">Pinterest</a>
+      <a href="#">hello@roamtravel.co</a>
+    </div>
+  </div>
+  <div class="ft-col">
+    <h4>Modes</h4>
+    <ul>
+      <li><a href="#road">Road</a></li>
+      <li><a href="#ocean">Ocean</a></li>
+      <li><a href="#air">Air</a></li>
+      <li><a href="#packages">Packages</a></li>
+    </ul>
+  </div>
+  <div class="ft-col">
+    <h4>Destinations</h4>
+    <ul>
+      <li><a href="#">Americas</a></li>
+      <li><a href="#">Europe</a></li>
+      <li><a href="#">Asia Pacific</a></li>
+      <li><a href="#">Africa</a></li>
+      <li><a href="#">Polar</a></li>
+    </ul>
+  </div>
+  <div class="ft-col">
+    <h4>Company</h4>
+    <ul>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Journal</a></li>
+      <li><a href="#">Sustainability</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="ft-bar">
+  <p>© 2026 ROAM Travel Consulting. All rights reserved.</p>
+  <p>hello@roamtravel.co</p>
+</div>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('solid', window.scrollY > 70);
+});
+</script>
+</body>
+</html>
