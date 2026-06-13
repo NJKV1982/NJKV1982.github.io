@@ -117,6 +117,31 @@ padding-bottom:3px;transition:color .3s}
 .air-bg{background:linear-gradient(135deg,#f2eef8,#e8e0f5)}
 .air-accent{color:var(--air)}
 
+/* ── DESTINATIONS ── */
+.dest-section{padding:5rem 4rem}
+.dest-section .inner{max-width:1120px;margin:0 auto}
+.dest-h{font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:300;
+color:var(--ink);margin-bottom:2.5rem;line-height:1.3}
+.dest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.dest-card{background:#fff;border:0.5px solid var(--sand);padding:1.8rem 1.6rem;
+position:relative;transition:box-shadow .3s,transform .3s}
+.dest-card:hover{box-shadow:0 8px 32px rgba(26,20,16,.08);transform:translateY(-3px)}
+.dest-flag{font-size:1.4rem;margin-bottom:.8rem;display:block}
+.dest-name{font-family:var(--serif);font-size:1.2rem;color:var(--ink);font-weight:400;margin-bottom:.15rem}
+.dest-region{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.9rem}
+.dest-tagline{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--bark);
+margin-bottom:1rem;line-height:1.6}
+.dest-highlights{list-style:none;margin-bottom:1.2rem}
+.dest-highlights li{font-size:.78rem;color:var(--muted);padding:.25rem 0;
+border-bottom:0.5px solid var(--sand);display:flex;align-items:baseline;gap:.5rem}
+.dest-highlights li::before{content:'—';color:var(--earth);flex-shrink:0;font-size:.7rem}
+.dest-season{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;
+color:var(--earth);margin-top:.8rem}
+@media(max-width:900px){
+  .dest-section{padding:4rem 1.5rem}
+  .dest-grid{grid-template-columns:1fr}
+}
+
 /* ── PACKAGES ── */
 .packages{background:var(--ink)}
 .packages .sec-h{color:var(--cream)}
@@ -397,6 +422,624 @@ display:flex;justify-content:space-between}
     </div>
   </div>
 </section>
+
+<!-- ROAD DESTINATIONS -->
+<div class="dest-section" style="background:var(--warm-white,#faf8f4)">
+  <div class="inner">
+    <p class="eye road-accent">Road · Scenic Drives Worldwide</p>
+    <h3 class="dest-h">The world's most legendary roads</h3>
+    <div class="dest-grid">
+
+      <div class="dest-card">
+        <span class="dest-flag">🇺🇸</span>
+        <h4 class="dest-name">Route 66</h4>
+        <p class="dest-region road-accent">Illinois → California, USA</p>
+        <p class="dest-tagline">"The Mother Road" — America's most iconic highway across eight states.</p>
+        <ul class="dest-highlights">
+          <li>2,400 miles of Americana, diners & desert</li>
+          <li>Cadillac Ranch, Petrified Forest, Mojave Desert</li>
+          <li>Chicago to Santa Monica — coast to coast</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Jun, Sep – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇹</span>
+        <h4 class="dest-name">Amalfi Coast Drive</h4>
+        <p class="dest-region road-accent">Salerno to Sorrento, Italy</p>
+        <p class="dest-tagline">Hairpin bends above sheer cliffs, coloured villages clinging to limestone.</p>
+        <ul class="dest-highlights">
+          <li>Positano, Ravello, Praiano — pastel perched towns</li>
+          <li>SS163 — 30km of clifftop Mediterranean drama</li>
+          <li>UNESCO World Heritage coastline</li>
+        </ul>
+        <p class="dest-season">Best: May – Jun, Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇴</span>
+        <h4 class="dest-name">Norwegian Atlantic Road</h4>
+        <p class="dest-region road-accent">Kristiansund, Norway</p>
+        <p class="dest-tagline">Eight bridges over open sea — voted the world's most beautiful detour.</p>
+        <ul class="dest-highlights">
+          <li>Storseisundet Bridge — arches over crashing waves</li>
+          <li>Whale watching and Arctic light</li>
+          <li>Connects islands through wild North Atlantic</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Aug</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇺</span>
+        <h4 class="dest-name">Great Ocean Road</h4>
+        <p class="dest-region road-accent">Victoria, Australia</p>
+        <p class="dest-tagline">Rainforest meets Southern Ocean — built by returned soldiers as a memorial.</p>
+        <ul class="dest-highlights">
+          <li>Twelve Apostles — limestone stacks rising from the sea</li>
+          <li>Otway Rainforest and koala spotting</li>
+          <li>243km of dramatic coastal scenery</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇷🇴</span>
+        <h4 class="dest-name">Transfăgărășan Highway</h4>
+        <p class="dest-region road-accent">Carpathian Mountains, Romania</p>
+        <p class="dest-tagline">Top Gear called it the world's best road — 90km of mountain switchbacks.</p>
+        <ul class="dest-highlights">
+          <li>Peaks above 2,000m through Fagaras Mountains</li>
+          <li>Bâlea Lake — glacial lake at the summit</li>
+          <li>Open only June – October due to snowfall</li>
+        </ul>
+        <p class="dest-season">Best: Jul – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇺🇸</span>
+        <h4 class="dest-name">Pacific Coast Highway</h4>
+        <p class="dest-region road-accent">California, USA</p>
+        <p class="dest-tagline">Highway 1 — cliffs, redwoods and surf culture along the California dream.</p>
+        <ul class="dest-highlights">
+          <li>Big Sur — the most dramatic stretch in America</li>
+          <li>Bixby Creek Bridge, McWay Falls</li>
+          <li>San Francisco to Los Angeles — 650 miles</li>
+        </ul>
+        <p class="dest-season">Best: Mar – May, Sep – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇰</span>
+        <h4 class="dest-name">Karakoram Highway</h4>
+        <p class="dest-region road-accent">Pakistan & China</p>
+        <p class="dest-tagline">The world's highest paved international road — 8th wonder of the world.</p>
+        <ul class="dest-highlights">
+          <li>Passes three of the world's mightiest mountain ranges</li>
+          <li>Attabad Lake — turquoise glacial water</li>
+          <li>Khunjerab Pass at 4,693m altitude</li>
+        </ul>
+        <p class="dest-season">Best: May – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇸</span>
+        <h4 class="dest-name">Ring Road · Route 1</h4>
+        <p class="dest-region road-accent">Iceland</p>
+        <p class="dest-tagline">Circumnavigate an entire island — volcanoes, glaciers, geysers and fjords.</p>
+        <ul class="dest-highlights">
+          <li>1,332km encircling the full island</li>
+          <li>Skaftafell glacier, Jökulsárlón lagoon, Geysir</li>
+          <li>Northern Lights above the road in winter</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Aug (summer); Nov – Feb (lights)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇿🇦</span>
+        <h4 class="dest-name">Garden Route</h4>
+        <p class="dest-region road-accent">Western Cape, South Africa</p>
+        <p class="dest-tagline">Forest, lagoon, cliff and coast — South Africa's most celebrated road trip.</p>
+        <ul class="dest-highlights">
+          <li>Knysna Heads, Tsitsikamma Forest, Plettenberg Bay</li>
+          <li>Whale watching at Hermanus</li>
+          <li>800km from Cape Town to Port Elizabeth</li>
+        </ul>
+        <p class="dest-season">Best: Sep – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇿🇦</span>
+        <h4 class="dest-name">Chapman's Peak Drive</h4>
+        <p class="dest-region road-accent">Cape Peninsula, South Africa</p>
+        <p class="dest-tagline">Nine kilometres of cliff-carved road between mountain and Atlantic — sheer drama.</p>
+        <ul class="dest-highlights">
+          <li>114 curves blasted from solid granite</li>
+          <li>Hout Bay panorama and Cape fur seals below</li>
+          <li>Sunset from the peak lookout — unmissable</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇺🇸</span>
+        <h4 class="dest-name">Hana Highway</h4>
+        <p class="dest-region road-accent">Maui, Hawaii, USA</p>
+        <p class="dest-tagline">620 curves, 59 bridges, one-lane passes — Hawaii's most hypnotic coastal drive.</p>
+        <ul class="dest-highlights">
+          <li>Twin Falls, Wai'anapanapa Black Sand Beach</li>
+          <li>Road to Hana past bamboo forests and sea cliffs</li>
+          <li>Seven Sacred Pools at journey's end</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇨🇱</span>
+        <h4 class="dest-name">Carretera Austral</h4>
+        <p class="dest-region road-accent">Patagonia, Chile</p>
+        <p class="dest-tagline">1,240km of unpaved Patagonian wilderness — glaciers, volcanoes and zero crowds.</p>
+        <ul class="dest-highlights">
+          <li>Queulat Hanging Glacier, Marble Caves</li>
+          <li>Coyhaique to Villa O'Higgins — true end of the road</li>
+          <li>Condors circling above ferries crossing fjords</li>
+        </ul>
+        <p class="dest-season">Best: Nov – Mar</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇹</span>
+        <h4 class="dest-name">Stelvio Pass</h4>
+        <p class="dest-region road-accent">South Tyrol, Italy</p>
+        <p class="dest-tagline">48 hairpin bends to 2,757m — the Everest of mountain driving.</p>
+        <ul class="dest-highlights">
+          <li>Highest paved mountain pass in the Eastern Alps</li>
+          <li>Ortler glacier visible from the summit</li>
+          <li>Open only Jun – Sep when snow clears</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇿</span>
+        <h4 class="dest-name">Milford Road</h4>
+        <p class="dest-region road-accent">Fiordland, New Zealand</p>
+        <p class="dest-tagline">Through the Homer Tunnel into a world of waterfalls and mirror-black fjord.</p>
+        <ul class="dest-highlights">
+          <li>The Divide, Monkey Creek, Mirror Lakes</li>
+          <li>Homer Tunnel — hand-carved through solid rock</li>
+          <li>Chasm Walk at road's end beside Milford Sound</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇲🇦</span>
+        <h4 class="dest-name">Dades Valley Road</h4>
+        <p class="dest-region road-accent">High Atlas, Morocco</p>
+        <p class="dest-tagline">Kasbah road through Saharan gorges, rose valleys and Atlas foothills.</p>
+        <ul class="dest-highlights">
+          <li>Aït Benhaddou UNESCO kasbah on the route</li>
+          <li>Gorges du Dadès — dramatic switchbacks above a canyon</li>
+          <li>Sahara access via Merzouga — dune sunrises</li>
+        </ul>
+        <p class="dest-season">Best: Mar – May, Sep – Nov</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- OCEAN DESTINATIONS -->
+<div class="dest-section" style="background:linear-gradient(135deg,#edf4fa,#f0f8ff)">
+  <div class="inner">
+    <p class="eye ocean-accent">Ocean · Islands · Cruises Worldwide</p>
+    <h3 class="dest-h">Where the sea takes you somewhere extraordinary</h3>
+    <div class="dest-grid">
+
+      <div class="dest-card">
+        <span class="dest-flag">🇲🇻</span>
+        <h4 class="dest-name">Maldives</h4>
+        <p class="dest-region ocean-accent">Indian Ocean</p>
+        <p class="dest-tagline">1,200 coral islands — overwater bungalows above the clearest water on Earth.</p>
+        <ul class="dest-highlights">
+          <li>Bioluminescent plankton beaches at night</li>
+          <li>Manta ray & whale shark snorkelling</li>
+          <li>Private island resorts accessible only by seaplane</li>
+        </ul>
+        <p class="dest-season">Best: Nov – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇬🇷</span>
+        <h4 class="dest-name">Greek Cyclades</h4>
+        <p class="dest-region ocean-accent">Aegean Sea, Greece</p>
+        <p class="dest-tagline">Sailing between white villages, ancient ruins and volcanic caldera views.</p>
+        <ul class="dest-highlights">
+          <li>Santorini caldera — the world's most dramatic harbour</li>
+          <li>Mykonos, Naxos, Paros, Milos — each unique</li>
+          <li>Ancient Delos — mythological island sanctuary</li>
+        </ul>
+        <p class="dest-season">Best: May – Jun, Sep – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇴</span>
+        <h4 class="dest-name">Norwegian Fjords Cruise</h4>
+        <p class="dest-region ocean-accent">Western Norway</p>
+        <p class="dest-tagline">Sail into glacier-carved walls 1,000m high — one of Earth's greatest spectacles.</p>
+        <ul class="dest-highlights">
+          <li>Geirangerfjord & Nærøyfjord — dual UNESCO sites</li>
+          <li>Waterfalls dropping directly into the sea</li>
+          <li>Village stops: Flåm, Ålesund, Bergen</li>
+        </ul>
+        <p class="dest-season">Best: May – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇶</span>
+        <h4 class="dest-name">Antarctica</h4>
+        <p class="dest-region ocean-accent">Southern Ocean</p>
+        <p class="dest-tagline">The last great wilderness — penguin colonies, tabular icebergs, polar silence.</p>
+        <ul class="dest-highlights">
+          <li>Drake Passage crossing — the world's roughest sea</li>
+          <li>Zodiac landings among emperor penguin colonies</li>
+          <li>Humpback whale feeding in icy bays</li>
+        </ul>
+        <p class="dest-season">Best: Nov – Mar</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇪🇨</span>
+        <h4 class="dest-name">Galápagos Islands</h4>
+        <p class="dest-region ocean-accent">Pacific Ocean, Ecuador</p>
+        <p class="dest-tagline">Darwin's living laboratory — wildlife that shows no fear of humans.</p>
+        <ul class="dest-highlights">
+          <li>Giant tortoises, marine iguanas, blue-footed boobies</li>
+          <li>Snorkelling with sea lions and hammerhead sharks</li>
+          <li>Each island a distinct ecosystem</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇸🇨</span>
+        <h4 class="dest-name">Seychelles</h4>
+        <p class="dest-region ocean-accent">Indian Ocean</p>
+        <p class="dest-tagline">115 granite islands — prehistoric boulders, aldabra tortoises, pure isolation.</p>
+        <ul class="dest-highlights">
+          <li>Anse Source d'Argent — world's most photographed beach</li>
+          <li>Vallée de Mai — ancient coco de mer palm forest</li>
+          <li>Private island resorts: North, Fregate, Desroches</li>
+        </ul>
+        <p class="dest-season">Best: Apr – May, Oct – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇻🇳</span>
+        <h4 class="dest-name">Ha Long Bay</h4>
+        <p class="dest-region ocean-accent">Gulf of Tonkin, Vietnam</p>
+        <p class="dest-tagline">2,000 limestone karsts rising from emerald sea — a UNESCO masterpiece.</p>
+        <ul class="dest-highlights">
+          <li>Junk boat overnight cruise through the karsts</li>
+          <li>Kayaking into hidden caves and lagoons</li>
+          <li>Fishing villages floating between the islands</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇩</span>
+        <h4 class="dest-name">Raja Ampat</h4>
+        <p class="dest-region ocean-accent">West Papua, Indonesia</p>
+        <p class="dest-tagline">The world's richest marine biodiversity — 75% of all known coral species.</p>
+        <ul class="dest-highlights">
+          <li>Misool, Waigeo, Batanta — four main island groups</li>
+          <li>Manta rays gliding through crystal channels</li>
+          <li>Mushroom-shaped karst islands above the surface</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇫</span>
+        <h4 class="dest-name">Bora Bora & French Polynesia</h4>
+        <p class="dest-region ocean-accent">South Pacific</p>
+        <p class="dest-tagline">The romanticised lagoon island — turquoise atoll with Mount Otemanu at its heart.</p>
+        <ul class="dest-highlights">
+          <li>Overwater bungalows above a coral garden</li>
+          <li>Lagoon safari — sharks, rays, turtles</li>
+          <li>Island hop: Moorea, Huahine, Tikehau</li>
+        </ul>
+        <p class="dest-season">Best: May – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇭</span>
+        <h4 class="dest-name">Palawan</h4>
+        <p class="dest-region ocean-accent">Philippines</p>
+        <p class="dest-tagline">An island of islands — limestone cliffs, hidden lagoons and underground rivers.</p>
+        <ul class="dest-highlights">
+          <li>El Nido — kayak through cathedral-like karst lagoons</li>
+          <li>Puerto Princesa Underground River — UNESCO cave wonder</li>
+          <li>Coron — wreck diving among WWII Japanese fleet</li>
+        </ul>
+        <p class="dest-season">Best: Nov – May</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇹</span>
+        <h4 class="dest-name">Azores</h4>
+        <p class="dest-region ocean-accent">Mid-Atlantic, Portugal</p>
+        <p class="dest-tagline">Nine volcanic islands mid-Atlantic — whale watching capital of the world.</p>
+        <ul class="dest-highlights">
+          <li>Sete Cidades twin crater lakes on São Miguel</li>
+          <li>Sperm whale, blue whale and dolphin encounters</li>
+          <li>Thermal pools bubbling into the ocean at Furnas</li>
+        </ul>
+        <p class="dest-season">Best: May – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇺</span>
+        <h4 class="dest-name">Whitsundays</h4>
+        <p class="dest-region ocean-accent">Queensland, Australia</p>
+        <p class="dest-tagline">74 islands in the Coral Sea — Whitehaven Beach is silica so pure it squeaks.</p>
+        <ul class="dest-highlights">
+          <li>Whitehaven Beach — consistently voted world's best</li>
+          <li>Sailing between uninhabited islands</li>
+          <li>Heart Reef in the Great Barrier Reef above</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇴</span>
+        <h4 class="dest-name">Lofoten Islands</h4>
+        <p class="dest-region ocean-accent">Arctic Norway</p>
+        <p class="dest-tagline">Dramatic Arctic peaks rising from the sea — fishing villages painted blood-red.</p>
+        <ul class="dest-highlights">
+          <li>Midnight sun from June – July with full daylight</li>
+          <li>Northern Lights reflected in perfect fjord water</li>
+          <li>Reine — consistently ranked world's most scenic village</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Aug (sun); Dec – Feb (lights)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇨🇷</span>
+        <h4 class="dest-name">Caribbean Coast</h4>
+        <p class="dest-region ocean-accent">Caribbean Sea</p>
+        <p class="dest-tagline">700 islands, 26 languages, one endless summer — from jungle to turquoise.</p>
+        <ul class="dest-highlights">
+          <li>St Lucia — volcanic Pitons above yacht-filled bay</li>
+          <li>Belize Barrier Reef — second largest in the world</li>
+          <li>BVI, Turks & Caicos, Grenada — each a world apart</li>
+        </ul>
+        <p class="dest-season">Best: Dec – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇯🇵</span>
+        <h4 class="dest-name">Okinawa Islands</h4>
+        <p class="dest-region ocean-accent">East China Sea, Japan</p>
+        <p class="dest-tagline">Japan's tropical secret — mangroves, coral gardens and ancient Ryukyu culture.</p>
+        <ul class="dest-highlights">
+          <li>Kerama Islands — clearest water in Japan (Kerama Blue)</li>
+          <li>Iriomote — jungle river kayaking in a near-wilderness</li>
+          <li>Whale shark diving at Yonaguni, Japan's westernmost island</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Jun, Sep – Nov</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- AIR DESTINATIONS -->
+<div class="dest-section" style="background:linear-gradient(135deg,#f5f0ff,#ede8f5)">
+  <div class="inner">
+    <p class="eye air-accent">Air · Scenic Flights · Aerial Wonders</p>
+    <h3 class="dest-h">Views the Earth keeps for those who fly</h3>
+    <div class="dest-grid">
+
+      <div class="dest-card">
+        <span class="dest-flag">🇹🇷</span>
+        <h4 class="dest-name">Cappadocia Balloon Flight</h4>
+        <p class="dest-region air-accent">Göreme, Turkey</p>
+        <p class="dest-tagline">Sunrise over a lunar landscape of fairy chimneys — the world's finest balloon flight.</p>
+        <ul class="dest-highlights">
+          <li>100+ balloons rising together at dawn</li>
+          <li>Rock-carved churches and underground cities below</li>
+          <li>Champagne landing in a vineyard after 1hr in the air</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Jun, Sep – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇺🇸</span>
+        <h4 class="dest-name">Grand Canyon Helicopter</h4>
+        <p class="dest-region air-accent">Arizona, USA</p>
+        <p class="dest-tagline">Descend 1,500m below the rim — the canyon only truly reveals itself from above.</p>
+        <ul class="dest-highlights">
+          <li>West Rim, South Rim & North Rim routes</li>
+          <li>Land on the canyon floor beside the Colorado River</li>
+          <li>Dawn flights when the light turns the rock to fire</li>
+        </ul>
+        <p class="dest-season">Best: Mar – May, Sep – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇹🇿</span>
+        <h4 class="dest-name">Serengeti Balloon Safari</h4>
+        <p class="dest-region air-accent">Tanzania</p>
+        <p class="dest-tagline">Float above the Great Migration — millions of wildebeest from 300 metres up.</p>
+        <ul class="dest-highlights">
+          <li>Lions, elephants and cheetah from the air at dawn</li>
+          <li>Mara River crossing visible from above</li>
+          <li>Full bush breakfast on landing in the plains</li>
+        </ul>
+        <p class="dest-season">Best: Jul – Oct (migration peak)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇿</span>
+        <h4 class="dest-name">Milford Sound Scenic Flight</h4>
+        <p class="dest-region air-accent">Fiordland, New Zealand</p>
+        <p class="dest-tagline">Fly over the eighth wonder — glaciers, waterfalls and black fjord from a floatplane.</p>
+        <ul class="dest-highlights">
+          <li>Mitre Peak — 1,692m straight out of the sea</li>
+          <li>Doubtful Sound and Dusky Sound from above</li>
+          <li>Glacier neve landings by ski-plane</li>
+        </ul>
+        <p class="dest-season">Best: Oct – Apr</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇳🇦</span>
+        <h4 class="dest-name">Namib Desert Aerial</h4>
+        <p class="dest-region air-accent">Namibia</p>
+        <p class="dest-tagline">The world's oldest desert from above — star dunes 300m high meeting the Atlantic.</p>
+        <ul class="dest-highlights">
+          <li>Sossusvlei dunes — apricot and ochre from the air</li>
+          <li>Skeleton Coast — shipwrecks in the sand from 500m</li>
+          <li>Fish River Canyon — Africa's Grand Canyon</li>
+        </ul>
+        <p class="dest-season">Best: May – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇨🇭</span>
+        <h4 class="dest-name">Swiss Alps Glacier Flight</h4>
+        <p class="dest-region air-accent">Switzerland</p>
+        <p class="dest-tagline">Helicopter landing on the Jungfrau glacier — the Alps in silence above the clouds.</p>
+        <ul class="dest-highlights">
+          <li>Eiger, Mönch & Jungfrau — the triple-summit view</li>
+          <li>Aletsch Glacier — Europe's longest from above</li>
+          <li>Private ski descents from glacier landing</li>
+        </ul>
+        <p class="dest-season">Best: Dec – Apr (snow); Jun – Sep (clear skies)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇺</span>
+        <h4 class="dest-name">Great Barrier Reef Seaplane</h4>
+        <p class="dest-region air-accent">Queensland, Australia</p>
+        <p class="dest-tagline">The only living structure visible from space — a 2,300km mosaic of coral from above.</p>
+        <ul class="dest-highlights">
+          <li>Heart Reef — natural coral heart, only viewable by air</li>
+          <li>Whitehaven Beach — 7km of pure silica sand from above</li>
+          <li>Seaplane water landing in the outer reef</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇧🇷</span>
+        <h4 class="dest-name">Amazon Rainforest Flight</h4>
+        <p class="dest-region air-accent">Brazil & Peru</p>
+        <p class="dest-tagline">An infinite green ocean — the lungs of the planet viewed from a light aircraft.</p>
+        <ul class="dest-highlights">
+          <li>Meeting of the Waters — Rio Negro meets Amazon from above</li>
+          <li>Flooded forest canopy at high water season</li>
+          <li>Remote lodge access only possible by small aircraft</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇸</span>
+        <h4 class="dest-name">Iceland Northern Lights Flight</h4>
+        <p class="dest-region air-accent">Iceland</p>
+        <p class="dest-tagline">Chase the aurora from above the clouds — guaranteed clear-sky viewing by air.</p>
+        <ul class="dest-highlights">
+          <li>Small aircraft fly above cloud cover to find the aurora</li>
+          <li>Volcanic landscape below, celestial curtains above</li>
+          <li>Combination: glacier overflight by day, aurora by night</li>
+        </ul>
+        <p class="dest-season">Best: Sep – Mar</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇮🇹</span>
+        <h4 class="dest-name">Dolomites Helicopter</h4>
+        <p class="dest-region air-accent">South Tyrol, Italy</p>
+        <p class="dest-tagline">Three Peaks, rose-lit at sunset — the most theatrical mountain range in Europe.</p>
+        <ul class="dest-highlights">
+          <li>Tre Cime di Lavaredo — three towers from 500m above</li>
+          <li>Cortina d'Ampezzo amphitheatre from the air</li>
+          <li>Glacier landing on Marmolada — highest peak of the Dolomites</li>
+        </ul>
+        <p class="dest-season">Best: Jun – Sep</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇨🇳</span>
+        <h4 class="dest-name">Zhangjiajie Aerial</h4>
+        <p class="dest-region air-accent">Hunan Province, China</p>
+        <p class="dest-tagline">The Avatar mountains — 3,000 sandstone pillars rising through cloud from above.</p>
+        <ul class="dest-highlights">
+          <li>World's longest cable car with glass-bottom cabins</li>
+          <li>Tianmen Mountain — "Heaven's Gate" arch in the cliff</li>
+          <li>Pillar formations reaching 200m from a light aircraft</li>
+        </ul>
+        <p class="dest-season">Best: Apr – Oct</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇿🇲</span>
+        <h4 class="dest-name">Victoria Falls Flight</h4>
+        <p class="dest-region air-accent">Zambia & Zimbabwe</p>
+        <p class="dest-tagline">The smoke that thunders — the world's largest waterfall sheet from a microlight.</p>
+        <ul class="dest-highlights">
+          <li>1.7km wide curtain of water visible for 50km away</li>
+          <li>Microlight flight straight over the falls in the mist</li>
+          <li>Helicopter sunset tour over the Zambezi floodplains</li>
+        </ul>
+        <p class="dest-season">Best: Mar – May (full flow)</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇵🇪</span>
+        <h4 class="dest-name">Nazca Lines Flight</h4>
+        <p class="dest-region air-accent">Ica Desert, Peru</p>
+        <p class="dest-tagline">2,000-year-old geoglyphs only visible from the air — one of Earth's great mysteries.</p>
+        <ul class="dest-highlights">
+          <li>The Hummingbird, Spider, Monkey — giant earth drawings</li>
+          <li>50km of lines in the coastal Peruvian desert</li>
+          <li>Small Cessna flight at low altitude over the figures</li>
+        </ul>
+        <p class="dest-season">Best: May – Nov</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇬🇱</span>
+        <h4 class="dest-name">Greenland Ice Sheet</h4>
+        <p class="dest-region air-accent">Greenland</p>
+        <p class="dest-tagline">The world's second largest ice sheet — a white continent seen from a Twin Otter.</p>
+        <ul class="dest-highlights">
+          <li>Ilulissat Icefjord — UNESCO glacier calving into the sea</li>
+          <li>Dog-sled camp landing on the ice cap at 2,500m</li>
+          <li>Musk ox and Arctic fox spotted from low altitude</li>
+        </ul>
+        <p class="dest-season">Best: Mar – Apr, Jun – Aug</p>
+      </div>
+
+      <div class="dest-card">
+        <span class="dest-flag">🇦🇷</span>
+        <h4 class="dest-name">Patagonia — Torres del Paine</h4>
+        <p class="dest-region air-accent">Chilean Patagonia</p>
+        <p class="dest-tagline">The Towers, the Grey Glacier, the Southern Ice Field — one flight, an eternity.</p>
+        <ul class="dest-highlights">
+          <li>Torres del Paine granite spires from a helicopter</li>
+          <li>Perito Moreno Glacier — 60m ice wall calving below</li>
+          <li>Condors riding thermals at eye level</li>
+        </ul>
+        <p class="dest-season">Best: Nov – Mar</p>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <!-- PACKAGES -->
 <section class="packages" id="packages">
