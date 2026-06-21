@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Algebra I Summer 2026 – Lesson Plan | TEA TEKS §111.39</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pink:#D4689A;--blue:#5878D0;--green:#3A9870;--peach:#C87030;
+  --lavender:#7848C0;--teal:#1888A8;--rose:#B83858;
+  --cream:#FFF9FC;--text:#2a2030;--muted:#7a6878;
+  --font:'Nunito',sans-serif;--serif:'Lora',Georgia,serif
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--cream);color:var(--text);font-size:15px;line-height:1.6}
+
+/* ── HERO ── */
+.hero{
+  background:linear-gradient(135deg,#2D1A3E 0%,#1A2D4A 40%,#1A3D2D 100%);
+  padding:3rem 2rem 4rem;text-align:center;position:relative;overflow:hidden
+}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='2' fill='%23ffffff10'/%3E%3C/svg%3E");background-size:60px}
+.hero-flowers{font-size:3rem;margin-bottom:.5rem;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero h1{font-family:var(--serif);font-size:clamp(2rem,5vw,3.2rem);color:#fff;margin-bottom:.5rem;font-weight:400}
+.hero h1 strong{font-weight:600;color:#FFD4E8}
+.hero-sub{color:rgba(255,255,255,.75);font-size:1rem;margin-bottom:2rem}
+.hero-chips{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:2rem}
+.chip{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);
+  border-radius:2rem;padding:.3rem 1rem;font-size:.8rem;font-weight:600}
+.hero-nav{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.hero-nav a{
+  background:rgba(255,255,255,.12);color:#fff;text-decoration:none;
+  border-radius:2rem;padding:.5rem 1.2rem;font-size:.85rem;font-weight:700;
+  border:1px solid rgba(255,255,255,.25);transition:all .2s
+}
+.hero-nav a:hover{background:rgba(255,255,255,.25);transform:translateY(-2px)}
+
+/* ── MAIN NAV ── */
+.sticky-nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,249,252,.95);backdrop-filter:blur(12px);
+  border-bottom:2px solid #FFD4E8;
+  display:flex;align-items:center;gap:1rem;padding:.6rem 1.5rem;
+  overflow-x:auto;white-space:nowrap
+}
+.sticky-nav a{color:var(--muted);text-decoration:none;font-size:.8rem;font-weight:700;
+  padding:.3rem .7rem;border-radius:1rem;transition:all .2s}
+.sticky-nav a:hover{background:#FFE4EF;color:var(--pink)}
+.nav-brand{font-weight:800;color:var(--pink);font-size:.95rem;margin-right:auto;white-space:nowrap}
+
+/* ── CONTAINER ── */
+.container{max-width:1200px;margin:0 auto;padding:2rem 1rem}
+
+/* ── SECTIONS ── */
+.section-card{background:#fff;border-radius:1.2rem;padding:2rem;margin-bottom:2rem;
+  box-shadow:0 4px 24px rgba(0,0,0,.06)}
+.section-card h2{font-family:var(--serif);font-size:1.6rem;color:var(--text);margin-bottom:1rem;
+  padding-bottom:.5rem;border-bottom:3px solid #FFD4E8}
+
+/* ── TEKS TABLE ── */
+.teks-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.teks-table th{background:#FFE4EF;color:var(--pink);padding:.6rem .8rem;text-align:left;font-weight:700}
+.teks-table td{padding:.55rem .8rem;border-bottom:1px solid #F0E4F0;vertical-align:top}
+.teks-table tr:hover td{background:#FFF5FA}
+.teks-table tr:nth-child(even) td{background:#FFF9FC}
+
+/* ── CALENDAR ── */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:.75rem}
+.cal-header{grid-column:span 7;display:grid;grid-template-columns:80px repeat(5,1fr);gap:2px;margin-bottom:4px}
+.cal-day-label{background:#E8D8FF;color:#5020A0;text-align:center;padding:.4rem;font-weight:700;border-radius:4px}
+.cal-row{display:grid;grid-template-columns:80px repeat(5,1fr);gap:2px;margin-bottom:2px}
+.cal-week-label{background:#FFE4EF;color:var(--pink);display:flex;align-items:center;
+  justify-content:center;text-align:center;padding:.4rem .2rem;font-weight:700;
+  font-size:.7rem;border-radius:4px;line-height:1.3}
+.cal-cell{background:#fff;border-radius:4px;padding:.5rem .4rem;text-align:center;
+  font-size:.72rem;border:1px solid #EEE;transition:all .15s}
+.cal-cell:hover{transform:translateY(-2px);box-shadow:0 3px 12px rgba(0,0,0,.1)}
+.cal-cell.day-cell{cursor:pointer}
+.cal-cell.no-school{background:#F5F5F5;color:#BBB}
+.cal-cell.quiz-day{background:#FFF3CC;border-color:#FFD700}
+.cal-cell.break-day{background:#FFF0CC;color:#AA8800}
+.cal-day-num{font-size:.8rem;font-weight:800;display:block;margin-bottom:1px}
+
+/* ── UNIT SECTIONS ── */
+.unit-section{background:#fff;border-radius:1.5rem;margin-bottom:3rem;overflow:hidden;
+  box-shadow:0 8px 40px rgba(0,0,0,.08)}
+.unit-header{padding:2rem;display:flex;align-items:flex-start;gap:1.5rem;flex-wrap:wrap}
+.unit-emoji{font-size:4rem;line-height:1;flex-shrink:0}
+.unit-title-block{flex:1;min-width:200px}
+.unit-num{font-size:.75rem;font-weight:800;color:rgba(255,255,255,.8);letter-spacing:.15em;text-transform:uppercase}
+.unit-name{font-family:var(--serif);font-size:clamp(1.2rem,3vw,1.8rem);color:#fff;margin:.2rem 0;line-height:1.2}
+.unit-meta{font-size:.8rem;color:rgba(255,255,255,.8)}
+.unit-quiz-box{background:rgba(255,255,255,.15);border-radius:.8rem;padding:1rem 1.2rem;
+  text-align:center;min-width:160px;border:1px solid rgba(255,255,255,.3)}
+.qb-label{font-size:.7rem;color:rgba(255,255,255,.7);font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.qb-time{font-size:.95rem;font-weight:800;color:#FFE88A;margin:.3rem 0}
+.qb-link{display:inline-block;background:rgba(255,255,255,.2);color:#fff;text-decoration:none;
+  padding:.3rem .8rem;border-radius:1rem;font-size:.75rem;font-weight:700;margin-top:.3rem;
+  border:1px solid rgba(255,255,255,.4);transition:all .2s}
+.qb-link:hover{background:rgba(255,255,255,.35)}
+.unit-eq{margin:1.5rem 2rem;padding:.8rem 1rem;background:#FFF9FC;border-radius:.5rem;
+  font-style:italic;color:var(--muted);font-size:.9rem}
+.eq-label{font-style:normal;font-weight:700;color:var(--text);margin-right:.5rem}
+
+/* ── LESSONS ── */
+.lessons-container{padding:0 1.5rem 1.5rem}
+.lesson-card{border-radius:.8rem;overflow:hidden;margin-bottom:1.2rem;
+  border:1px solid #F0E8F0;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.lesson-header{padding:.7rem 1rem;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap}
+.day-badge{background:rgba(255,255,255,.25);color:#fff;font-weight:800;font-size:.75rem;
+  padding:.2rem .6rem;border-radius:1rem;white-space:nowrap}
+.lesson-date{color:rgba(255,255,255,.85);font-size:.8rem;white-space:nowrap}
+.lesson-topic{color:#fff;font-weight:700;font-size:.9rem;flex:1;min-width:150px}
+.teks-badge{background:rgba(0,0,0,.2);color:rgba(255,255,255,.9);font-size:.7rem;
+  padding:.15rem .5rem;border-radius:1rem;white-space:nowrap}
+.lesson-body{padding:1rem}
+.obj-row{background:#FAFAFA;border-radius:.4rem;padding:.6rem .8rem;margin-bottom:.8rem;
+  font-size:.85rem;border-left:3px solid #DDD}
+.obj-row strong{color:var(--text)}
+.lesson-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.6rem}
+.lg-box{background:#FAFAFA;border-radius:.5rem;padding:.7rem .8rem;font-size:.8rem;line-height:1.5}
+.lg-title{font-weight:700;font-size:.78rem;margin-bottom:.3rem}
+.warm{background:#FFF8EE;border-top:3px solid #FFB040}.warm .lg-title{color:#C07000}
+.inst{background:#F0F5FF;border-top:3px solid #5878D0}.inst .lg-title{color:#3058C0}
+.guid{background:#F0FFF5;border-top:3px solid #3A9870}.guid .lg-title{color:#2A7850}
+.indp{background:#F8F0FF;border-top:3px solid #7848C0}.indp .lg-title{color:#5828A0}
+.exit{background:#FFF8F0;border-top:3px solid #C87030}.exit .lg-title{color:#A05010}
+.hwbx{background:#FFF0F5;border-top:3px solid #D4689A}.hwbx .lg-title{color:#A04070}
+
+/* ── RESOURCES ── */
+.resources-section{padding:1.5rem 2rem 2rem;background:#FAFAFA;border-top:2px dashed #EEE}
+.resources-section h3{margin-bottom:1rem;font-size:1rem}
+.resources-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.resources-table th{background:#EEE;padding:.5rem .7rem;text-align:left;font-weight:700}
+.resources-table td{padding:.5rem .7rem;border-bottom:1px solid #EEE;vertical-align:top}
+.resources-table a{color:#1155CC;text-decoration:none;font-weight:600}
+.resources-table a:hover{text-decoration:underline}
+.type-wb{font-weight:700;color:#1A6040;white-space:nowrap}
+.type-test{font-weight:700;color:#C84000;white-space:nowrap}
+
+/* ── FOOTER ── */
+footer{background:#2D1A3E;color:rgba(255,255,255,.7);text-align:center;
+  padding:2rem;font-size:.82rem}
+footer a{color:#FFD4E8;text-decoration:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .unit-header{flex-direction:column}
+  .cal-row,.cal-header{grid-template-columns:60px repeat(5,1fr)}
+  .lesson-grid{grid-template-columns:1fr}
+}
+
+/* ── PRINT ── */
+@media print{
+  .sticky-nav,.hero-nav{display:none}
+  .unit-section{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-flowers">🌸🌼🌿🦋🌺</div>
+  <h1><strong>Algebra I</strong> — Summer 2026 Lesson Plan</h1>
+  <p class="hero-sub">Texas Education Agency (TEA) Curriculum  •  TEKS §111.39  •  Complete Course Coverage</p>
+  <div class="hero-chips">
+    <span class="chip">📅 June 22 – August 5, 2026</span>
+    <span class="chip">🌺 Break: July 16–26</span>
+    <span class="chip">📚 26 Instructional Days</span>
+    <span class="chip">🎓 7 Units  •  All TEKS</span>
+    <span class="chip">🏆 Final Exam: Aug 5  •  90 min STAAR</span>
+  </div>
+  <div class="hero-nav">
+    <a href="#overview">Overview</a>
+    <a href="#teks">TEKS Map</a>
+    <a href="#calendar">Calendar</a>
+    <a href="#unit1">🌸 U1: Foundations</a>
+    <a href="#unit2">🌼 U2: Linear</a>
+    <a href="#unit3">🌿 U3: Equations</a>
+    <a href="#unit4">☀️ U4: Systems</a>
+    <a href="#unit5">🦋 U5: Exponential</a>
+    <a href="#unit6">🌊 U6: Data</a>
+    <a href="#unit7">🌺 U7: Quadratics</a>
+    <a href="#final">🏆 Final Exam</a>
+  </div>
+</div>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <span class="nav-brand">🌸 Algebra I 2026</span>
+  <a href="#overview">Overview</a>
+  <a href="#teks">TEKS</a>
+  <a href="#calendar">Calendar</a>
+  <a href="#unit1">U1</a><a href="#unit2">U2</a><a href="#unit3">U3</a>
+  <a href="#unit4">U4</a><a href="#unit5">U5</a><a href="#unit6">U6</a>
+  <a href="#unit7">U7</a><a href="#final">Final</a>
+</nav>
+
+<div class="container">
+
+<!-- OVERVIEW -->
+<div class="section-card" id="overview">
+  <h2>🌸 Course Overview</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:1.5rem">
+    <div style="background:#FFE4EF;border-radius:.8rem;padding:1rem;border-left:4px solid #D4689A"><div style="font-size:1.5rem">🌸</div><div style="font-weight:700;color:#D4689A;font-size:.85rem">Unit 1</div><div style="font-weight:600;font-size:.85rem;margin:.2rem 0">Algebraic Foundations &amp; Number Systems</div><div style="font-size:.75rem;color:#666">Days 1–3 | June 22–24</div></div><div style="background:#D8E4FF;border-radius:.8rem;padding:1rem;border-left:4px solid #5878D0"><div style="font-size:1.5rem">🌼</div><div style="font-weight:700;color:#5878D0;font-size:.85rem">Unit 2</div><div style="font-weight:600;font-size:.85rem;margin:.2rem 0">Linear Functions, Equations &amp; Inequalities</div><div style="font-size:.75rem;color:#666">Days 4–10 | June 25 – July 3</div></div><div style="background:#C8EFD8;border-radius:.8rem;padding:1rem;border-left:4px solid #3A9870"><div style="font-size:1.5rem">🌿</div><div style="font-weight:700;color:#3A9870;font-size:.85rem">Unit 3</div><div style="font-weight:600;font-size:.85rem;margin:.2rem 0">Linear Equations &amp; Inequalities in One Variable</div><div style="font-size:.75rem;color:#666">Days 11–13 | July 6–8</div></div><div style="background:#FFE0C0;border-radius:.8rem;padding:1rem;border-left:4px solid #C87030"><div style="font-size:1.5rem">☀️</div><div style="font-weight:700;color:#C87030;font-size:.85rem">Unit 4</div><div style="font-weight:600;font-size:.85rem;margin:.2rem 0">Systems of Linear Equations &amp; Inequalities</div><div style="font-size:.75rem;color:#666">Days 14–18 | July 9–15</div></div><div style="background:#E0D0FF;border-radius:.8rem;padding:1rem;border-left:4px solid #7848C0"><div style="font-size:1.5rem">🦋</div><div style="font-weight:700;color:#7848C0;font-size:.85rem">Unit 5</div><div style="font-weight:600;font-size:.85rem;margin:.2rem 0">Exponential Functions &amp; Geometric Sequences</div><div style="font-size:.75rem;color:#666">Days 19–21 | July 27–29</div></div><div style="background:#C0E8F4;border-radius:.8rem;padding:1rem;border-left:4px solid #1888A8"><div style="font-size:1.5rem">🌊</div><div style="font-weight:700;color:#1888A8;font-size:.85rem">Unit 6</div><div style="font-weight:600;font-size:.85rem;margin:.2rem 0">Data Analysis: Scatter Plots &amp; Linear Relationships</div><div style="font-size:.75rem;color:#666">Day 22 | July 30</div></div><div style="background:#FFD0DC;border-radius:.8rem;padding:1rem;border-left:4px solid #B83858"><div style="font-size:1.5rem">🌺</div><div style="font-weight:700;color:#B83858;font-size:.85rem">Unit 7</div><div style="font-weight:600;font-size:.85rem;margin:.2rem 0">Quadratic Functions &amp; Equations</div><div style="font-size:.75rem;color:#666">Days 23–26 | July 31 – August 5</div></div>
+  </div>
+  <table class="teks-table">
+    <thead><tr><th>Assessment</th><th>When</th><th>Time</th><th>Format</th></tr></thead>
+    <tbody>
+      <tr><td>Exit Ticket</td><td>Daily – every lesson</td><td>5 min</td><td>Formative – guides next day</td></tr>
+      <tr><td style="color:var(--pink);font-weight:700">Unit 1 Quiz</td><td>Day 3 – Jun 24</td><td>20 min</td><td>15 Q – Foundations</td></tr>
+      <tr><td style="color:var(--blue);font-weight:700">Unit 2 Quiz</td><td>Day 10 – Jul 3</td><td>40 min</td><td>25 Q – Linear Functions</td></tr>
+      <tr><td style="color:var(--green);font-weight:700">Unit 3 Quiz</td><td>Day 13 – Jul 8</td><td>35 min</td><td>20 Q – Equations & Inequalities</td></tr>
+      <tr><td style="color:var(--peach);font-weight:700">Unit 4 Test</td><td>Day 18 – Jul 15</td><td>50 min</td><td>30 Q – Systems (major test)</td></tr>
+      <tr><td style="color:var(--lavender);font-weight:700">Unit 5 Quiz</td><td>Day 21 – Jul 29</td><td>30 min</td><td>18 Q – Exponential</td></tr>
+      <tr><td style="color:var(--rose);font-weight:700">Unit 7 Quiz</td><td>Day 25 – Aug 4</td><td>30 min</td><td>20 Q – Quadratics</td></tr>
+      <tr style="background:#FFF3CC"><td style="font-weight:800;color:#B84000">🏆 FINAL EXAM</td><td>Day 26 – Aug 5</td><td>90 min</td><td>50 Q – All TEKS, STAAR format</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- TEKS MAP -->
+<div class="section-card" id="teks">
+  <h2>📋 Complete TEKS Alignment Map</h2>
+  <table class="teks-table">
+    <thead><tr><th>TEKS</th><th>Concept</th><th>Unit | Day</th></tr></thead>
+    <tbody><tr><td style="color:#D4689A;font-weight:700">A.1</td><td>Mathematical Process Standards (reasoning, communication, representation)</td><td style="color:#D4689A">All Units – Embedded Daily</td></tr><tr><td style="color:#5878D0;font-weight:700">A.2(A)</td><td>Domain and range of linear functions</td><td style="color:#5878D0">Unit 2 | Day 4</td></tr><tr><td style="color:#5878D0;font-weight:700">A.2(B–C)</td><td>Write linear equations in slope-intercept, standard, point-slope forms</td><td style="color:#5878D0">Unit 2 | Days 6–8</td></tr><tr><td style="color:#5878D0;font-weight:700">A.2(D)</td><td>Direct variation equations</td><td style="color:#5878D0">Unit 2 | Day 9</td></tr><tr><td style="color:#5878D0;font-weight:700">A.2(E–F)</td><td>Parallel and perpendicular lines</td><td style="color:#5878D0">Unit 2 | Day 8</td></tr><tr><td style="color:#5878D0;font-weight:700">A.2(H)</td><td>Linear inequalities in two variables</td><td style="color:#5878D0">Unit 2 | Day 9</td></tr><tr><td style="color:#C87030;font-weight:700">A.2(I)</td><td>Systems of linear equations</td><td style="color:#C87030">Unit 4 | Days 14–18</td></tr><tr><td style="color:#5878D0;font-weight:700">A.3(A–C)</td><td>Slope, rate of change, graphing linear functions</td><td style="color:#5878D0">Unit 2 | Days 5–7</td></tr><tr><td style="color:#5878D0;font-weight:700">A.3(D)</td><td>Graph solution sets of inequalities</td><td style="color:#5878D0">Unit 2 | Day 9</td></tr><tr><td style="color:#5878D0;font-weight:700">A.3(E)</td><td>Slopes of parallel and perpendicular lines</td><td style="color:#5878D0">Unit 2 | Day 8</td></tr><tr><td style="color:#C87030;font-weight:700">A.3(F–H)</td><td>Systems of equations and inequalities – graph</td><td style="color:#C87030">Unit 4 | Days 14, 17</td></tr><tr><td style="color:#1888A8;font-weight:700">A.4(A–C)</td><td>Scatter plots, correlation, trend lines, predictions</td><td style="color:#1888A8">Unit 6 | Day 22</td></tr><tr><td style="color:#3A9870;font-weight:700">A.5(A)</td><td>Solve linear equations: all types; literal equations</td><td style="color:#3A9870">Unit 3 | Day 11</td></tr><tr><td style="color:#3A9870;font-weight:700">A.5(B–C)</td><td>Solve/graph one-variable and compound inequalities; systems</td><td style="color:#3A9870">Unit 3 | Days 12–13; Unit 4</td></tr><tr><td style="color:#B83858;font-weight:700">A.6(A–B)</td><td>Identify, analyze, apply quadratic functions; vertex form</td><td style="color:#B83858">Unit 7 | Days 23–24</td></tr><tr><td style="color:#B83858;font-weight:700">A.7(A–C)</td><td>Key features of quadratics; transformations of parent function</td><td style="color:#B83858">Unit 7 | Days 23–24</td></tr><tr><td style="color:#B83858;font-weight:700">A.8(A–B)</td><td>Solve quadratics: factoring, quadratic formula; discriminant</td><td style="color:#B83858">Unit 7 | Days 24–25</td></tr><tr><td style="color:#7848C0;font-weight:700">A.9(A–E)</td><td>Exponential functions: identify, graph, key features, applications</td><td style="color:#7848C0">Unit 5 | Days 19–21</td></tr><tr><td style="color:#D4689A;font-weight:700">A.10(A–B)</td><td>Polynomial add/subtract/multiply; factor GCF</td><td style="color:#D4689A">Unit 1 | Day 3</td></tr><tr><td style="color:#D4689A;font-weight:700">A.11(A–B)</td><td>Real number system, properties, laws of exponents</td><td style="color:#D4689A">Unit 1 | Days 1–2</td></tr><tr><td style="color:#3A9870;font-weight:700">A.12(A–B)</td><td>Domain/range; literal equations; arithmetic &amp; geometric sequences</td><td style="color:#3A9870">Units 1–2, 5</td></tr></tbody>
+  </table>
+</div>
+
+<!-- CALENDAR -->
+<div class="section-card" id="calendar">
+  <h2>📅 Course Calendar At a Glance</h2>
+  <div class="cal-header">
+    <div></div>
+    <div class="cal-day-label">Monday</div><div class="cal-day-label">Tuesday</div><div class="cal-day-label">Wednesday</div><div class="cal-day-label">Thursday</div><div class="cal-day-label">Friday</div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-week-label">Wk 1<br/>Jun 22–26</div>
+    <div class="cal-cell day-cell" onclick="location='#unit1'" style="border-color:#D4689A"><span class="cal-day-num" style="color:#D4689A">Day 1</span>Real Numbers<br/><small>U1</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit1'" style="border-color:#D4689A"><span class="cal-day-num" style="color:#D4689A">Day 2</span>Exponents<br/><small>U1</small></div>
+    <div class="cal-cell quiz-day day-cell" onclick="location='#unit1'"><span class="cal-day-num" style="color:#B07000">Day 3</span>Polynomials<br/><small>📝 U1 Quiz</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit2'" style="border-color:#5878D0"><span class="cal-day-num" style="color:#5878D0">Day 4</span>Functions<br/><small>U2</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit2'" style="border-color:#5878D0"><span class="cal-day-num" style="color:#5878D0">Day 5</span>Slope & Seqs<br/><small>U2</small></div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-week-label">Wk 2<br/>Jun 29–<br/>Jul 3</div>
+    <div class="cal-cell day-cell" onclick="location='#unit2'" style="border-color:#5878D0"><span class="cal-day-num" style="color:#5878D0">Day 6</span>y=mx+b<br/><small>U2</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit2'" style="border-color:#5878D0"><span class="cal-day-num" style="color:#5878D0">Day 7</span>Std & Pt-Slope<br/><small>U2</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit2'" style="border-color:#5878D0"><span class="cal-day-num" style="color:#5878D0">Day 8</span>Write Eqs<br/>∥ ⊥ Lines</div>
+    <div class="cal-cell day-cell" onclick="location='#unit2'" style="border-color:#5878D0"><span class="cal-day-num" style="color:#5878D0">Day 9</span>Ineq 2-Var<br/>Direct Var.</div>
+    <div class="cal-cell quiz-day day-cell" onclick="location='#unit2'"><span class="cal-day-num" style="color:#B07000">Day 10</span>🌼 U2 Quiz<br/><small>40 min</small></div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-week-label">Wk 3<br/>Jul 6–8</div>
+    <div class="cal-cell day-cell" onclick="location='#unit3'" style="border-color:#3A9870"><span class="cal-day-num" style="color:#3A9870">Day 11</span>Multi-Step Eqs<br/><small>U3</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit3'" style="border-color:#3A9870"><span class="cal-day-num" style="color:#3A9870">Day 12</span>Inequalities<br/><small>U3</small></div>
+    <div class="cal-cell quiz-day day-cell" onclick="location='#unit3'"><span class="cal-day-num" style="color:#B07000">Day 13</span>🌿 U3 Quiz<br/><small>35 min</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit4'" style="border-color:#C87030"><span class="cal-day-num" style="color:#C87030">Day 14</span>Systems:<br/>Graphing</div>
+    <div class="cal-cell day-cell" onclick="location='#unit4'" style="border-color:#C87030"><span class="cal-day-num" style="color:#C87030">Day 15</span>Systems:<br/>Substitution</div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-week-label">Wk 4<br/>Jul 9–15</div>
+    <div class="cal-cell day-cell" onclick="location='#unit4'" style="border-color:#C87030"><span class="cal-day-num" style="color:#C87030">Day 16</span>Elimination<br/><small>U4</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit4'" style="border-color:#C87030"><span class="cal-day-num" style="color:#C87030">Day 17</span>Systems Ineq.<br/>Word Problems</div>
+    <div class="cal-cell quiz-day day-cell" onclick="location='#unit4'"><span class="cal-day-num" style="color:#B07000">Day 18</span>☀️ U4 Test<br/><small>50 min</small></div>
+    <div class="cal-cell no-school"><span class="cal-day-num">Jul 16</span>NO SCHOOL</div>
+    <div class="cal-cell no-school"><span class="cal-day-num">Jul 17</span>NO SCHOOL</div>
+  </div>
+  <div class="cal-row" style="opacity:.6">
+    <div class="cal-week-label" style="background:#FFF0CC;color:#AA8800">🌺 BREAK<br/>Jul 18–26</div>
+    <div class="cal-cell break-day"><span class="cal-day-num">Jul 21</span>NO SCHOOL</div>
+    <div class="cal-cell break-day"><span class="cal-day-num">Jul 22</span>NO SCHOOL</div>
+    <div class="cal-cell break-day"><span class="cal-day-num">Jul 23</span>NO SCHOOL</div>
+    <div class="cal-cell break-day"><span class="cal-day-num">Jul 24</span>NO SCHOOL</div>
+    <div class="cal-cell break-day"><span class="cal-day-num">Jul 25</span>NO SCHOOL</div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-week-label">Wk 5<br/>Jul 27–31</div>
+    <div class="cal-cell day-cell" onclick="location='#unit5'" style="border-color:#7848C0"><span class="cal-day-num" style="color:#7848C0">Day 19</span>🦋 Exp. Intro<br/><small>U5</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit5'" style="border-color:#7848C0"><span class="cal-day-num" style="color:#7848C0">Day 20</span>Graphing Exp.<br/><small>U5</small></div>
+    <div class="cal-cell quiz-day day-cell" onclick="location='#unit5'"><span class="cal-day-num" style="color:#B07000">Day 21</span>U5 Quiz<br/><small>30 min</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit6'" style="border-color:#1888A8"><span class="cal-day-num" style="color:#1888A8">Day 22</span>Scatter Plots<br/><small>U6</small></div>
+    <div class="cal-cell day-cell" onclick="location='#unit7'" style="border-color:#B83858"><span class="cal-day-num" style="color:#B83858">Day 23</span>🌺 Quadratics<br/><small>U7</small></div>
+  </div>
+  <div class="cal-row">
+    <div class="cal-week-label">Wk 6<br/>Aug 3–5</div>
+    <div class="cal-cell day-cell" onclick="location='#unit7'" style="border-color:#B83858"><span class="cal-day-num" style="color:#B83858">Day 24</span>Vertex Form<br/>Factoring</div>
+    <div class="cal-cell quiz-day day-cell" onclick="location='#unit7'"><span class="cal-day-num" style="color:#B07000">Day 25</span>Quad. Formula<br/>U7 Quiz 30m</div>
+    <div class="cal-cell" style="background:#FFD0DC;border-color:#B83858"><span class="cal-day-num" style="color:#B83858">Day 26</span>🏆 FINAL<br/><small>90 min STAAR</small></div>
+    <div class="cal-cell no-school"></div>
+    <div class="cal-cell no-school"></div>
+  </div>
+  <p style="font-size:.75rem;color:var(--muted);margin-top:1rem">💡 Click any day to jump to that lesson plan</p>
+</div>
+
+<!-- UNIT LESSON PLANS -->
+
+    <section class="unit-section" id="unit1">
+      <div class="unit-header" style="background:linear-gradient(135deg,#D4689A 0%,#D4689Add 100%)">
+        <div class="unit-emoji">🌸</div>
+        <div class="unit-title-block">
+          <div class="unit-num">UNIT 1</div>
+          <div class="unit-name">Algebraic Foundations &amp; Number Systems</div>
+          <div class="unit-meta">Days 1–3 | June 22–24  •  TEKS: A.11(A), A.11(B), A.1(C), A.1(E), A.10(A), A.10(B)</div>
+        </div>
+        <div class="unit-quiz-box">
+          <div class="qb-label">Assessment</div>
+          <div class="qb-time">20 min | 15 questions</div>
+          <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:foundation-algebra" target="_blank" rel="noopener" class="qb-link">Open Test ↗</a>
+        </div>
+      </div>
+      <div class="unit-eq" style="border-left:4px solid #D4689A">
+        <span class="eq-label">Essential Question</span> Why do the properties and structure of real numbers govern every algebraic step we take?
+      </div>
+      <div class="lessons-container">
+        
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#D4689A">
+            <span class="day-badge">Day 1</span>
+            <span class="lesson-date">Mon Jun 22</span>
+            <span class="lesson-topic">Real Number System &amp; Properties</span>
+            <span class="teks-badge">A.11(A), A.11(B)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Classify real numbers; apply all five properties to justify algebraic steps.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Number Sort: classify 10 number cards (√2, −3, ½, π, 0…) on a Venn diagram.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Real number hierarchy. All five properties with numeric and algebraic examples.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Partner activity – identify property justifying each simplification step.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Classify 14 numbers; identify properties in 10 equations.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Classify {−√9, 2.5̄, π, 0, −8}; name property for 3(x+4)=3x+12.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Properties of numbers' + Kuta Worksheet #1</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#D4689A">
+            <span class="day-badge">Day 2</span>
+            <span class="lesson-date">Tue Jun 23</span>
+            <span class="lesson-topic">Order of Operations &amp; Laws of Exponents</span>
+            <span class="teks-badge">A.1(C), A.11(B)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Apply PEMDAS; apply all laws of exponents (product, quotient, power, zero, negative).</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Error analysis: two different answers for 3+4²×2. What is 5⁰ and 2⁻³?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>PEMDAS nested examples. All exponent laws with algebraic verification.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>8 whiteboard problems alternating order-of-ops and exponent-law.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Evaluate 6 expressions; simplify 12 exponential expressions.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Simplify (3x²y)(4xy³) and (2x³)²/x⁴. Evaluate 2a²−3b for a=−2, b=1.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Exponent properties' + Kuta Worksheet #2</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#D4689A">
+            <span class="day-badge">Day 3</span>
+            <span class="lesson-date">Wed Jun 24</span>
+            <span class="lesson-topic">Polynomial Operations + Unit 1 Quiz</span>
+            <span class="teks-badge">A.10(A), A.10(B)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Add, subtract, multiply polynomials; factor GCF; multiply binomials (FOIL).</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Combine: (3x²+2x−5)+(x²−4x+7) on whiteboards.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Poly vocab → add/subtract → FOIL → area model → GCF factor.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>2 add, 2 subtract, 3 multiply, 3 GCF factor problems.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>6 add/sub, 8 multiply, 6 GCF factor → then Unit 1 Quiz (15 Q, 20 min).</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Simplify (2x+3)(x−4) and factor 6x³−9x²+3x. [Quiz follows]</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Polynomials' + Kuta Worksheet #3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="resources-section" style="--uc:#D4689A;--ul:#FFE4EF">
+        <h3 style="color:#D4689A">📚 Workbooks & Timed Tests</h3>
+        <table class="resources-table">
+          <thead><tr><th>Type</th><th>Resource (click to open)</th></tr></thead>
+          <tbody><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:foundation-algebra" target="_blank" rel="noopener">Khan Academy – Foundation Algebra Practice</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.kutasoftware.com/freeipa.html" target="_blank" rel="noopener">Kuta Software – Free Algebra 1 Worksheets</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.math-aids.com/Algebra/Algebra_1/" target="_blank" rel="noopener">Math-Aids.com – Algebra 1 Worksheets</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:foundation-algebra" target="_blank" rel="noopener">Khan Academy Unit 1 Mastery Test (20-min timer)</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.ixl.com/math/algebra-1" target="_blank" rel="noopener">IXL Algebra 1 Diagnostic</a></td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="unit-section" id="unit2">
+      <div class="unit-header" style="background:linear-gradient(135deg,#5878D0 0%,#5878D0dd 100%)">
+        <div class="unit-emoji">🌼</div>
+        <div class="unit-title-block">
+          <div class="unit-num">UNIT 2</div>
+          <div class="unit-name">Linear Functions, Equations &amp; Inequalities</div>
+          <div class="unit-meta">Days 4–10 | June 25 – July 3  •  TEKS: A.2(A–I), A.3(A–E), A.12(A)</div>
+        </div>
+        <div class="unit-quiz-box">
+          <div class="qb-label">Assessment</div>
+          <div class="qb-time">40 min | 25 questions</div>
+          <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs" target="_blank" rel="noopener" class="qb-link">Open Test ↗</a>
+        </div>
+      </div>
+      <div class="unit-eq" style="border-left:4px solid #5878D0">
+        <span class="eq-label">Essential Question</span> How can we represent, interpret, and compare linear relationships using multiple forms?
+      </div>
+      <div class="lessons-container">
+        
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#5878D0">
+            <span class="day-badge">Day 4</span>
+            <span class="lesson-date">Thu Jun 25</span>
+            <span class="lesson-topic">Relations, Functions, Domain &amp; Range</span>
+            <span class="teks-badge">A.2(A), A.12(A)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Determine function vs. relation; identify domain and range; use f(x) notation.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>4 mapping diagrams – vote function/not with thumbs.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Define function (each input→one output). VLT. f(x) notation. Domain/range.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Classify 6 representations; evaluate f(3), f(−1).</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>12 problems – identify, domain/range, evaluate f(x).</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Domain/range from graph. Is it a function? Evaluate f(2) if f(x)=3x−1.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Evaluating functions' + 'Domain and range'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#5878D0">
+            <span class="day-badge">Day 5</span>
+            <span class="lesson-date">Fri Jun 26</span>
+            <span class="lesson-topic">Slope, Rate of Change &amp; Arithmetic Sequences</span>
+            <span class="teks-badge">A.3(A), A.3(B)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Calculate slope from all representations; write arithmetic sequence formulas.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Real-world graphs: describe slope meaning for 4 scenarios.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>m=(y₂−y₁)/(x₂−x₁). All four slope types. Arithmetic sequences (aₙ=a₁+(n−1)d).</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Slope from tables, graphs, two points; 3 sequence formulas.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>14 slope + 6 arithmetic sequence problems.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Slope through (−2,5) and (4,−1). Is 3,7,11,15… arithmetic? Write formula.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Slope' + 'Arithmetic sequences'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#5878D0">
+            <span class="day-badge">Day 6</span>
+            <span class="lesson-date">Mon Jun 29</span>
+            <span class="lesson-topic">Slope-Intercept Form: Graph &amp; Write</span>
+            <span class="teks-badge">A.2(B), A.3(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Write and graph y=mx+b; find x-intercepts; graph horizontal and vertical lines.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Gallery walk: 4 posted graphs – record slope and y-intercept.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>y=mx+b: plot b, use slope. Horizontal y=k, vertical x=h. Find x-intercept (y=0).</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Graph y=2x−3, y=−½x+4, x=3, y=−2; write 3 equations from graphs.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Write 6 equations; graph 6 functions.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Write equation from given graph. Find its x-intercept.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Slope-intercept form' + Kuta graphing worksheet</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#5878D0">
+            <span class="day-badge">Day 7</span>
+            <span class="lesson-date">Tue Jun 30</span>
+            <span class="lesson-topic">Standard Form &amp; Point-Slope Form</span>
+            <span class="teks-badge">A.2(B), A.2(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Write/interpret Ax+By=C and y−y₁=m(x−x₁); convert among all three forms.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Name the form: y=3x−2 / 2x+3y=6 / y−4=½(x+1). Which graphs fastest?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Standard form via intercepts. Point-slope from a point + slope. Convert all three.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Convert same equation through all three forms; graph from standard form.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Convert between forms – 15 problems; write in all three forms.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Convert 4x−2y=10 to slope-intercept. Write point-slope for (3,−1), slope 2.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Point-slope form' + 'Standard form'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#5878D0">
+            <span class="day-badge">Day 8</span>
+            <span class="lesson-date">Wed Jul 1</span>
+            <span class="lesson-topic">Writing Equations + Parallel &amp; Perpendicular Lines</span>
+            <span class="teks-badge">A.2(C), A.3(E)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Write equations from two points/table/graph; write parallel (same slope) and perpendicular (neg. reciprocal) equations.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Which slope pairs are parallel? Perpendicular? {2&amp;2, 3&amp;−1/3, ½&amp;−2}</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Step-by-step equation writing. Parallel=same slope; perpendicular=neg. reciprocal.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Write 3 equations; 2 parallel + 2 perpendicular lines.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>12 equation-writing + 6 parallel/perpendicular problems.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Write line through (2,−3) (a) parallel to y=4x+1 (b) perpendicular to it.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Writing equations' + 'Parallel &amp; perpendicular'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#5878D0">
+            <span class="day-badge">Day 9</span>
+            <span class="lesson-date">Thu Jul 2</span>
+            <span class="lesson-topic">Inequalities in 2 Variables &amp; Direct Variation</span>
+            <span class="teks-badge">A.2(D), A.2(H)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Graph linear inequalities in two variables (solid/dashed, half-plane); write y=kx direct variation.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Is (1,4) a solution to y&gt;2x+1? Is (3,7)? What changes when you shade?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Inequalities: boundary line → test point → shade. Direct variation y=kx, k=y/x.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Graph 4 inequalities; write 2 from graphs; find k from 3 tables.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Graph 6 inequalities; write 4 from graphs; 6 direct variation.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Graph y≤−2x+4. Write direct variation if y=15 when x=3.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Two-variable inequalities' + 'Direct variation'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#5878D0">
+            <span class="day-badge">Day 10</span>
+            <span class="lesson-date">Fri Jul 3</span>
+            <span class="lesson-topic">Unit 2 Review &amp; Quiz</span>
+            <span class="teks-badge">A.2(A–I), A.3(A–E), A.12(A)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Demonstrate mastery of all Unit 2 concepts.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Lightning round: rapid-fire whiteboard – all Unit 2 topics.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Review of most-missed exit ticket items. Visual anchor chart of all linear forms.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Carousel: 5 stations × 5 min (domain/range, slope, writing, ∥⊥, inequalities).</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Unit 2 Quiz – 25 questions, 40 minutes.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>N/A – quiz is the summative assessment.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Unit 2 workbook + test links below.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="resources-section" style="--uc:#5878D0;--ul:#D8E4FF">
+        <h3 style="color:#5878D0">📚 Workbooks & Timed Tests</h3>
+        <table class="resources-table">
+          <thead><tr><th>Type</th><th>Resource (click to open)</th></tr></thead>
+          <tbody><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs" target="_blank" rel="noopener">Khan Academy – Linear Equations &amp; Graphs</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:functions" target="_blank" rel="noopener">Khan Academy – Functions</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.kutasoftware.com/freeipa.html" target="_blank" rel="noopener">Kuta Software – Graphing Lines &amp; Inequalities</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:linear-equations-graphs" target="_blank" rel="noopener">Khan Academy Unit 2 Mastery Test (40-min timer)</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://tea.texas.gov/student-assessment/testing/staar/staar-released-test-questions" target="_blank" rel="noopener">TEA STAAR Released Tests – Official</a></td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="unit-section" id="unit3">
+      <div class="unit-header" style="background:linear-gradient(135deg,#3A9870 0%,#3A9870dd 100%)">
+        <div class="unit-emoji">🌿</div>
+        <div class="unit-title-block">
+          <div class="unit-num">UNIT 3</div>
+          <div class="unit-name">Linear Equations &amp; Inequalities in One Variable</div>
+          <div class="unit-meta">Days 11–13 | July 6–8  •  TEKS: A.5(A), A.5(B), A.5(C), A.12(B)</div>
+        </div>
+        <div class="unit-quiz-box">
+          <div class="qb-label">Assessment</div>
+          <div class="qb-time">35 min | 20 questions</div>
+          <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:solve-equations-inequalities" target="_blank" rel="noopener" class="qb-link">Open Test ↗</a>
+        </div>
+      </div>
+      <div class="unit-eq" style="border-left:4px solid #3A9870">
+        <span class="eq-label">Essential Question</span> How do inverse operations allow us to isolate any variable in any equation or inequality?
+      </div>
+      <div class="lessons-container">
+        
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#3A9870">
+            <span class="day-badge">Day 11</span>
+            <span class="lesson-date">Mon Jul 6</span>
+            <span class="lesson-topic">Multi-Step Equations &amp; Literal Equations</span>
+            <span class="teks-badge">A.5(A), A.12(B)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Solve one-step through multi-step equations; solve literal equations for a specified variable.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Balance scale: if 3x+5=20, what is x?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Escalating equations: 1-step→2-step→multi-step. Literal equations (solve for variable).</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>8 escalating equations; rearrange 4 formulas.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>16 equations + 6 literal equations.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Solve 4(x−2)+3x=13. Solve P=2l+2w for w.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: multi-step + literal equations; Kuta worksheet</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#3A9870">
+            <span class="day-badge">Day 12</span>
+            <span class="lesson-date">Tue Jul 7</span>
+            <span class="lesson-topic">Linear Inequalities in One Variable</span>
+            <span class="teks-badge">A.5(B), A.5(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Solve and graph inequalities; flip rule when dividing by negative; interval notation.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>What happens when you multiply 2&lt;5 by −1?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Solve like equations – flip symbol when ÷/× by negative. Graph. Interval notation.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Solve and graph 6 inequalities; translate 3 real-world scenarios.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>16 inequalities + 3 real-world problems.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Solve and graph −3x+5&gt;14. Write in interval notation.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Linear inequalities' + Kuta worksheet</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#3A9870">
+            <span class="day-badge">Day 13</span>
+            <span class="lesson-date">Wed Jul 8</span>
+            <span class="lesson-topic">Compound Inequalities + Unit 3 Quiz</span>
+            <span class="teks-badge">A.5(B), A.5(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Solve AND (intersection) and OR (union) compound inequalities.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Graph x&gt;−2 AND x&lt;5. What values satisfy both?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>AND=overlap (between). OR=union (either direction). Graph both types.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>4 compound inequalities (2 AND, 2 OR).</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>10 compound inequalities → Unit 3 Quiz (20 Q, 35 min).</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>N/A – quiz is the assessment.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Unit 3 workbook + test links below.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="resources-section" style="--uc:#3A9870;--ul:#C8EFD8">
+        <h3 style="color:#3A9870">📚 Workbooks & Timed Tests</h3>
+        <table class="resources-table">
+          <thead><tr><th>Type</th><th>Resource (click to open)</th></tr></thead>
+          <tbody><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:solve-equations-inequalities" target="_blank" rel="noopener">Khan Academy – Solving Equations &amp; Inequalities</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.kutasoftware.com/freeipa.html" target="_blank" rel="noopener">Kuta Software – Multi-Step Equations</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:solve-equations-inequalities" target="_blank" rel="noopener">Khan Academy Unit 3 Mastery Test (35-min timer)</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.ixl.com/math/algebra-1" target="_blank" rel="noopener">IXL Algebra 1 – Equations</a></td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="unit-section" id="unit4">
+      <div class="unit-header" style="background:linear-gradient(135deg,#C87030 0%,#C87030dd 100%)">
+        <div class="unit-emoji">☀️</div>
+        <div class="unit-title-block">
+          <div class="unit-num">UNIT 4</div>
+          <div class="unit-name">Systems of Linear Equations &amp; Inequalities</div>
+          <div class="unit-meta">Days 14–18 | July 9–15  •  TEKS: A.2(I), A.3(F–H), A.5(C)</div>
+        </div>
+        <div class="unit-quiz-box">
+          <div class="qb-label">Assessment</div>
+          <div class="qb-time">50 min | 30 questions</div>
+          <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:systems-of-equations" target="_blank" rel="noopener" class="qb-link">Open Test ↗</a>
+        </div>
+      </div>
+      <div class="unit-eq" style="border-left:4px solid #C87030">
+        <span class="eq-label">Essential Question</span> When and why do we use systems, and how does each method reveal something different?
+      </div>
+      <div class="lessons-container">
+        
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#C87030">
+            <span class="day-badge">Day 14</span>
+            <span class="lesson-date">Thu Jul 9</span>
+            <span class="lesson-topic">Systems by Graphing &amp; Writing Systems</span>
+            <span class="teks-badge">A.2(I), A.3(F), A.3(G)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Solve by graphing; classify as 1 solution, no solution, or infinite solutions; write from context.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Graph y=x+2 and y=−x+4. Where do they cross?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Three cases: intersect (1 sol), parallel (none), same line (∞). Write from real-world.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Graph and solve 4 systems; classify each; write from word problem.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>8 systems by graphing + 2 real-world contexts.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Solve by graphing: y=2x−1 and y=−x+5. Classify.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Systems by graphing'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#C87030">
+            <span class="day-badge">Day 15</span>
+            <span class="lesson-date">Fri Jul 10</span>
+            <span class="lesson-topic">Systems: Substitution Method</span>
+            <span class="teks-badge">A.5(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Solve by substitution; identify special cases (no solution, infinite).</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Which equation makes substitution easiest in y=3x and 2x+y=15?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Steps: isolate → substitute → solve → back-substitute → verify. Special cases.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>4 systems by substitution including special cases.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>10 systems by substitution + 2 word problems.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Solve: y=2x−3 and 3x+2y=14. Verify.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Systems by substitution'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#C87030">
+            <span class="day-badge">Day 16</span>
+            <span class="lesson-date">Mon Jul 13</span>
+            <span class="lesson-topic">Systems: Elimination Method</span>
+            <span class="teks-badge">A.5(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Solve by elimination; multiply to create opposites; select most efficient method.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Add 3x+2y=8 and x−2y=4. What disappeared?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Add equations to cancel a variable. Multiply if needed. Method selection guide.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>4 systems by elimination (2 needing multiplication).</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>10 systems – students choose and label method with justification.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Solve: 2x+3y=12 and 5x−3y=2. Explain method choice.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Systems by elimination'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#C87030">
+            <span class="day-badge">Day 17</span>
+            <span class="lesson-date">Tue Jul 14</span>
+            <span class="lesson-topic">Systems of Inequalities &amp; Word Problems</span>
+            <span class="teks-badge">A.3(H), A.5(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Graph feasible regions for systems of inequalities; solve real-world word problems.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Shade y&gt;x+1 and y≤−x+4. What region satisfies both?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Feasible region = overlapping shading. Word problems: break-even, mixture, rate.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>2 inequality systems; 3 word problems.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>4 inequality systems; 4 word problems.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Shade solution to y≥2x and y&lt;−x+6. Set up a ticket-sales system.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Systems of inequalities' + word problems</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#C87030">
+            <span class="day-badge">Day 18</span>
+            <span class="lesson-date">Wed Jul 15</span>
+            <span class="lesson-topic">Unit 4 Test — Systems</span>
+            <span class="teks-badge">A.2(I), A.3(F–H), A.5(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Demonstrate mastery of all Unit 4 concepts. [Break July 16–26]</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>5-question rapid review across all three methods.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>10-min targeted review of most-missed topics.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>2 practice problems – student choice with justification.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Unit 4 Test – 30 questions, 50 minutes.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>N/A – formal test.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>No school July 16–26. Unit 4 workbook + test links below.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="resources-section" style="--uc:#C87030;--ul:#FFE0C0">
+        <h3 style="color:#C87030">📚 Workbooks & Timed Tests</h3>
+        <table class="resources-table">
+          <thead><tr><th>Type</th><th>Resource (click to open)</th></tr></thead>
+          <tbody><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:systems-of-equations" target="_blank" rel="noopener">Khan Academy – Systems of Equations</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.kutasoftware.com/freeipa.html" target="_blank" rel="noopener">Kuta Software – Systems (All Methods)</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:systems-of-equations" target="_blank" rel="noopener">Khan Academy Systems Unit Test (50-min timer)</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://tea.texas.gov/student-assessment/testing/staar/staar-released-test-questions" target="_blank" rel="noopener">TEA STAAR Released – Systems Section</a></td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="unit-section" id="unit5">
+      <div class="unit-header" style="background:linear-gradient(135deg,#7848C0 0%,#7848C0dd 100%)">
+        <div class="unit-emoji">🦋</div>
+        <div class="unit-title-block">
+          <div class="unit-num">UNIT 5</div>
+          <div class="unit-name">Exponential Functions &amp; Geometric Sequences</div>
+          <div class="unit-meta">Days 19–21 | July 27–29  •  TEKS: A.9(A–E)</div>
+        </div>
+        <div class="unit-quiz-box">
+          <div class="qb-label">Assessment</div>
+          <div class="qb-time">30 min | 18 questions</div>
+          <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:exponential-growth-decay" target="_blank" rel="noopener" class="qb-link">Open Test ↗</a>
+        </div>
+      </div>
+      <div class="unit-eq" style="border-left:4px solid #7848C0">
+        <span class="eq-label">Essential Question</span> How do exponential functions differ from linear, and how do they model real-world growth and decay?
+      </div>
+      <div class="lessons-container">
+        
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#7848C0">
+            <span class="day-badge">Day 19</span>
+            <span class="lesson-date">Mon Jul 27</span>
+            <span class="lesson-topic">Intro to Exponential Functions &amp; Geometric Sequences</span>
+            <span class="teks-badge">A.9(A), A.9(B), A.9(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Write f(x)=abˣ from tables; identify a (initial value) and b (ratio); write geometric sequence formulas.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Table adds 5 each step vs. multiplies by 3. Which is bigger at step 20?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Linear: constant difference. Exponential: constant ratio. Write from table.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Classify 6 tables; write f(x)=abˣ; write 3 geometric formulas.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>12 problems – identify, write equations, extend sequences.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Write exponential for y:2,6,18,54. Is 3,6,12,24 geometric? Write formula.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Intro to exponential functions'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#7848C0">
+            <span class="day-badge">Day 20</span>
+            <span class="lesson-date">Tue Jul 28</span>
+            <span class="lesson-topic">Graphing Exponential Functions &amp; Key Features</span>
+            <span class="teks-badge">A.9(C), A.9(D)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Graph from table; identify y-intercept, asymptote y=0, domain, range, end behavior.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Will f(x)=2ˣ ever touch the x-axis? Why?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Graph f(x)=2ˣ. Key features. Compare growth (b&gt;1) vs. decay (0&lt;b&lt;1).</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Graph f(x)=3(2)ˣ and g(x)=(½)ˣ; compare all features.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Graph 5 functions; identify all features; compare two.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Sketch f(x)=4(½)ˣ. State y-intercept, asymptote, domain, range.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Graphs of exponential functions'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#7848C0">
+            <span class="day-badge">Day 21</span>
+            <span class="lesson-date">Wed Jul 29</span>
+            <span class="lesson-topic">Exponential Applications + Unit 5 Quiz</span>
+            <span class="teks-badge">A.9(D), A.9(E)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Apply growth y=a(1+r)ᵗ and decay y=a(1−r)ᵗ (population, interest, half-life).</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Town of 5,000 grows 10%/year. Write the population function.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Growth: y=a(1+r)ᵗ; decay: y=a(1−r)ᵗ. Modeling steps. Four application types.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>3 application problems (population, investment, half-life).</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>4 applications → Unit 5 Quiz (18 Q, 30 min).</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>N/A – quiz is the assessment.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Unit 5 workbook + test links below.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="resources-section" style="--uc:#7848C0;--ul:#E0D0FF">
+        <h3 style="color:#7848C0">📚 Workbooks & Timed Tests</h3>
+        <table class="resources-table">
+          <thead><tr><th>Type</th><th>Resource (click to open)</th></tr></thead>
+          <tbody><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:exponential-growth-decay" target="_blank" rel="noopener">Khan Academy – Exponential Growth &amp; Decay</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:sequences" target="_blank" rel="noopener">Khan Academy – Sequences</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:exponential-growth-decay" target="_blank" rel="noopener">Khan Academy Unit 5 Mastery Test (30-min timer)</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.ixl.com/math/algebra-1" target="_blank" rel="noopener">IXL – Exponential Functions</a></td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="unit-section" id="unit6">
+      <div class="unit-header" style="background:linear-gradient(135deg,#1888A8 0%,#1888A8dd 100%)">
+        <div class="unit-emoji">🌊</div>
+        <div class="unit-title-block">
+          <div class="unit-num">UNIT 6</div>
+          <div class="unit-name">Data Analysis: Scatter Plots &amp; Linear Relationships</div>
+          <div class="unit-meta">Day 22 | July 30  •  TEKS: A.4(A), A.4(B), A.4(C)</div>
+        </div>
+        <div class="unit-quiz-box">
+          <div class="qb-label">Assessment</div>
+          <div class="qb-time">Included in Unit 7 Test</div>
+          <a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:scatter-plots" target="_blank" rel="noopener" class="qb-link">Open Test ↗</a>
+        </div>
+      </div>
+      <div class="unit-eq" style="border-left:4px solid #1888A8">
+        <span class="eq-label">Essential Question</span> How can real-world data reveal trends and enable predictions with linear models?
+      </div>
+      <div class="lessons-container">
+        
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#1888A8">
+            <span class="day-badge">Day 22</span>
+            <span class="lesson-date">Thu Jul 30</span>
+            <span class="lesson-topic">Scatter Plots, Correlation &amp; Lines of Best Fit</span>
+            <span class="teks-badge">A.4(A), A.4(B), A.4(C)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Construct scatter plots; describe correlation; draw trend line; make predictions; interpret slope and y-intercept in context.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>4 scatter plots – identify positive, negative, no correlation; rate strength.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Scatter plot → correlation type → line of best fit (half above/half below) → equation → interpret in context. Interpolation vs. extrapolation.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Create scatter plot from data; draw line; write equation; 2 predictions.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Two data sets: scatter plots, correlation, trend line, equation, predictions.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>From scatter plot: write equation, describe correlation, predict y when x=25.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Scatter plots' + 'Linear regression'</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="resources-section" style="--uc:#1888A8;--ul:#C0E8F4">
+        <h3 style="color:#1888A8">📚 Workbooks & Timed Tests</h3>
+        <table class="resources-table">
+          <thead><tr><th>Type</th><th>Resource (click to open)</th></tr></thead>
+          <tbody><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:scatter-plots" target="_blank" rel="noopener">Khan Academy – Scatter Plots &amp; Lines of Best Fit</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://teacher.desmos.com" target="_blank" rel="noopener">Desmos – Regression Activities</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:scatter-plots" target="_blank" rel="noopener">Khan Academy Scatter Plots Practice</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://tea.texas.gov/student-assessment/testing/staar/staar-released-test-questions" target="_blank" rel="noopener">TEA STAAR Released – Data Analysis</a></td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="unit-section" id="unit7">
+      <div class="unit-header" style="background:linear-gradient(135deg,#B83858 0%,#B83858dd 100%)">
+        <div class="unit-emoji">🌺</div>
+        <div class="unit-title-block">
+          <div class="unit-num">UNIT 7</div>
+          <div class="unit-name">Quadratic Functions &amp; Equations</div>
+          <div class="unit-meta">Days 23–26 | July 31 – August 5  •  TEKS: A.6(A–B), A.7(A–C), A.8(A–B)</div>
+        </div>
+        <div class="unit-quiz-box">
+          <div class="qb-label">Assessment</div>
+          <div class="qb-time">Quiz: 30 min (20 Q) + Final Exam: 90 min (50 Q STAAR)</div>
+          <a href="https://tea.texas.gov/student-assessment/testing/staar/staar-released-test-questions" target="_blank" rel="noopener" class="qb-link">Open Test ↗</a>
+        </div>
+      </div>
+      <div class="unit-eq" style="border-left:4px solid #B83858">
+        <span class="eq-label">Essential Question</span> How do quadratic functions model real phenomena, and what methods most efficiently reveal solutions?
+      </div>
+      <div class="lessons-container">
+        
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#B83858">
+            <span class="day-badge">Day 23</span>
+            <span class="lesson-date">Fri Jul 31</span>
+            <span class="lesson-topic">Intro to Quadratic Functions &amp; Key Features</span>
+            <span class="teks-badge">A.6(A), A.7(A)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Graph parabolas; identify vertex, axis of symmetry, zeros, y-intercept, max/min, domain, range.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Table x:−2…2, y:4,1,0,1,4 – is it linear? Exponential? What do you notice?</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>f(x)=ax²+bx+c. Axis x=−b/2a. Vertex. Zeros. y-intercept. Domain/range.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Graph f(x)=x²−4x+3; identify all key features together.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>Graph 4 quadratics; identify all features; 2 real-world contexts.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>f(x)=−x²+2x+3: axis, vertex, zeros, y-int, max/min, domain, range.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Quadratic functions intro'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#B83858">
+            <span class="day-badge">Day 24</span>
+            <span class="lesson-date">Mon Aug 3</span>
+            <span class="lesson-topic">Vertex Form, Transformations &amp; Factoring</span>
+            <span class="teks-badge">A.6(B), A.7(B), A.8(A)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Graph f(x)=a(x−h)²+k; describe transformations; factor trinomials and difference of squares; Zero Product Property.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>From f(x)=(x−3)²+2: what is the vertex? Which way does h shift? (Common misconception)</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Vertex form: (h,k) directly. Transformations. Factoring: GCF→trinomials→difference of squares.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Graph 3 from vertex form; convert to vertex form; factor 4 quadratics.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>4 vertex form graphs + 10 factor-and-solve problems.</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Convert x²−4x+7 to vertex form. Factor x²−5x+6=0 and x²−9=0.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Khan Academy: 'Vertex form' + 'Factoring quadratics'</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#B83858">
+            <span class="day-badge">Day 25</span>
+            <span class="lesson-date">Tue Aug 4</span>
+            <span class="lesson-topic">Quadratic Formula, Discriminant + Unit 7 Quiz</span>
+            <span class="teks-badge">A.8(A), A.8(B)</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Apply x=[−b±√(b²−4ac)]/2a; interpret discriminant (two/one/no real roots).</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Why can't you always factor? Give an example that doesn't factor over integers.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>Quadratic formula steps. Discriminant: D&gt;0 (2 real), D=0 (1), D&lt;0 (0). Method selection.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>4 equations by formula; evaluate discriminant for 3 equations.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>10 equations – choose best method → Unit 7 Quiz (20 Q, 30 min).</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>N/A – quiz is the assessment.</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>Review all 7 units for Final Exam. Final exam + workbook links below.</div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-card">
+          <div class="lesson-header" style="background:#B83858">
+            <span class="day-badge">Day 26</span>
+            <span class="lesson-date">Wed Aug 5</span>
+            <span class="lesson-topic">FINAL EXAM — All Algebra I Concepts</span>
+            <span class="teks-badge">ALL TEKS A.1–A.12</span>
+          </div>
+          <div class="lesson-body">
+            <div class="obj-row"><strong>Objective:</strong> Demonstrate mastery of the complete Algebra I course.</div>
+            <div class="lesson-grid">
+              <div class="lg-box warm"><div class="lg-title">🌸 Warm-Up</div>Spiral review: 1 problem from each unit, 1 min each.</div>
+              <div class="lg-box inst"><div class="lg-title">📖 Direct Instruction</div>15-min targeted review. Distribute STAAR formula reference sheet.</div>
+              <div class="lg-box guid"><div class="lg-title">✏️ Guided Practice</div>Jigsaw: 7 groups present 1 unit each in 2 min.</div>
+              <div class="lg-box indp"><div class="lg-title">🌟 Independent Practice</div>CUMULATIVE FINAL EXAM – 50 questions, 90 min (STAAR format).</div>
+              <div class="lg-box exit"><div class="lg-title">🎯 Exit Ticket</div>Course reflection: what did you master? What connections do you see?</div>
+              <div class="lg-box hwbx"><div class="lg-title">📝 Homework</div>None – course complete!</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="resources-section" style="--uc:#B83858;--ul:#FFD0DC">
+        <h3 style="color:#B83858">📚 Workbooks & Timed Tests</h3>
+        <table class="resources-table">
+          <thead><tr><th>Type</th><th>Resource (click to open)</th></tr></thead>
+          <tbody><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratics-multiplying-factoring" target="_blank" rel="noopener">Khan Academy – Quadratics: Multiplying &amp; Factoring</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratic-functions-equations" target="_blank" rel="noopener">Khan Academy – Quadratic Functions &amp; Equations</a></td></tr><tr><td class="type-wb">📗 WORKBOOK</td><td><a href="https://www.kutasoftware.com/freeipa.html" target="_blank" rel="noopener">Kuta Software – Factoring &amp; Quadratic Formula</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:quadratic-functions-equations" target="_blank" rel="noopener">Khan Academy Unit 7 Mastery Test (30-min timer)</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://tea.texas.gov/student-assessment/testing/staar/staar-released-test-questions" target="_blank" rel="noopener">TEA STAAR Algebra I Official Released Test (90 min)</a></td></tr><tr><td class="type-test">⏱ TIMED TEST</td><td><a href="https://www.ixl.com/math/algebra-1" target="_blank" rel="noopener">IXL Algebra 1 Full Course Diagnostic</a></td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+<!-- FINAL EXAM -->
+<div class="section-card" id="final">
+  <h2>🏆 Cumulative Final Exam — Day 26: August 5, 2026</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin:1.5rem 0">
+    <div style="background:#FFD0DC;border-radius:.8rem;padding:1.2rem;border-left:4px solid var(--rose)">
+      <div style="font-weight:800;color:var(--rose);margin-bottom:.4rem">📋 Format</div>
+      <div style="font-size:.9rem">STAAR Algebra I format — 50 multiple-choice and gridded-response questions</div>
+    </div>
+    <div style="background:#FFE4CC;border-radius:.8rem;padding:1.2rem;border-left:4px solid var(--peach)">
+      <div style="font-weight:800;color:var(--peach);margin-bottom:.4rem">⏱ Time</div>
+      <div style="font-size:1.8rem;font-weight:800;color:#C84000">90 Minutes</div>
+      <div style="font-size:.8rem">No extensions — full exam conditions</div>
+    </div>
+    <div style="background:#D8E4FF;border-radius:.8rem;padding:1.2rem;border-left:4px solid var(--blue)">
+      <div style="font-weight:800;color:var(--blue);margin-bottom:.4rem">📚 Coverage</div>
+      <div style="font-size:.9rem">All 7 Units — complete TEKS A.1–A.12. Formula reference sheet provided (STAAR format). Calculator permitted.</div>
+    </div>
+  </div>
+  <h3 style="margin-bottom:1rem;color:var(--rose)">🌐 Final Exam Practice Resources</h3>
+  <table class="resources-table">
+    <thead><tr><th>Priority</th><th>Time Limit</th><th>Resource</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td style="font-weight:700;color:var(--rose)">#1 — Official</td><td style="color:#C84000;font-weight:700">⏱ 90 min</td>
+        <td><a href="https://tea.texas.gov/student-assessment/testing/staar/staar-released-test-questions" target="_blank">TEA STAAR Algebra I Released Tests (Official)</a></td>
+        <td>Exact STAAR format — highest priority</td></tr>
+      <tr><td style="font-weight:700;color:var(--blue)">#2 — Khan Academy</td><td style="color:#C84000;font-weight:700">⏱ 90 min</td>
+        <td><a href="https://www.khanacademy.org/math/algebra" target="_blank">Khan Academy STAAR Algebra I Test Prep — All Units</a></td>
+        <td>Full coverage + instant feedback</td></tr>
+      <tr><td style="font-weight:700;color:var(--green)">#3 — Edulastic</td><td style="color:#C84000;font-weight:700">⏱ 90 min</td>
+        <td><a href="https://edulastic.com/teachers/" target="_blank">Edulastic Free STAAR Practice Test (auto-graded)</a></td>
+        <td>Skill-by-skill reports</td></tr>
+      <tr><td style="font-weight:700;color:var(--lavender)">#4 — IXL</td><td>Adaptive</td>
+        <td><a href="https://www.ixl.com/math/algebra-1" target="_blank">IXL Algebra 1 Full Course Diagnostic</a></td>
+        <td>Adaptive mastery tracking</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- /container -->
+
+<footer>
+  <p>🌸 Algebra I Summer 2026 Lesson Plan  •  Texas TEKS §111.39  •  All Concepts Covered</p>
+  <p style="margin-top:.5rem">26 Instructional Days  •  7 Units  •  Final Exam: August 5  •  STAAR Algebra I Format</p>
+  <p style="margin-top:1rem"><a href="https://tea.texas.gov/academics/curriculum-standards/teks-texas-essential-knowledge-and-skills" target="_blank">Texas Education Agency TEKS ↗</a>  &nbsp;|&nbsp;
+  <a href="https://www.khanacademy.org/math/algebra" target="_blank">Khan Academy Algebra I ↗</a>  &nbsp;|&nbsp;
+  <a href="https://tea.texas.gov/student-assessment/testing/staar/staar-released-test-questions" target="_blank">STAAR Released Tests ↗</a></p>
+</footer>
+
+</body>
+</html>
