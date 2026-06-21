@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Algebra 1 – Texas TEA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
+:root{--pu:#7C3AED;--pu2:#EDE9FE;--bl:#2563EB;--bl2:#DBEAFE;--gr:#059669;--gr2:#D1FAE5;--or:#EA580C;--or2:#FFEDD5;--pk:#DB2777;--pk2:#FCE7F3;--ye:#D97706;--ye2:#FEF3C7;--te:#0891B2;--te2:#CFFAFE;--re:#DC2626;--re2:#FEE2E2;--bg:#F8F7FF;--card:#fff;--txt:#1E1B4B;--mu:#6B7280}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+
+/* ── VIEWS ── */
+.view{display:none;min-height:100vh}
+.view.active{display:block}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#7C3AED,#2563EB 50%,#0891B2);padding:56px 24px 72px;text-align:center;position:relative;overflow:hidden}
+.hero::before,.hero::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{width:320px;height:320px;top:-80px;left:-60px}
+.hero::after{width:400px;height:400px;bottom:-100px;right:-60px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);color:#fff;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 16px;border-radius:100px;margin-bottom:18px;border:1px solid rgba(255,255,255,.3)}
+.hero h1{font-family:'Fredoka One',cursive;font-size:clamp(52px,10vw,100px);color:#fff;line-height:1;text-shadow:0 4px 24px rgba(0,0,0,.2)}
+.hero h1 span{color:#FCD34D}
+.hero p{color:rgba(255,255,255,.85);font-size:19px;font-weight:600;margin-top:12px}
+.hero-btns{display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap;position:relative;z-index:1}
+.btn{display:inline-block;font-family:'Nunito',sans-serif;font-weight:800;font-size:17px;padding:14px 32px;border-radius:100px;border:none;cursor:pointer;transition:.15s;text-decoration:none}
+.btn-y{background:#FCD34D;color:#1E1B4B;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.btn-y:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.btn-w{background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.4)}
+.btn-w:hover{background:rgba(255,255,255,.25)}
+.btn-pu{background:var(--pu);color:#fff;box-shadow:0 4px 16px rgba(124,58,237,.35)}
+.btn-pu:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,.45)}
+.btn-sm{font-size:14px;padding:9px 20px}
+
+/* stats */
+.stats{background:#fff;display:flex;justify-content:center;flex-wrap:wrap;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+.stat{padding:18px 36px;text-align:center;border-right:1px solid #F3F4F6}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Fredoka One',cursive;font-size:30px;color:var(--pu)}
+.stat-l{font-size:12px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+
+/* progress */
+.sec{padding:48px 24px;max-width:1100px;margin:0 auto}
+.sec-t{font-family:'Fredoka One',cursive;font-size:30px;margin-bottom:6px}
+.sec-s{color:var(--mu);font-size:15px;margin-bottom:28px;font-weight:600}
+.prog-card{background:linear-gradient(135deg,#7C3AED,#2563EB);border-radius:20px;padding:28px;color:#fff;margin-bottom:36px}
+.prog-card h3{font-size:18px;font-weight:700;margin-bottom:4px}
+.prog-card p{opacity:.8;font-size:13px;margin-bottom:16px}
+.prog-bar{background:rgba(255,255,255,.2);border-radius:100px;height:12px;overflow:hidden;margin-bottom:8px}
+.prog-fill{background:#FCD34D;height:100%;border-radius:100px;transition:width 1.2s ease}
+.prog-lbl{display:flex;justify-content:space-between;font-size:12px;opacity:.85;font-weight:600}
+
+/* units grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.ucard{background:var(--card);border-radius:18px;padding:22px;box-shadow:0 2px 14px rgba(0,0,0,.06);border:2px solid transparent;cursor:pointer;transition:.15s;position:relative;overflow:hidden}
+.ucard:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
+.ucard.locked{opacity:.55;cursor:not-allowed;filter:grayscale(.3)}
+.ucard.completed{border-color:var(--gr)}
+.ucard.current{border-color:var(--pu);box-shadow:0 0 0 3px rgba(124,58,237,.12)}
+.u-accent{position:absolute;top:0;left:0;right:0;height:4px;border-radius:18px 18px 0 0}
+.u-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.u-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.u-num{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mu)}
+.u-title{font-size:16px;font-weight:800;line-height:1.25}
+.u-teks{font-size:10px;color:var(--mu);font-weight:600;margin-top:3px}
+.u-desc{font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:14px}
+.u-bar{height:5px;background:#F3F4F6;border-radius:100px;overflow:hidden;margin-bottom:10px}
+.u-bar-fill{height:100%;border-radius:100px}
+.u-foot{display:flex;align-items:center;justify-content:space-between}
+.u-lessons{font-size:11px;font-weight:700;color:var(--mu)}
+.u-status{font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px}
+.ss{background:var(--pu2);color:var(--pu)} .sa{background:var(--bl2);color:var(--bl)} .sd{background:var(--gr2);color:var(--gr)} .sl{background:#F3F4F6;color:var(--mu)}
+
+/* TEA banner */
+.tea{background:linear-gradient(135deg,#FEF3C7,#FFEDD5);border:2px solid #FCD34D;border-radius:18px;padding:24px 28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.tea-ico{font-size:44px;flex-shrink:0}
+.tea h3{font-size:17px;font-weight:800;color:#92400E;margin-bottom:5px}
+.tea p{font-size:13px;color:#78350F;line-height:1.6;max-width:700px}
+.tea-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.ttag{background:rgba(255,255,255,.7);color:#92400E;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;border:1px solid rgba(180,120,0,.2)}
+
+/* math symbols */
+.mf{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden}
+.ms{position:absolute;font-family:'Fredoka One',cursive;color:rgba(255,255,255,.1);font-size:44px;animation:fl 7s ease-in-out infinite;user-select:none}
+@keyframes fl{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-18px) rotate(4deg)}}
+
+footer{text-align:center;padding:28px 24px;color:var(--mu);font-size:12px;font-weight:600;border-top:1px solid #E5E7EB;margin-top:12px}
+
+/* ── LESSON VIEW ── */
+.lv{background:var(--bg);min-height:100vh}
+.lv-nav{background:#fff;border-bottom:2px solid #E5E7EB;padding:14px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.back-btn{background:none;border:2px solid #E5E7EB;border-radius:10px;padding:7px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;color:var(--txt);transition:.15s}
+.back-btn:hover{border-color:var(--pu);color:var(--pu)}
+.lv-brand{font-family:'Fredoka One',cursive;font-size:18px;color:var(--pu)}
+.lv-title{font-size:15px;font-weight:800;flex:1}
+
+/* lesson steps */
+.lsteps{display:flex;gap:6px;padding:16px 24px;background:#fff;border-bottom:1px solid #E5E7EB;overflow-x:auto}
+.lstep{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;font-size:12px;font-weight:700;border:2px solid #E5E7EB;cursor:pointer;white-space:nowrap;transition:.15s;background:#fff}
+.lstep.done{background:var(--gr2);border-color:var(--gr);color:var(--gr)}
+.lstep.active{background:var(--pu);border-color:var(--pu);color:#fff}
+.lstep.locked2{opacity:.45;cursor:not-allowed}
+
+/* lesson content area */
+.lcontent{max-width:860px;margin:0 auto;padding:32px 24px}
+
+/* lesson card */
+.lcard{background:#fff;border-radius:20px;padding:32px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:24px}
+.lcard h2{font-family:'Fredoka One',cursive;font-size:26px;margin-bottom:6px}
+.lcard .teks-tag{display:inline-block;background:var(--pu2);color:var(--pu);font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;margin-bottom:16px}
+.lcard p{font-size:15px;line-height:1.75;color:#374151;margin-bottom:14px}
+.lcard ul{padding-left:20px;margin-bottom:14px}
+.lcard ul li{font-size:15px;line-height:1.75;color:#374151;margin-bottom:6px}
+
+/* concept box */
+.concept{background:linear-gradient(135deg,var(--pu2),var(--bl2));border-left:4px solid var(--pu);border-radius:12px;padding:20px 24px;margin:20px 0}
+.concept .label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--pu);margin-bottom:6px}
+.concept .formula{font-size:20px;font-weight:800;color:var(--txt);font-family:monospace;margin-bottom:8px}
+.concept p{font-size:14px;color:#374151;line-height:1.6;margin:0}
+
+/* example box */
+.example{background:#F8F7FF;border:2px solid var(--pu2);border-radius:12px;padding:20px 24px;margin:20px 0}
+.example .ex-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--bl);margin-bottom:10px}
+.step-row{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.step-num{background:var(--pu);color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;margin-top:2px}
+.step-text{font-size:14px;line-height:1.6;color:#374151}
+.step-math{font-weight:800;font-family:monospace;font-size:15px;color:var(--pu)}
+
+/* tip box */
+.tip{background:#FEF3C7;border:2px solid #FCD34D;border-radius:12px;padding:14px 18px;margin:16px 0;display:flex;gap:10px;align-items:flex-start}
+.tip-ico{font-size:20px;flex-shrink:0}
+.tip p{font-size:13px;color:#78350F;font-weight:600;margin:0;line-height:1.55}
+
+/* practice problems */
+.practice{background:#fff;border-radius:20px;padding:28px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:24px}
+.practice h3{font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:18px;color:var(--bl)}
+.prob{border:2px solid #E5E7EB;border-radius:14px;padding:18px;margin-bottom:16px;transition:.2s}
+.prob.correct{border-color:var(--gr);background:var(--gr2)}
+.prob.wrong{border-color:var(--re);background:var(--re2)}
+.prob-q{font-size:15px;font-weight:700;margin-bottom:12px;color:var(--txt)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choice{padding:10px 16px;border:2px solid #E5E7EB;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:#fff;font-family:'Nunito',sans-serif;transition:.15s;text-align:left}
+.choice:hover:not(:disabled){border-color:var(--pu);background:var(--pu2);color:var(--pu)}
+.choice.correct-ans{background:var(--gr2);border-color:var(--gr);color:var(--gr)}
+.choice.wrong-ans{background:var(--re2);border-color:var(--re);color:var(--re)}
+.choice:disabled{cursor:default}
+.feedback{margin-top:10px;font-size:13px;font-weight:700;padding:8px 14px;border-radius:8px;display:none}
+.feedback.show{display:block}
+.fb-c{background:var(--gr2);color:var(--gr)}
+.fb-w{background:var(--re2);color:var(--re)}
+
+/* score */
+.score-bar{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.score-num{font-family:'Fredoka One',cursive;font-size:28px;color:var(--pu)}
+.score-lbl{font-size:13px;font-weight:700;color:var(--mu)}
+
+/* test view */
+.test-card{background:#fff;border-radius:20px;padding:28px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:24px}
+.test-card h3{font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:6px;color:var(--re)}
+.test-card .desc{font-size:14px;color:var(--mu);margin-bottom:20px;font-weight:600}
+.test-q{border:2px solid #E5E7EB;border-radius:14px;padding:20px;margin-bottom:16px}
+.test-q .qnum{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.test-q .qtext{font-size:15px;font-weight:700;margin-bottom:12px}
+.test-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.test-choice{padding:10px 16px;border:2px solid #E5E7EB;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:#fff;font-family:'Nunito',sans-serif;transition:.15s;text-align:left}
+.test-choice:hover:not(:disabled){border-color:var(--bl);background:var(--bl2);color:var(--bl)}
+.test-choice.sel{border-color:var(--bl);background:var(--bl2);color:var(--bl)}
+.test-choice.reveal-c{background:var(--gr2);border-color:var(--gr);color:var(--gr)}
+.test-choice.reveal-w{background:var(--re2);border-color:var(--re);color:var(--re)}
+.test-choice:disabled{cursor:default}
+
+/* result card */
+.result-card{background:linear-gradient(135deg,#7C3AED,#2563EB);border-radius:20px;padding:36px;text-align:center;color:#fff;margin-bottom:24px}
+.result-card .grade{font-family:'Fredoka One',cursive;font-size:72px;margin-bottom:6px}
+.result-card .grade-label{font-size:24px;font-weight:800;margin-bottom:4px}
+.result-card .grade-sub{opacity:.8;font-size:15px}
+
+/* workbook */
+.wb-card{background:#fff;border-radius:20px;padding:28px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:24px}
+.wb-card h3{font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:6px;color:var(--ye)}
+.wb-prob{border:2px solid #E5E7EB;border-radius:12px;padding:16px;margin-bottom:12px}
+.wb-prob .wp-q{font-size:14px;font-weight:700;margin-bottom:10px}
+.wb-input{width:100%;padding:10px 14px;border:2px solid #E5E7EB;border-radius:10px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;outline:none;transition:.15s}
+.wb-input:focus{border-color:var(--pu)}
+.wb-input.correct-inp{border-color:var(--gr);background:var(--gr2)}
+.wb-input.wrong-inp{border-color:var(--re);background:var(--re2)}
+.check-btn{margin-top:8px;padding:8px 18px;border-radius:8px;border:2px solid var(--pu);background:var(--pu2);color:var(--pu);font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:.15s}
+.check-btn:hover{background:var(--pu);color:#fff}
+.wb-feedback{font-size:12px;font-weight:700;margin-top:6px;display:none}
+.wb-feedback.show{display:block}
+
+/* nav buttons */
+.nav-row{display:flex;gap:12px;justify-content:space-between;margin-top:24px;flex-wrap:wrap}
+
+@media(max-width:600px){.grid{grid-template-columns:1fr}.choices,.test-choices,.test-choices{grid-template-columns:1fr}.lsteps{gap:4px}}
+</style>
+</head>
+<body>
+
+<!-- ████████  HOME VIEW  ████████ -->
+<div id="homeView" class="view active">
+  <div class="hero">
+    <div class="mf">
+      <span class="ms" style="top:10%;left:5%;animation-delay:0s">x²</span>
+      <span class="ms" style="top:20%;left:88%;animation-delay:1s">∑</span>
+      <span class="ms" style="top:65%;left:3%;animation-delay:2s">√</span>
+      <span class="ms" style="top:70%;left:88%;animation-delay:.5s;font-size:28px">y=mx+b</span>
+      <span class="ms" style="top:5%;left:42%;animation-delay:1.5s;font-size:32px">f(x)</span>
+    </div>
+    <div class="badge">🤠 Texas TEA · TEKS Aligned</div>
+    <h1>Algebra <span>1</span></h1>
+    <p>Master linear functions, quadratics, and exponentials — one step at a time!</p>
+    <div class="hero-btns">
+      <button class="btn btn-y" onclick="startLearning()">🚀 Start Learning</button>
+      <button class="btn btn-w" onclick="scrollToUnits()">📋 View All Units</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">8</div><div class="stat-l">Units</div></div>
+    <div class="stat"><div class="stat-n">24</div><div class="stat-l">Lessons</div></div>
+    <div class="stat"><div class="stat-n">120+</div><div class="stat-l">Practice Problems</div></div>
+    <div class="stat"><div class="stat-n">1</div><div class="stat-l">Credit</div></div>
+  </div>
+
+  <div class="sec">
+    <h2 class="sec-t">📈 Your Progress</h2>
+    <p class="sec-s">Track how much of Algebra 1 you've completed</p>
+    <div class="prog-card">
+      <h3>Overall Course Progress</h3>
+      <p>Keep going — every lesson gets you closer to mastering Algebra 1!</p>
+      <div class="prog-bar"><div class="prog-fill" id="overallBar" style="width:0%"></div></div>
+      <div class="prog-lbl"><span id="progPct">0% complete</span><span id="progFrac">0 / 8 units</span></div>
+    </div>
+
+    <h2 class="sec-t" id="unitsAnchor">📚 Course Units</h2>
+    <p class="sec-s">Click any unit to start — aligned to Texas TEKS Algebra I (§111.39)</p>
+    <div class="grid" id="unitsGrid"></div>
+  </div>
+
+  <div class="sec" style="padding-top:0">
+    <div class="tea">
+      <div class="tea-ico">⭐</div>
+      <div>
+        <h3>Aligned to Texas Essential Knowledge & Skills (TEKS)</h3>
+        <p>Every lesson is built on the official TEA Algebra I standards (19 TAC §111.39), adopted 2012. One high school math credit upon completion.</p>
+        <div class="tea-tags">
+          <span class="ttag">TEKS §111.39</span><span class="ttag">19 TAC Ch. 111</span><span class="ttag">Grade 8–9</span><span class="ttag">1 Credit</span><span class="ttag">College & Career Ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>🤠 Algebra 1 · Texas TEA Curriculum · TEKS §111.39</footer>
+</div>
+
+<!-- ████████  LESSON VIEW  ████████ -->
+<div id="lessonView" class="view">
+  <nav class="lv-nav">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <span class="lv-brand">Algebra 1</span>
+    <span class="lv-title" id="lvTitle"></span>
+  </nav>
+  <div class="lsteps" id="lsteps"></div>
+  <div class="lcontent" id="lcontent"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════
+const UNITS = [
+  { num:1, title:"Number & Algebraic Methods", teks:"TEKS A1.10, A1.11", icon:"🔢", color:"#7C3AED", light:"#EDE9FE", desc:"Simplify expressions, apply laws of exponents, work with polynomials and radical expressions.", lessons:3 },
+  { num:2, title:"Linear Functions", teks:"TEKS A1.2, A1.3", icon:"📉", color:"#2563EB", light:"#DBEAFE", desc:"Explore slope, intercepts, domain & range, and multiple representations of linear functions.", lessons:3 },
+  { num:3, title:"Linear Equations", teks:"TEKS A1.4, A1.5A–B", icon:"⚖️", color:"#0891B2", light:"#CFFAFE", desc:"Write, solve, and graph linear equations in one and two variables.", lessons:3 },
+  { num:4, title:"Linear Inequalities", teks:"TEKS A1.5C–D, A1.6A", icon:"📐", color:"#059669", light:"#D1FAE5", desc:"Solve and graph inequalities in one and two variables; model real-world constraints.", lessons:3 },
+  { num:5, title:"Systems of Equations & Inequalities", teks:"TEKS A1.2E, A1.5C", icon:"🔀", color:"#EA580C", light:"#FFEDD5", desc:"Solve systems by graphing, substitution, and elimination; interpret solutions.", lessons:3 },
+  { num:6, title:"Quadratic Functions", teks:"TEKS A1.6, A1.7", icon:"📈", color:"#DB2777", light:"#FCE7F3", desc:"Graph parabolas, identify vertex, axis of symmetry, and key features.", lessons:3 },
+  { num:7, title:"Quadratic Equations", teks:"TEKS A1.8", icon:"✖️", color:"#D97706", light:"#FEF3C7", desc:"Solve quadratic equations by factoring, completing the square, and the quadratic formula.", lessons:3 },
+  { num:8, title:"Exponential Functions & Data", teks:"TEKS A1.9, A1.12", icon:"🚀", color:"#DC2626", light:"#FEE2E2", desc:"Analyze exponential growth & decay, interpret scatterplots.", lessons:3 },
+];
+
+// Progress stored in memory (sessionStorage as fallback)
+let PROGRESS = JSON.parse(sessionStorage.getItem('alg1_prog') || 'null') || UNITS.map(() => ({ unitProg:0, lessonsComplete:[], workbookDone:false, testScore:null }));
+function saveP(){ try{ sessionStorage.setItem('alg1_prog', JSON.stringify(PROGRESS)); }catch(e){} }
+
+// ═══════════════════════════════════════════════
+//  LESSON CONTENT  (Unit 1 fully built; others scaffold)
+// ═══════════════════════════════════════════════
+const LESSONS = {
+  // ── UNIT 1 ──────────────────────────────────
+  '1-1': {
+    title: 'Order of Operations & Simplifying Expressions',
+    teks: 'TEKS A1.10A',
+    steps: ['Lesson', 'Practice', 'Workbook', 'Test'],
+    lesson: `
+      <div class="lcard">
+        <h2>📐 Order of Operations & Simplifying Expressions</h2>
+        <span class="teks-tag">TEKS A1.10A</span>
+        <p>In algebra, we follow a specific order to simplify expressions. This prevents confusion when there are multiple operations in one expression.</p>
+
+        <div class="concept">
+          <div class="label">🎯 Key Rule — PEMDAS</div>
+          <div class="formula">P → E → MD → AS</div>
+          <p><strong>P</strong>arentheses · <strong>E</strong>xponents · <strong>M</strong>ultiplication & <strong>D</strong>ivision (left→right) · <strong>A</strong>ddition & <strong>S</strong>ubtraction (left→right)</p>
+        </div>
+
+        <p>When simplifying an algebraic expression, we also combine <strong>like terms</strong> — terms with the same variable raised to the same power.</p>
+        <ul>
+          <li><strong>Like terms:</strong> 3x and 5x → combine to 8x</li>
+          <li><strong>Unlike terms:</strong> 3x and 5x² → cannot combine</li>
+          <li><strong>Constants:</strong> 7 and −3 → combine to 4</li>
+        </ul>
+
+        <div class="example">
+          <div class="ex-label">📘 Worked Example 1 — Order of Operations</div>
+          <p>Simplify: <span class="step-math">3 + 2 × (8 − 5)² ÷ 3</span></p>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Parentheses first: <span class="step-math">8 − 5 = 3</span><br>Expression: <span class="step-math">3 + 2 × 3² ÷ 3</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Exponents: <span class="step-math">3² = 9</span><br>Expression: <span class="step-math">3 + 2 × 9 ÷ 3</span></div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-text">Multiply & Divide left to right: <span class="step-math">2 × 9 = 18</span>, then <span class="step-math">18 ÷ 3 = 6</span><br>Expression: <span class="step-math">3 + 6</span></div></div>
+          <div class="step-row"><div class="step-num">4</div><div class="step-text">Add: <span class="step-math">3 + 6 = <strong>9</strong></span></div></div>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Worked Example 2 — Combining Like Terms</div>
+          <p>Simplify: <span class="step-math">5x² + 3x − 2x² + 7 − x</span></p>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Group like terms: <span class="step-math">(5x² − 2x²) + (3x − x) + 7</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Combine each group: <span class="step-math">3x² + 2x + 7</span></div></div>
+          <div class="step-row"><div class="step-num">✓</div><div class="step-text"><strong>Answer: </strong><span class="step-math">3x² + 2x + 7</span></div></div>
+        </div>
+
+        <div class="tip"><div class="tip-ico">💡</div><p><strong>Texas STAAR Tip:</strong> On multiple-choice, plug in a simple value like x = 1 or x = 2 to check if two expressions are equivalent!</p></div>
+
+        <div class="concept">
+          <div class="label">📌 Distributive Property</div>
+          <div class="formula">a(b + c) = ab + ac</div>
+          <p>Multiply the outside term by every term inside the parentheses.</p>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Worked Example 3 — Distributive Property</div>
+          <p>Expand and simplify: <span class="step-math">3(2x + 5) − 4x</span></p>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Distribute: <span class="step-math">6x + 15 − 4x</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Combine like terms: <span class="step-math">2x + 15</span></div></div>
+        </div>
+      </div>`,
+    practice: [
+      { q: "Simplify: 4 + 3 × 2² − 1", choices: ["27","15","23","11"], ans: 1, explain: "Exponent first: 2²=4. Then multiply: 3×4=12. Then: 4+12−1 = 15." },
+      { q: "Combine like terms: 7x − 3 + 2x + 5", choices: ["9x + 2","9x + 8","5x + 2","14x"], ans: 0, explain: "7x+2x = 9x; −3+5 = 2. Answer: 9x + 2." },
+      { q: "Simplify: 2(3x − 4) + 5x", choices: ["11x − 8","11x − 4","6x − 8","6x + 5x"], ans: 0, explain: "Distribute: 6x−8+5x. Combine: 11x−8." },
+      { q: "Which are like terms? (Select the PAIR)", choices: ["3x and 3y","x² and 2x","5x and −x","2x² and 2x"], ans: 2, explain: "5x and −x are both 'x' terms (degree 1). They can be combined." },
+    ],
+    workbook: [
+      { q: "Simplify: 5 + 2 × (6 − 4)³", ans: "21", hint: "Parentheses → Exponent → Multiply → Add" },
+      { q: "Combine like terms: 8x² − 3x + 2x² + 5x − 1", ans: "10x² + 2x − 1", hint: "Group x² terms, then x terms, then constants" },
+      { q: "Expand and simplify: 4(x + 3) − 2(x − 1)", ans: "2x + 14", hint: "Distribute each part first, then combine like terms" },
+      { q: "Simplify: 3x − [2x − (x + 4)]", ans: "2x + 4", hint: "Work from the innermost brackets outward" },
+    ],
+    test: [
+      { q: "Evaluate: 2 + 4 × 3² ÷ 6 − 1", choices: ["7","8","6","9"], ans: 0, explain: "3²=9; 4×9=36; 36÷6=6; 2+6−1=7" },
+      { q: "Simplify: 9x − 4y + 3x + 2y", choices: ["12x − 2y","6x + 6y","12x + 6y","12x + 2y"], ans: 0, explain: "9x+3x=12x; −4y+2y=−2y → 12x−2y" },
+      { q: "Expand: −2(3x − 5)", choices: ["−6x − 10","−6x + 10","6x − 10","6x + 10"], ans: 1, explain: "−2×3x=−6x; −2×−5=+10 → −6x+10" },
+      { q: "Which expression is equivalent to 3(x+2) − (x−1)?", choices: ["2x + 7","2x + 5","4x + 7","2x + 6"], ans: 0, explain: "3x+6−x+1 = 2x+7" },
+      { q: "Simplify: 4x² + 3x − x² + 2x − 5", choices: ["3x² + 5x − 5","5x² + x − 5","3x² + x − 5","4x² + x − 5"], ans: 0, explain: "4x²−x²=3x²; 3x+2x=5x → 3x²+5x−5" },
+    ]
+  },
+
+  '1-2': {
+    title: 'Laws of Exponents',
+    teks: 'TEKS A1.11A–B',
+    steps: ['Lesson', 'Practice', 'Workbook', 'Test'],
+    lesson: `
+      <div class="lcard">
+        <h2>⚡ Laws of Exponents</h2>
+        <span class="teks-tag">TEKS A1.11A–B</span>
+        <p>Exponent rules let us simplify expressions involving powers quickly and accurately. Mastering these is essential for success in Algebra 1 and beyond.</p>
+
+        <div class="concept">
+          <div class="label">📋 The 6 Laws</div>
+          <div class="formula">Product: xᵃ · xᵇ = x^(a+b)</div>
+          <p>Add exponents when multiplying same base.</p>
+        </div>
+        <div class="concept">
+          <div class="label">📋 Quotient Rule</div>
+          <div class="formula">xᵃ ÷ xᵇ = x^(a−b)</div>
+          <p>Subtract exponents when dividing same base.</p>
+        </div>
+        <div class="concept">
+          <div class="label">📋 Power Rule</div>
+          <div class="formula">(xᵃ)ᵇ = x^(a·b)</div>
+          <p>Multiply exponents when raising a power to a power.</p>
+        </div>
+        <div class="concept">
+          <div class="label">📋 Zero & Negative Exponents</div>
+          <div class="formula">x⁰ = 1  ·  x⁻ⁿ = 1/xⁿ</div>
+          <p>Any non-zero base to the zero power is 1. Negative exponents mean reciprocal.</p>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Worked Examples</div>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text"><span class="step-math">x³ · x⁵ = x^(3+5) = x⁸</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text"><span class="step-math">y⁷ ÷ y³ = y^(7−3) = y⁴</span></div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-text"><span class="step-math">(2x²)³ = 2³ · x^(2·3) = 8x⁶</span></div></div>
+          <div class="step-row"><div class="step-num">4</div><div class="step-text"><span class="step-math">5⁰ = 1</span></div></div>
+          <div class="step-row"><div class="step-num">5</div><div class="step-text"><span class="step-math">x⁻² = 1/x²</span></div></div>
+        </div>
+
+        <div class="tip"><div class="tip-ico">⚠️</div><p>Common mistake: x³ · x² ≠ x⁶ (don't multiply exponents when multiplying same-base terms — ADD them!)</p></div>
+      </div>`,
+    practice: [
+      { q: "Simplify: x⁴ · x³", choices: ["x⁷","x¹²","x⁴","2x⁷"], ans: 0, explain: "Product rule: add exponents → x^(4+3) = x⁷" },
+      { q: "Simplify: y⁸ ÷ y²", choices: ["y⁶","y⁴","y¹⁰","y¹⁶"], ans: 0, explain: "Quotient rule: subtract exponents → y^(8−2) = y⁶" },
+      { q: "Simplify: (3x²)⁴", choices: ["81x⁸","12x⁶","81x⁶","12x⁸"], ans: 0, explain: "Power rule: 3⁴=81, x^(2·4)=x⁸ → 81x⁸" },
+      { q: "What is 7⁰ · x⁻²?", choices: ["1/x²","7x²","0","7/x²"], ans: 0, explain: "7⁰=1; x⁻²=1/x² → 1 · 1/x² = 1/x²" },
+    ],
+    workbook: [
+      { q: "Simplify: (2x³y²)⁴", ans: "16x¹²y⁸", hint: "Raise each factor to the 4th power" },
+      { q: "Simplify: (x⁵y³)/(x²y)", ans: "x³y²", hint: "Subtract exponents for x and y separately" },
+      { q: "Write with positive exponents: 3x⁻² y⁰", ans: "3/x²", hint: "y⁰=1, x⁻²=1/x²" },
+    ],
+    test: [
+      { q: "Simplify: a⁵ · a⁻²", choices: ["a³","a⁷","a¹⁰","a⁻³"], ans: 0, explain: "5+(−2)=3 → a³" },
+      { q: "Simplify: (4x³)²", choices: ["16x⁶","8x⁶","16x⁵","8x⁵"], ans: 0, explain: "4²=16; x^(3·2)=x⁶ → 16x⁶" },
+      { q: "Simplify: x⁶y⁴ / x²y", choices: ["x⁴y³","x³y⁴","x⁴y⁵","x⁸y⁵"], ans: 0, explain: "x^(6−2)=x⁴; y^(4−1)=y³ → x⁴y³" },
+      { q: "What is (2⁰ + 3⁻¹)?", choices: ["4/3","1/3","2/3","2"], ans: 0, explain: "2⁰=1; 3⁻¹=1/3; 1+1/3=4/3" },
+      { q: "Which equals x⁻⁴?", choices: ["1/x⁴","x⁴","−x⁴","4/x"], ans: 0, explain: "Negative exponent means reciprocal: x⁻⁴ = 1/x⁴" },
+    ]
+  },
+
+  '1-3': {
+    title: 'Polynomials & Radical Expressions',
+    teks: 'TEKS A1.10B–C',
+    steps: ['Lesson', 'Practice', 'Workbook', 'Test'],
+    lesson: `
+      <div class="lcard">
+        <h2>🧮 Polynomials & Radical Expressions</h2>
+        <span class="teks-tag">TEKS A1.10B–C</span>
+        <p>Polynomials are algebraic expressions with one or more terms. Radical expressions involve square roots or other roots. Both appear throughout Algebra 1.</p>
+
+        <div class="concept">
+          <div class="label">📋 Polynomial Vocabulary</div>
+          <div class="formula">ax² + bx + c</div>
+          <p><strong>Monomial:</strong> 1 term (e.g., 5x²) | <strong>Binomial:</strong> 2 terms | <strong>Trinomial:</strong> 3 terms | <strong>Degree:</strong> highest exponent</p>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Adding & Subtracting Polynomials</div>
+          <p>Simplify: <span class="step-math">(3x² + 2x − 1) + (x² − 5x + 4)</span></p>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Remove parentheses: <span class="step-math">3x² + 2x − 1 + x² − 5x + 4</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Combine like terms: <span class="step-math">4x² − 3x + 3</span></div></div>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Multiplying Polynomials (FOIL)</div>
+          <p>Expand: <span class="step-math">(x + 3)(x − 2)</span></p>
+          <div class="step-row"><div class="step-num">F</div><div class="step-text"><strong>First:</strong> <span class="step-math">x · x = x²</span></div></div>
+          <div class="step-row"><div class="step-num">O</div><div class="step-text"><strong>Outer:</strong> <span class="step-math">x · (−2) = −2x</span></div></div>
+          <div class="step-row"><div class="step-num">I</div><div class="step-text"><strong>Inner:</strong> <span class="step-math">3 · x = 3x</span></div></div>
+          <div class="step-row"><div class="step-num">L</div><div class="step-text"><strong>Last:</strong> <span class="step-math">3 · (−2) = −6</span></div></div>
+          <div class="step-row"><div class="step-num">✓</div><div class="step-text">Combine: <span class="step-math">x² + x − 6</span></div></div>
+        </div>
+
+        <div class="concept">
+          <div class="label">📋 Simplifying Radicals</div>
+          <div class="formula">√(a·b) = √a · √b</div>
+          <p>Find perfect square factors and pull them outside the radical.</p>
+        </div>
+        <div class="example">
+          <div class="ex-label">📘 Simplifying √72</div>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Factor: <span class="step-math">72 = 36 × 2</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Split: <span class="step-math">√36 · √2 = 6√2</span></div></div>
+        </div>
+
+        <div class="tip"><div class="tip-ico">💡</div><p>Memorize perfect squares: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100. Spotting them speeds up radical simplification!</p></div>
+      </div>`,
+    practice: [
+      { q: "Add: (2x² + 3x) + (x² − x + 5)", choices: ["3x² + 2x + 5","x² + 2x + 5","3x² − 2x + 5","3x⁴ + 2x"], ans: 0, explain: "2x²+x²=3x²; 3x−x=2x; +5 → 3x²+2x+5" },
+      { q: "Expand: (x + 4)(x + 2)", choices: ["x²+6x+8","x²+8x+8","x²+6x+6","x²+2x+8"], ans: 0, explain: "FOIL: x²+2x+4x+8 = x²+6x+8" },
+      { q: "Simplify: √48", choices: ["4√3","6√2","4√12","12"], ans: 0, explain: "48 = 16×3; √16·√3 = 4√3" },
+      { q: "What is the degree of 5x³ − 2x + 7?", choices: ["3","2","1","5"], ans: 0, explain: "Highest exponent is 3 — so degree is 3." },
+    ],
+    workbook: [
+      { q: "Subtract: (4x² − 3x + 2) − (x² + x − 5)", ans: "3x² − 4x + 7", hint: "Distribute the negative sign to each term in the second polynomial" },
+      { q: "Expand: (2x − 3)(x + 4)", ans: "2x² + 5x − 12", hint: "Use FOIL: First, Outer, Inner, Last" },
+      { q: "Simplify: √75 + √3", ans: "6√3", hint: "Simplify √75 first: √75 = 5√3, then add like radicals" },
+    ],
+    test: [
+      { q: "Simplify: (5x² − 2x) − (3x² + x − 4)", choices: ["2x² − 3x + 4","2x² − x − 4","2x² + 3x + 4","8x² − 3x − 4"], ans: 0, explain: "5x²−3x²=2x²; −2x−x=−3x; 0+4=+4 → 2x²−3x+4" },
+      { q: "Expand: (x − 5)(x + 5)", choices: ["x² − 25","x² + 25","x² − 10x + 25","x² − 10x − 25"], ans: 0, explain: "Difference of squares: (a−b)(a+b)=a²−b²=x²−25" },
+      { q: "Simplify: √200", choices: ["10√2","20√2","4√5","10√4"], ans: 0, explain: "200=100×2; √100·√2=10√2" },
+      { q: "What is (3x+1)²?", choices: ["9x²+6x+1","9x²+1","9x²+3x+1","6x²+6x+1"], ans: 0, explain: "(3x)²+2(3x)(1)+1²=9x²+6x+1" },
+      { q: "Which is a trinomial of degree 2?", choices: ["x²+3x−5","x³+1","4x","x²+x²+x²"], ans: 0, explain: "3 terms, highest power is 2 → degree-2 trinomial" },
+    ]
+  },
+};
+
+// Generate scaffold lessons for Units 2-8
+const SCAFFOLD = (uNum, lNum, uTitle, teks, icon) => ({
+  title: `Lesson ${lNum} – ${uTitle}`,
+  teks,
+  steps: ['Lesson', 'Practice', 'Workbook', 'Test'],
+  lesson: `<div class="lcard">
+    <h2>${icon} ${uTitle} – Lesson ${lNum}</h2>
+    <span class="teks-tag">${teks}</span>
+    <p>This lesson covers key concepts from <strong>${uTitle}</strong> aligned to the Texas TEKS.</p>
+    <div class="concept">
+      <div class="label">📋 Core Concept</div>
+      <div class="formula">Lesson ${lNum} Content</div>
+      <p>Interactive lesson content for Unit ${uNum}, Lesson ${lNum} is loaded here. Work through each example carefully before moving to Practice.</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Read through each example, take notes, then test yourself in the Practice section!</p></div>
+  </div>`,
+  practice: [
+    { q: `Unit ${uNum} Practice Question 1`, choices: ["Option A","Option B","Option C","Option D"], ans: 0, explain: "Great job! This is the correct answer." },
+    { q: `Unit ${uNum} Practice Question 2`, choices: ["Option A","Option B","Option C","Option D"], ans: 1, explain: "Option B is correct. Review the lesson concept above." },
+    { q: `Unit ${uNum} Practice Question 3`, choices: ["Option A","Option B","Option C","Option D"], ans: 2, explain: "Option C is correct!" },
+  ],
+  workbook: [
+    { q: `Unit ${uNum} Workbook Problem 1`, ans: "See lesson", hint: "Apply the core concept from the lesson" },
+    { q: `Unit ${uNum} Workbook Problem 2`, ans: "See lesson", hint: "Use the worked examples as a guide" },
+  ],
+  test: [
+    { q: `Unit ${uNum} Test Question 1`, choices: ["A","B","C","D"], ans: 0, explain: "A is correct." },
+    { q: `Unit ${uNum} Test Question 2`, choices: ["A","B","C","D"], ans: 1, explain: "B is correct." },
+    { q: `Unit ${uNum} Test Question 3`, choices: ["A","B","C","D"], ans: 2, explain: "C is correct." },
+    { q: `Unit ${uNum} Test Question 4`, choices: ["A","B","C","D"], ans: 3, explain: "D is correct." },
+    { q: `Unit ${uNum} Test Question 5`, choices: ["A","B","C","D"], ans: 0, explain: "A is correct." },
+  ]
+});
+
+// Populate scaffold lessons
+for(let u=2; u<=8; u++){
+  const unit = UNITS[u-1];
+  for(let l=1; l<=3; l++){
+    LESSONS[`${u}-${l}`] = SCAFFOLD(u, l, unit.title, unit.teks, unit.icon);
+  }
+}
+
+// Unit lesson titles
+LESSONS['2-1'] = {...LESSONS['2-1'], title:'Introduction to Functions – Domain & Range'};
+LESSONS['2-2'] = {...LESSONS['2-2'], title:'Slope & Rate of Change'};
+LESSONS['2-3'] = {...LESSONS['2-3'], title:'Linear Equations: Slope-Intercept & Standard Form'};
+LESSONS['3-1'] = {...LESSONS['3-1'], title:'Solving One-Variable Linear Equations'};
+LESSONS['3-2'] = {...LESSONS['3-2'], title:'Multi-Step Equations & Variables on Both Sides'};
+LESSONS['3-3'] = {...LESSONS['3-3'], title:'Literal Equations & Formulas'};
+LESSONS['4-1'] = {...LESSONS['4-1'], title:'Solving & Graphing Linear Inequalities'};
+LESSONS['4-2'] = {...LESSONS['4-2'], title:'Compound Inequalities'};
+LESSONS['4-3'] = {...LESSONS['4-3'], title:'Inequalities in Two Variables'};
+LESSONS['5-1'] = {...LESSONS['5-1'], title:'Graphing Systems of Equations'};
+LESSONS['5-2'] = {...LESSONS['5-2'], title:'Substitution Method'};
+LESSONS['5-3'] = {...LESSONS['5-3'], title:'Elimination Method'};
+LESSONS['6-1'] = {...LESSONS['6-1'], title:'Introduction to Quadratic Functions'};
+LESSONS['6-2'] = {...LESSONS['6-2'], title:'Graphing Parabolas & Key Features'};
+LESSONS['6-3'] = {...LESSONS['6-3'], title:'Transformations of Quadratic Functions'};
+LESSONS['7-1'] = {...LESSONS['7-1'], title:'Solving Quadratics by Factoring'};
+LESSONS['7-2'] = {...LESSONS['7-2'], title:'Completing the Square & Square Roots'};
+LESSONS['7-3'] = {...LESSONS['7-3'], title:'The Quadratic Formula'};
+LESSONS['8-1'] = {...LESSONS['8-1'], title:'Exponential Growth & Decay'};
+LESSONS['8-2'] = {...LESSONS['8-2'], title:'Interpreting Scatterplots & Trend Lines'};
+LESSONS['8-3'] = {...LESSONS['8-3'], title:'Statistical Analysis & Correlation'};
+
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let currentUnit = null;
+let currentLesson = null;
+let currentStep = 0; // 0=lesson,1=practice,2=workbook,3=test
+let practiceScore = 0;
+let testAnswers = {};
+
+// ═══════════════════════════════════════════════
+//  HOME
+// ═══════════════════════════════════════════════
+function getUnitProgress(uIdx){
+  const p = PROGRESS[uIdx];
+  const total = UNITS[uIdx].lessons * 3 + 1; // lessons × steps + test
+  const done = p.lessonsComplete.length * 3 + (p.testScore !== null ? 1 : 0);
+  return Math.min(100, Math.round((done/total)*100));
+}
+function getUnitState(uIdx){
+  if(uIdx === 0) return 'current';
+  const prev = PROGRESS[uIdx-1];
+  if(prev.testScore === null) return 'locked';
+  const p = PROGRESS[uIdx];
+  if(p.testScore !== null) return 'completed';
+  if(p.lessonsComplete.length > 0) return 'current';
+  return 'start';
+}
+
+function renderHome(){
+  const grid = document.getElementById('unitsGrid');
+  grid.innerHTML = '';
+  let totalPct = 0, done = 0;
+  UNITS.forEach((u, i) => {
+    const pct = getUnitProgress(i);
+    totalPct += pct;
+    if(pct===100) done++;
+    const state = getUnitState(i);
+    const stateLabel = {current:'▶ Start',start:'▶ Start',completed:'✅ Done',locked:'🔒 Locked'}[state];
+    const stateClass = {current:'ss',start:'ss',completed:'sd',locked:'sl'}[state];
+    const locked = state === 'locked';
+    const div = document.createElement('div');
+    div.className = `ucard${locked?' locked':''}${state==='completed'?' completed':''}${state==='current'?' current':''}`;
+    div.innerHTML = `
+      <div class="u-accent" style="background:${u.color}"></div>
+      <div class="u-head">
+        <div class="u-icon" style="background:${u.light}">${u.icon}</div>
+        <div><div class="u-num">Unit ${u.num}</div><div class="u-title">${u.title}</div><div class="u-teks">${u.teks}</div></div>
+      </div>
+      <div class="u-desc">${u.desc}</div>
+      <div class="u-bar"><div class="u-bar-fill" style="width:${pct}%;background:${u.color}"></div></div>
+      <div class="u-foot">
+        <span class="u-lessons">📖 ${u.lessons} lessons · ${pct}% done</span>
+        <span class="u-status ${stateClass}">${stateLabel}</span>
+      </div>`;
+    if(!locked) div.addEventListener('click', ()=>openUnit(i));
+    grid.appendChild(div);
+  });
+  const overall = Math.round(totalPct/UNITS.length);
+  document.getElementById('overallBar').style.width = overall+'%';
+  document.getElementById('progPct').textContent = overall+'% complete';
+  document.getElementById('progFrac').textContent = done+' / '+UNITS.length+' units';
+}
+
+function goHome(){ showView('homeView'); renderHome(); }
+function scrollToUnits(){ document.getElementById('unitsAnchor').scrollIntoView({behavior:'smooth'}); }
+function startLearning(){
+  for(let i=0;i<UNITS.length;i++){
+    if(getUnitState(i)!=='locked'&&getUnitProgress(i)<100){ openUnit(i); return; }
+  }
+  openUnit(0);
+}
+
+// ═══════════════════════════════════════════════
+//  UNIT → LESSON
+// ═══════════════════════════════════════════════
+function openUnit(uIdx){
+  currentUnit = uIdx;
+  const p = PROGRESS[uIdx];
+  // Find first incomplete lesson
+  let lIdx = 0;
+  for(let l=1;l<=UNITS[uIdx].lessons;l++){
+    if(!p.lessonsComplete.includes(l)){ lIdx=l; break; }
+  }
+  if(lIdx===0) lIdx=1; // all done, show first
+  openLesson(uIdx+1, lIdx);
+}
+
+function openLesson(unitNum, lessonNum){
+  currentUnit = unitNum-1;
+  currentLesson = lessonNum;
+  currentStep = 0;
+  testAnswers = {};
+  practiceScore = 0;
+
+  document.getElementById('lvTitle').textContent = `Unit ${unitNum}: ${UNITS[unitNum-1].title}`;
+  showView('lessonView');
+  renderStep();
+}
+
+function renderStep(){
+  renderStepNav();
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const ld = LESSONS[key];
+  if(!ld){ return; }
+  const c = document.getElementById('lcontent');
+  if(currentStep===0) renderLesson(ld, c);
+  else if(currentStep===1) renderPractice(ld, c);
+  else if(currentStep===2) renderWorkbook(ld, c);
+  else renderTest(ld, c);
+  c.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderStepNav(){
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const ld = LESSONS[key];
+  const steps = ld ? ld.steps : ['Lesson','Practice','Workbook','Test'];
+  const nav = document.getElementById('lsteps');
+  nav.innerHTML = '';
+  // Lesson nav
+  for(let l=1;l<=UNITS[currentUnit].lessons;l++){
+    const done = PROGRESS[currentUnit].lessonsComplete.includes(l);
+    const active = l===currentLesson;
+    const btn = document.createElement('button');
+    btn.className = `lstep${done?' done':active?' active':' locked2'}`;
+    btn.textContent = (done?'✓ ':'')+'Lesson '+l;
+    const ll = l;
+    btn.addEventListener('click', ()=>{ currentLesson=ll; currentStep=0; renderStep(); });
+    nav.appendChild(btn);
+  }
+  // Step nav for current lesson
+  const div = document.createElement('div');
+  div.style.cssText='display:flex;gap:6px;padding-left:12px;border-left:2px solid #E5E7EB;margin-left:6px';
+  steps.forEach((s,i)=>{
+    const btn = document.createElement('button');
+    btn.className = `lstep${i===currentStep?' active':''}`;
+    btn.textContent = ['📖','✏️','📝','🧪'][i]+' '+s;
+    const si=i;
+    btn.addEventListener('click',()=>{ currentStep=si; renderStep(); });
+    div.appendChild(btn);
+  });
+  nav.appendChild(div);
+}
+
+function renderLesson(ld, c){
+  c.innerHTML = ld.lesson + `
+    <div class="nav-row">
+      <div></div>
+      <button class="btn btn-pu" onclick="currentStep=1;renderStep()">✏️ Practice Problems →</button>
+    </div>`;
+}
+
+function renderPractice(ld, c){
+  practiceScore = 0;
+  let html = `<div class="practice">
+    <h3>✏️ Practice Problems</h3>
+    <div class="score-bar"><span class="score-num" id="scoreNum">0</span><span class="score-lbl">/ ${ld.practice.length} correct</span></div>`;
+  ld.practice.forEach((p,pi)=>{
+    html += `<div class="prob" id="prob${pi}">
+      <div class="prob-q">Q${pi+1}. ${p.q}</div>
+      <div class="choices">
+        ${p.choices.map((ch,ci)=>`<button class="choice" onclick="checkPractice(${pi},${ci})" id="pc${pi}_${ci}">${ch}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb${pi}"></div>
+    </div>`;
+  });
+  html += `</div>
+    <div class="nav-row">
+      <button class="btn btn-sm" style="background:#E5E7EB;color:#374151" onclick="currentStep=0;renderStep()">← Back to Lesson</button>
+      <button class="btn btn-pu" onclick="goWorkbook()">📝 Workbook Assignment →</button>
+    </div>`;
+  c.innerHTML = html;
+}
+
+function checkPractice(pi, ci){
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const p = LESSONS[key].practice[pi];
+  const prob = document.getElementById('prob'+pi);
+  const fb = document.getElementById('fb'+pi);
+  // disable all choices
+  for(let i=0;i<p.choices.length;i++){
+    const btn = document.getElementById(`pc${pi}_${i}`);
+    btn.disabled = true;
+    if(i===p.ans) btn.className='choice correct-ans';
+    else if(i===ci && ci!==p.ans) btn.className='choice wrong-ans';
+  }
+  if(ci===p.ans){
+    prob.className='prob correct';
+    fb.className='feedback show fb-c';
+    fb.textContent='✅ Correct! '+p.explain;
+    practiceScore++;
+  } else {
+    prob.className='prob wrong';
+    fb.className='feedback show fb-w';
+    fb.textContent='❌ Not quite. '+p.explain;
+  }
+  document.getElementById('scoreNum').textContent = practiceScore;
+}
+
+function goWorkbook(){
+  currentStep=2; renderStep();
+}
+
+function renderWorkbook(ld, c){
+  let html = `<div class="wb-card">
+    <h3>📝 Workbook Assignment</h3>
+    <p style="color:var(--mu);font-size:14px;font-weight:600;margin-bottom:20px">Type your answers below. Press "Check" to see if you're correct.</p>`;
+  ld.workbook.forEach((p,i)=>{
+    html += `<div class="wb-prob">
+      <div class="wp-q">Problem ${i+1}: ${p.q}</div>
+      <div style="font-size:12px;color:var(--mu);font-weight:600;margin-bottom:6px">💡 Hint: ${p.hint}</div>
+      <input class="wb-input" id="wbi${i}" placeholder="Type your answer here..." />
+      <button class="check-btn" onclick="checkWB(${i},'${p.ans.replace(/'/g,"\\'")}')">Check Answer</button>
+      <div class="wb-feedback" id="wbf${i}"></div>
+    </div>`;
+  });
+  html += `</div>
+    <div class="nav-row">
+      <button class="btn btn-sm" style="background:#E5E7EB;color:#374151" onclick="currentStep=1;renderStep()">← Practice</button>
+      <button class="btn btn-pu" onclick="currentStep=3;renderStep()">🧪 Take Unit Test →</button>
+    </div>`;
+  c.innerHTML = html;
+  PROGRESS[currentUnit].workbookDone = true;
+  saveP();
+}
+
+function checkWB(i, ans){
+  const inp = document.getElementById('wbi'+i);
+  const fb = document.getElementById('wbf'+i);
+  const val = inp.value.trim().toLowerCase().replace(/\s/g,'');
+  const correct = ans.toLowerCase().replace(/\s/g,'');
+  if(val===correct){
+    inp.className='wb-input correct-inp';
+    fb.className='wb-feedback show';
+    fb.style.color='var(--gr)';
+    fb.textContent='✅ Correct! Great work!';
+  } else {
+    inp.className='wb-input wrong-inp';
+    fb.className='wb-feedback show';
+    fb.style.color='var(--re)';
+    fb.textContent='❌ Not quite. The answer is: '+ans+'. Review the lesson and try again!';
+  }
+}
+
+function renderTest(ld, c){
+  let html = `<div class="test-card">
+    <h3>🧪 Unit ${currentUnit+1} Test — Lesson ${currentLesson}</h3>
+    <p class="desc">Answer all questions, then submit for your grade. Good luck!</p>`;
+  ld.test.forEach((q,qi)=>{
+    html += `<div class="test-q" id="tq${qi}">
+      <div class="qnum">Question ${qi+1}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="test-choices">
+        ${q.choices.map((ch,ci)=>`<button class="test-choice" onclick="selectTest(${qi},${ci})" id="tc${qi}_${ci}">${String.fromCharCode(65+ci)}. ${ch}</button>`).join('')}
+      </div>
+    </div>`;
+  });
+  html += `</div>
+    <div id="testSubmit" style="text-align:center;margin-bottom:24px">
+      <button class="btn btn-y" onclick="submitTest()" style="font-size:18px;padding:16px 40px">Submit Test ✓</button>
+    </div>
+    <div id="testResult" style="display:none"></div>`;
+  c.innerHTML = html;
+}
+
+function selectTest(qi, ci){
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const q = LESSONS[key].test[qi];
+  testAnswers[qi] = ci;
+  for(let i=0;i<q.choices.length;i++){
+    const btn = document.getElementById(`tc${qi}_${i}`);
+    btn.className = i===ci ? 'test-choice sel' : 'test-choice';
+  }
+}
+
+function submitTest(){
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const ld = LESSONS[key];
+  let correct = 0;
+  ld.test.forEach((q,qi)=>{
+    const sel = testAnswers[qi];
+    for(let i=0;i<q.choices.length;i++){
+      const btn = document.getElementById(`tc${qi}_${i}`);
+      btn.disabled = true;
+      if(i===q.ans) btn.className='test-choice reveal-c';
+      else if(i===sel && sel!==q.ans) btn.className='test-choice reveal-w';
+    }
+    if(sel===q.ans) correct++;
+  });
+  const pct = Math.round((correct/ld.test.length)*100);
+  const grade = pct>=90?'A':pct>=80?'B':pct>=70?'C':pct>=60?'D':'F';
+  const msg = pct>=90?'Outstanding! 🌟':pct>=80?'Great job! 🎉':pct>=70?'Good work! 👍':pct>=60?'Almost there! Keep practicing!':'Review the lesson and try again!';
+
+  PROGRESS[currentUnit].testScore = pct;
+  if(!PROGRESS[currentUnit].lessonsComplete.includes(currentLesson)){
+    PROGRESS[currentUnit].lessonsComplete.push(currentLesson);
+  }
+  saveP();
+
+  document.getElementById('testSubmit').style.display='none';
+  document.getElementById('testResult').style.display='block';
+  document.getElementById('testResult').innerHTML = `
+    <div class="result-card">
+      <div class="grade">${grade}</div>
+      <div class="grade-label">${correct} / ${ld.test.length} correct · ${pct}%</div>
+      <div class="grade-sub">${msg}</div>
+    </div>
+    <div style="text-align:center;margin-bottom:32px">
+      <p style="color:var(--mu);font-size:14px;font-weight:700;margin-bottom:16px">Explanations:</p>
+      ${ld.test.map((q,qi)=>`<div style="text-align:left;background:#F8F7FF;border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px"><strong>Q${qi+1}:</strong> ${q.explain}</div>`).join('')}
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-sm" style="background:#E5E7EB;color:#374151" onclick="currentStep=0;currentLesson=1;renderStep()">↺ Redo Lessons</button>
+      ${getNextNav()}
+    </div>`;
+}
+
+function getNextNav(){
+  const nextLesson = currentLesson + 1;
+  if(nextLesson <= UNITS[currentUnit].lessons){
+    return `<button class="btn btn-pu" onclick="currentLesson=${nextLesson};currentStep=0;renderStep()">Next Lesson ${nextLesson} →</button>`;
+  } else {
+    const nextUnit = currentUnit + 1;
+    if(nextUnit < UNITS.length){
+      return `<button class="btn btn-pu" onclick="openUnit(${nextUnit})">Next: Unit ${nextUnit+1} →</button>`;
+    }
+    return `<button class="btn btn-y" onclick="goHome()">🏆 Course Complete! →</button>`;
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// init
+window.addEventListener('load', ()=>{ renderHome(); });
+</script>
+</body>
+</html>
