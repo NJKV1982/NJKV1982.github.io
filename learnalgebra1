@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Learn Algebra</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
+:root{--pu:#7C3AED;--pu2:#EDE9FE;--bl:#2563EB;--bl2:#DBEAFE;--gr:#059669;--gr2:#D1FAE5;--or:#EA580C;--or2:#FFEDD5;--pk:#DB2777;--pk2:#FCE7F3;--ye:#D97706;--ye2:#FEF3C7;--te:#0891B2;--te2:#CFFAFE;--re:#DC2626;--re2:#FEE2E2;--bg:#F8F7FF;--card:#fff;--txt:#1E1B4B;--mu:#6B7280}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh}
+
+/* ── VIEWS ── */
+.view{display:none;min-height:100vh}
+.view.active{display:block}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#7C3AED,#2563EB 50%,#0891B2);padding:56px 24px 72px;text-align:center;position:relative;overflow:hidden}
+.hero::before,.hero::after{content:'';position:absolute;border-radius:50%;background:rgba(255,255,255,.07)}
+.hero::before{width:320px;height:320px;top:-80px;left:-60px}
+.hero::after{width:400px;height:400px;bottom:-100px;right:-60px}
+.badge{display:inline-block;background:rgba(255,255,255,.18);color:#fff;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:5px 16px;border-radius:100px;margin-bottom:18px;border:1px solid rgba(255,255,255,.3)}
+.hero h1{font-family:'Fredoka One',cursive;font-size:clamp(52px,10vw,100px);color:#fff;line-height:1;text-shadow:0 4px 24px rgba(0,0,0,.2)}
+.hero h1 span{color:#FCD34D}
+.hero p{color:rgba(255,255,255,.85);font-size:19px;font-weight:600;margin-top:12px}
+.hero-btns{display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap;position:relative;z-index:1}
+.btn{display:inline-block;font-family:'Nunito',sans-serif;font-weight:800;font-size:17px;padding:14px 32px;border-radius:100px;border:none;cursor:pointer;transition:.15s;text-decoration:none}
+.btn-y{background:#FCD34D;color:#1E1B4B;box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.btn-y:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.btn-w{background:rgba(255,255,255,.15);color:#fff;border:2px solid rgba(255,255,255,.4)}
+.btn-w:hover{background:rgba(255,255,255,.25)}
+.btn-pu{background:var(--pu);color:#fff;box-shadow:0 4px 16px rgba(124,58,237,.35)}
+.btn-pu:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(124,58,237,.45)}
+.btn-sm{font-size:14px;padding:9px 20px}
+
+/* stats */
+.stats{background:#fff;display:flex;justify-content:center;flex-wrap:wrap;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+.stat{padding:18px 36px;text-align:center;border-right:1px solid #F3F4F6}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Fredoka One',cursive;font-size:30px;color:var(--pu)}
+.stat-l{font-size:12px;color:var(--mu);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+
+/* progress */
+.sec{padding:48px 24px;max-width:1100px;margin:0 auto}
+.sec-t{font-family:'Fredoka One',cursive;font-size:30px;margin-bottom:6px}
+.sec-s{color:var(--mu);font-size:15px;margin-bottom:28px;font-weight:600}
+.prog-card{background:linear-gradient(135deg,#7C3AED,#2563EB);border-radius:20px;padding:28px;color:#fff;margin-bottom:36px}
+.prog-card h3{font-size:18px;font-weight:700;margin-bottom:4px}
+.prog-card p{opacity:.8;font-size:13px;margin-bottom:16px}
+.prog-bar{background:rgba(255,255,255,.2);border-radius:100px;height:12px;overflow:hidden;margin-bottom:8px}
+.prog-fill{background:#FCD34D;height:100%;border-radius:100px;transition:width 1.2s ease}
+.prog-lbl{display:flex;justify-content:space-between;font-size:12px;opacity:.85;font-weight:600}
+
+/* units grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.ucard{background:var(--card);border-radius:18px;padding:22px;box-shadow:0 2px 14px rgba(0,0,0,.06);border:2px solid transparent;cursor:pointer;transition:.15s;position:relative;overflow:hidden}
+.ucard:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.12)}
+.ucard.locked{opacity:.55;cursor:not-allowed;filter:grayscale(.3)}
+.ucard.completed{border-color:var(--gr)}
+.ucard.current{border-color:var(--pu);box-shadow:0 0 0 3px rgba(124,58,237,.12)}
+.u-accent{position:absolute;top:0;left:0;right:0;height:4px;border-radius:18px 18px 0 0}
+.u-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.u-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.u-num{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--mu)}
+.u-title{font-size:16px;font-weight:800;line-height:1.25}
+.u-teks{font-size:10px;color:var(--mu);font-weight:600;margin-top:3px}
+.u-desc{font-size:12px;color:var(--mu);line-height:1.6;margin-bottom:14px}
+.u-bar{height:5px;background:#F3F4F6;border-radius:100px;overflow:hidden;margin-bottom:10px}
+.u-bar-fill{height:100%;border-radius:100px}
+.u-foot{display:flex;align-items:center;justify-content:space-between}
+.u-lessons{font-size:11px;font-weight:700;color:var(--mu)}
+.u-status{font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px}
+.ss{background:var(--pu2);color:var(--pu)} .sa{background:var(--bl2);color:var(--bl)} .sd{background:var(--gr2);color:var(--gr)} .sl{background:#F3F4F6;color:var(--mu)}
+
+/* TEA banner */
+.tea{background:linear-gradient(135deg,#FEF3C7,#FFEDD5);border:2px solid #FCD34D;border-radius:18px;padding:24px 28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.tea-ico{font-size:44px;flex-shrink:0}
+.tea h3{font-size:17px;font-weight:800;color:#92400E;margin-bottom:5px}
+.tea p{font-size:13px;color:#78350F;line-height:1.6;max-width:700px}
+.tea-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.ttag{background:rgba(255,255,255,.7);color:#92400E;font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;border:1px solid rgba(180,120,0,.2)}
+
+/* math symbols */
+.mf{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden}
+.ms{position:absolute;font-family:'Fredoka One',cursive;color:rgba(255,255,255,.1);font-size:44px;animation:fl 7s ease-in-out infinite;user-select:none}
+@keyframes fl{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-18px) rotate(4deg)}}
+
+footer{text-align:center;padding:28px 24px;color:var(--mu);font-size:12px;font-weight:600;border-top:1px solid #E5E7EB;margin-top:12px}
+
+/* ── LESSON VIEW ── */
+.lv{background:var(--bg);min-height:100vh}
+.lv-nav{background:#fff;border-bottom:2px solid #E5E7EB;padding:14px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.back-btn{background:none;border:2px solid #E5E7EB;border-radius:10px;padding:7px 14px;font-family:'Nunito',sans-serif;font-weight:700;font-size:14px;cursor:pointer;color:var(--txt);transition:.15s}
+.back-btn:hover{border-color:var(--pu);color:var(--pu)}
+.lv-brand{font-family:'Fredoka One',cursive;font-size:18px;color:var(--pu)}
+.lv-title{font-size:15px;font-weight:800;flex:1}
+
+/* lesson steps */
+.lsteps{display:flex;gap:6px;padding:16px 24px;background:#fff;border-bottom:1px solid #E5E7EB;overflow-x:auto}
+.lstep{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;font-size:12px;font-weight:700;border:2px solid #E5E7EB;cursor:pointer;white-space:nowrap;transition:.15s;background:#fff}
+.lstep.done{background:var(--gr2);border-color:var(--gr);color:var(--gr)}
+.lstep.active{background:var(--pu);border-color:var(--pu);color:#fff}
+.lstep.locked2{opacity:.45;cursor:not-allowed}
+
+/* lesson content area */
+.lcontent{max-width:860px;margin:0 auto;padding:32px 24px}
+
+/* lesson card */
+.lcard{background:#fff;border-radius:20px;padding:32px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:24px}
+.lcard h2{font-family:'Fredoka One',cursive;font-size:26px;margin-bottom:6px}
+.lcard .teks-tag{display:inline-block;background:var(--pu2);color:var(--pu);font-size:11px;font-weight:700;padding:3px 10px;border-radius:100px;margin-bottom:16px}
+.lcard p{font-size:15px;line-height:1.75;color:#374151;margin-bottom:14px}
+.lcard ul{padding-left:20px;margin-bottom:14px}
+.lcard ul li{font-size:15px;line-height:1.75;color:#374151;margin-bottom:6px}
+
+/* concept box */
+.concept{background:linear-gradient(135deg,var(--pu2),var(--bl2));border-left:4px solid var(--pu);border-radius:12px;padding:20px 24px;margin:20px 0}
+.concept .label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--pu);margin-bottom:6px}
+.concept .formula{font-size:20px;font-weight:800;color:var(--txt);font-family:monospace;margin-bottom:8px}
+.concept p{font-size:14px;color:#374151;line-height:1.6;margin:0}
+
+/* example box */
+.example{background:#F8F7FF;border:2px solid var(--pu2);border-radius:12px;padding:20px 24px;margin:20px 0}
+.example .ex-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--bl);margin-bottom:10px}
+.step-row{display:flex;gap:12px;margin-bottom:10px;align-items:flex-start}
+.step-num{background:var(--pu);color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;margin-top:2px}
+.step-text{font-size:14px;line-height:1.6;color:#374151}
+.step-math{font-weight:800;font-family:monospace;font-size:15px;color:var(--pu)}
+
+/* tip box */
+.tip{background:#FEF3C7;border:2px solid #FCD34D;border-radius:12px;padding:14px 18px;margin:16px 0;display:flex;gap:10px;align-items:flex-start}
+.tip-ico{font-size:20px;flex-shrink:0}
+.tip p{font-size:13px;color:#78350F;font-weight:600;margin:0;line-height:1.55}
+
+/* practice problems */
+.practice{background:#fff;border-radius:20px;padding:28px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:24px}
+.practice h3{font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:18px;color:var(--bl)}
+.prob{border:2px solid #E5E7EB;border-radius:14px;padding:18px;margin-bottom:16px;transition:.2s}
+.prob.correct{border-color:var(--gr);background:var(--gr2)}
+.prob.wrong{border-color:var(--re);background:var(--re2)}
+.prob-q{font-size:15px;font-weight:700;margin-bottom:12px;color:var(--txt)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choice{padding:10px 16px;border:2px solid #E5E7EB;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:#fff;font-family:'Nunito',sans-serif;transition:.15s;text-align:left}
+.choice:hover:not(:disabled){border-color:var(--pu);background:var(--pu2);color:var(--pu)}
+.choice.correct-ans{background:var(--gr2);border-color:var(--gr);color:var(--gr)}
+.choice.wrong-ans{background:var(--re2);border-color:var(--re);color:var(--re)}
+.choice:disabled{cursor:default}
+.feedback{margin-top:10px;font-size:13px;font-weight:700;padding:8px 14px;border-radius:8px;display:none}
+.feedback.show{display:block}
+.fb-c{background:var(--gr2);color:var(--gr)}
+.fb-w{background:var(--re2);color:var(--re)}
+
+/* score */
+.score-bar{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.score-num{font-family:'Fredoka One',cursive;font-size:28px;color:var(--pu)}
+.score-lbl{font-size:13px;font-weight:700;color:var(--mu)}
+
+/* test view */
+.test-card{background:#fff;border-radius:20px;padding:28px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:24px}
+.test-card h3{font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:6px;color:var(--re)}
+.test-card .desc{font-size:14px;color:var(--mu);margin-bottom:20px;font-weight:600}
+.test-q{border:2px solid #E5E7EB;border-radius:14px;padding:20px;margin-bottom:16px}
+.test-q .qnum{font-size:11px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.test-q .qtext{font-size:15px;font-weight:700;margin-bottom:12px}
+.test-choices{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.test-choice{padding:10px 16px;border:2px solid #E5E7EB;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;background:#fff;font-family:'Nunito',sans-serif;transition:.15s;text-align:left}
+.test-choice:hover:not(:disabled){border-color:var(--bl);background:var(--bl2);color:var(--bl)}
+.test-choice.sel{border-color:var(--bl);background:var(--bl2);color:var(--bl)}
+.test-choice.reveal-c{background:var(--gr2);border-color:var(--gr);color:var(--gr)}
+.test-choice.reveal-w{background:var(--re2);border-color:var(--re);color:var(--re)}
+.test-choice:disabled{cursor:default}
+
+/* result card */
+.result-card{background:linear-gradient(135deg,#7C3AED,#2563EB);border-radius:20px;padding:36px;text-align:center;color:#fff;margin-bottom:24px}
+.result-card .grade{font-family:'Fredoka One',cursive;font-size:72px;margin-bottom:6px}
+.result-card .grade-label{font-size:24px;font-weight:800;margin-bottom:4px}
+.result-card .grade-sub{opacity:.8;font-size:15px}
+
+/* workbook */
+.wb-card{background:#fff;border-radius:20px;padding:28px;box-shadow:0 2px 16px rgba(0,0,0,.07);margin-bottom:24px}
+.wb-card h3{font-family:'Fredoka One',cursive;font-size:22px;margin-bottom:6px;color:var(--ye)}
+.wb-prob{border:2px solid #E5E7EB;border-radius:12px;padding:16px;margin-bottom:12px}
+.wb-prob .wp-q{font-size:14px;font-weight:700;margin-bottom:10px}
+.wb-input{width:100%;padding:10px 14px;border:2px solid #E5E7EB;border-radius:10px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;outline:none;transition:.15s}
+.wb-input:focus{border-color:var(--pu)}
+.wb-input.correct-inp{border-color:var(--gr);background:var(--gr2)}
+.wb-input.wrong-inp{border-color:var(--re);background:var(--re2)}
+.check-btn{margin-top:8px;padding:8px 18px;border-radius:8px;border:2px solid var(--pu);background:var(--pu2);color:var(--pu);font-family:'Nunito',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:.15s}
+.check-btn:hover{background:var(--pu);color:#fff}
+.wb-feedback{font-size:12px;font-weight:700;margin-top:6px;display:none}
+.wb-feedback.show{display:block}
+
+/* nav buttons */
+.nav-row{display:flex;gap:12px;justify-content:space-between;margin-top:24px;flex-wrap:wrap}
+
+@media(max-width:600px){.grid{grid-template-columns:1fr}.choices,.test-choices,.test-choices{grid-template-columns:1fr}.lsteps{gap:4px}}
+</style>
+</head>
+<body>
+
+<!-- ████████  HOME VIEW  ████████ -->
+<div id="homeView" class="view active">
+  <div class="hero">
+    <div class="mf">
+      <span class="ms" style="top:10%;left:5%;animation-delay:0s">x²</span>
+      <span class="ms" style="top:20%;left:88%;animation-delay:1s">∑</span>
+      <span class="ms" style="top:65%;left:3%;animation-delay:2s">√</span>
+      <span class="ms" style="top:70%;left:88%;animation-delay:.5s;font-size:28px">y=mx+b</span>
+      <span class="ms" style="top:5%;left:42%;animation-delay:1.5s;font-size:32px">f(x)</span>
+    </div>
+    <div class="badge">✨ Learn Algebra</div>
+    <h1>Learn <span>Algebra</span></h1>
+    <p>Master algebra from the ground up — one concept at a time!</p>
+    <div class="hero-btns">
+      <button class="btn btn-y" onclick="startLearning()">🚀 Start Learning</button>
+      <button class="btn btn-w" onclick="scrollToUnits()">📋 View All Units</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">8</div><div class="stat-l">Units</div></div>
+    <div class="stat"><div class="stat-n">24</div><div class="stat-l">Lessons</div></div>
+    <div class="stat"><div class="stat-n">120+</div><div class="stat-l">Practice Problems</div></div>
+    <div class="stat"><div class="stat-n">1</div><div class="stat-l">Credit</div></div>
+  </div>
+
+  <div class="sec">
+    <h2 class="sec-t">📈 Your Progress</h2>
+    <p class="sec-s">Track how much of Algebra 1 you've completed</p>
+    <div class="prog-card">
+      <h3>Overall Course Progress</h3>
+      <p>Keep going — every lesson gets you closer to mastering Algebra 1!</p>
+      <div class="prog-bar"><div class="prog-fill" id="overallBar" style="width:0%"></div></div>
+      <div class="prog-lbl"><span id="progPct">0% complete</span><span id="progFrac">0 / 8 units</span></div>
+    </div>
+
+    <h2 class="sec-t" id="unitsAnchor">📚 Course Units</h2>
+    <p class="sec-s">Click any unit to start — aligned to Texas TEKS Algebra I (§111.39)</p>
+    <div class="grid" id="unitsGrid"></div>
+  </div>
+
+  <div class="sec" style="padding-top:0">
+    <div class="tea">
+      <div class="tea-ico">⭐</div>
+      <div>
+        <h3>Standards-Aligned Algebra 1 Curriculum</h3>
+        <p>Every lesson covers core Algebra 1 concepts — from linear functions to quadratics — with worked examples, practice problems, and unit tests.</p>
+        <div class="tea-tags">
+          <span class="ttag">Grade 8–9</span><span class="ttag">1 Credit</span><span class="ttag">120+ Problems</span><span class="ttag">8 Units</span><span class="ttag">College & Career Ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>✨ Learn Algebra</footer>
+</div>
+
+<!-- ████████  LESSON VIEW  ████████ -->
+<div id="lessonView" class="view">
+  <nav class="lv-nav">
+    <button class="back-btn" onclick="goHome()">← Home</button>
+    <span class="lv-brand">Learn Algebra</span>
+    <span class="lv-title" id="lvTitle"></span>
+  </nav>
+  <div class="lsteps" id="lsteps"></div>
+  <div class="lcontent" id="lcontent"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════
+const UNITS = [
+  { num:1, title:"Number & Algebraic Methods", teks:"TEKS A1.10, A1.11", icon:"🔢", color:"#7C3AED", light:"#EDE9FE", desc:"Simplify expressions, apply laws of exponents, work with polynomials and radical expressions.", lessons:3 },
+  { num:2, title:"Linear Functions", teks:"TEKS A1.2, A1.3", icon:"📉", color:"#2563EB", light:"#DBEAFE", desc:"Explore slope, intercepts, domain & range, and multiple representations of linear functions.", lessons:3 },
+  { num:3, title:"Linear Equations", teks:"TEKS A1.4, A1.5A–B", icon:"⚖️", color:"#0891B2", light:"#CFFAFE", desc:"Write, solve, and graph linear equations in one and two variables.", lessons:3 },
+  { num:4, title:"Linear Inequalities", teks:"TEKS A1.5C–D, A1.6A", icon:"📐", color:"#059669", light:"#D1FAE5", desc:"Solve and graph inequalities in one and two variables; model real-world constraints.", lessons:3 },
+  { num:5, title:"Systems of Equations & Inequalities", teks:"TEKS A1.2E, A1.5C", icon:"🔀", color:"#EA580C", light:"#FFEDD5", desc:"Solve systems by graphing, substitution, and elimination; interpret solutions.", lessons:3 },
+  { num:6, title:"Quadratic Functions", teks:"TEKS A1.6, A1.7", icon:"📈", color:"#DB2777", light:"#FCE7F3", desc:"Graph parabolas, identify vertex, axis of symmetry, and key features.", lessons:3 },
+  { num:7, title:"Quadratic Equations", teks:"TEKS A1.8", icon:"✖️", color:"#D97706", light:"#FEF3C7", desc:"Solve quadratic equations by factoring, completing the square, and the quadratic formula.", lessons:3 },
+  { num:8, title:"Exponential Functions & Data", teks:"TEKS A1.9, A1.12", icon:"🚀", color:"#DC2626", light:"#FEE2E2", desc:"Analyze exponential growth & decay, interpret scatterplots.", lessons:3 },
+];
+
+// Progress stored in memory (sessionStorage as fallback)
+let PROGRESS = JSON.parse(sessionStorage.getItem('alg1_prog') || 'null') || UNITS.map(() => ({ unitProg:0, lessonsComplete:[], workbookDone:false, testScore:null }));
+function saveP(){ try{ sessionStorage.setItem('alg1_prog', JSON.stringify(PROGRESS)); }catch(e){} }
+
+// ═══════════════════════════════════════════════
+//  LESSON CONTENT  (Unit 1 fully built; others scaffold)
+// ═══════════════════════════════════════════════
+const LESSONS = {
+  // ── UNIT 1 ──────────────────────────────────
+  '1-1': {
+    title: 'Order of Operations & Simplifying Expressions',
+    teks: 'TEKS A1.10A',
+    steps: ['Lesson', 'Practice', 'Workbook', 'Test'],
+    lesson: `
+      <div class="lcard">
+        <h2>📐 Order of Operations & Simplifying Expressions</h2>
+        <span class="teks-tag">TEKS A1.10A</span>
+        <p>In algebra, we follow a specific order to simplify expressions. This prevents confusion when there are multiple operations in one expression.</p>
+
+        <div class="concept">
+          <div class="label">🎯 Key Rule — PEMDAS</div>
+          <div class="formula">P → E → MD → AS</div>
+          <p><strong>P</strong>arentheses · <strong>E</strong>xponents · <strong>M</strong>ultiplication & <strong>D</strong>ivision (left→right) · <strong>A</strong>ddition & <strong>S</strong>ubtraction (left→right)</p>
+        </div>
+
+        <p>When simplifying an algebraic expression, we also combine <strong>like terms</strong> — terms with the same variable raised to the same power.</p>
+        <ul>
+          <li><strong>Like terms:</strong> 3x and 5x → combine to 8x</li>
+          <li><strong>Unlike terms:</strong> 3x and 5x² → cannot combine</li>
+          <li><strong>Constants:</strong> 7 and −3 → combine to 4</li>
+        </ul>
+
+        <div class="example">
+          <div class="ex-label">📘 Worked Example 1 — Order of Operations</div>
+          <p>Simplify: <span class="step-math">3 + 2 × (8 − 5)² ÷ 3</span></p>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Parentheses first: <span class="step-math">8 − 5 = 3</span><br>Expression: <span class="step-math">3 + 2 × 3² ÷ 3</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Exponents: <span class="step-math">3² = 9</span><br>Expression: <span class="step-math">3 + 2 × 9 ÷ 3</span></div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-text">Multiply & Divide left to right: <span class="step-math">2 × 9 = 18</span>, then <span class="step-math">18 ÷ 3 = 6</span><br>Expression: <span class="step-math">3 + 6</span></div></div>
+          <div class="step-row"><div class="step-num">4</div><div class="step-text">Add: <span class="step-math">3 + 6 = <strong>9</strong></span></div></div>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Worked Example 2 — Combining Like Terms</div>
+          <p>Simplify: <span class="step-math">5x² + 3x − 2x² + 7 − x</span></p>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Group like terms: <span class="step-math">(5x² − 2x²) + (3x − x) + 7</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Combine each group: <span class="step-math">3x² + 2x + 7</span></div></div>
+          <div class="step-row"><div class="step-num">✓</div><div class="step-text"><strong>Answer: </strong><span class="step-math">3x² + 2x + 7</span></div></div>
+        </div>
+
+        <div class="tip"><div class="tip-ico">💡</div><p><strong>Texas STAAR Tip:</strong> On multiple-choice, plug in a simple value like x = 1 or x = 2 to check if two expressions are equivalent!</p></div>
+
+        <div class="concept">
+          <div class="label">📌 Distributive Property</div>
+          <div class="formula">a(b + c) = ab + ac</div>
+          <p>Multiply the outside term by every term inside the parentheses.</p>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Worked Example 3 — Distributive Property</div>
+          <p>Expand and simplify: <span class="step-math">3(2x + 5) − 4x</span></p>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Distribute: <span class="step-math">6x + 15 − 4x</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Combine like terms: <span class="step-math">2x + 15</span></div></div>
+        </div>
+      </div>`,
+    practice: [
+      { q: "Simplify: 4 + 3 × 2² − 1", choices: ["27","15","23","11"], ans: 1, explain: "Exponent first: 2²=4. Then multiply: 3×4=12. Then: 4+12−1 = 15." },
+      { q: "Combine like terms: 7x − 3 + 2x + 5", choices: ["9x + 2","9x + 8","5x + 2","14x"], ans: 0, explain: "7x+2x = 9x; −3+5 = 2. Answer: 9x + 2." },
+      { q: "Simplify: 2(3x − 4) + 5x", choices: ["11x − 8","11x − 4","6x − 8","6x + 5x"], ans: 0, explain: "Distribute: 6x−8+5x. Combine: 11x−8." },
+      { q: "Which are like terms? (Select the PAIR)", choices: ["3x and 3y","x² and 2x","5x and −x","2x² and 2x"], ans: 2, explain: "5x and −x are both 'x' terms (degree 1). They can be combined." },
+    ],
+    workbook: [
+      { q: "Simplify: 5 + 2 × (6 − 4)³", ans: "21", hint: "Parentheses → Exponent → Multiply → Add" },
+      { q: "Combine like terms: 8x² − 3x + 2x² + 5x − 1", ans: "10x² + 2x − 1", hint: "Group x² terms, then x terms, then constants" },
+      { q: "Expand and simplify: 4(x + 3) − 2(x − 1)", ans: "2x + 14", hint: "Distribute each part first, then combine like terms" },
+      { q: "Simplify: 3x − [2x − (x + 4)]", ans: "2x + 4", hint: "Work from the innermost brackets outward" },
+    ],
+    test: [
+      { q: "Evaluate: 2 + 4 × 3² ÷ 6 − 1", choices: ["7","8","6","9"], ans: 0, explain: "3²=9; 4×9=36; 36÷6=6; 2+6−1=7" },
+      { q: "Simplify: 9x − 4y + 3x + 2y", choices: ["12x − 2y","6x + 6y","12x + 6y","12x + 2y"], ans: 0, explain: "9x+3x=12x; −4y+2y=−2y → 12x−2y" },
+      { q: "Expand: −2(3x − 5)", choices: ["−6x − 10","−6x + 10","6x − 10","6x + 10"], ans: 1, explain: "−2×3x=−6x; −2×−5=+10 → −6x+10" },
+      { q: "Which expression is equivalent to 3(x+2) − (x−1)?", choices: ["2x + 7","2x + 5","4x + 7","2x + 6"], ans: 0, explain: "3x+6−x+1 = 2x+7" },
+      { q: "Simplify: 4x² + 3x − x² + 2x − 5", choices: ["3x² + 5x − 5","5x² + x − 5","3x² + x − 5","4x² + x − 5"], ans: 0, explain: "4x²−x²=3x²; 3x+2x=5x → 3x²+5x−5" },
+    ]
+  },
+
+  '1-2': {
+    title: 'Laws of Exponents',
+    teks: 'TEKS A1.11A–B',
+    steps: ['Lesson', 'Practice', 'Workbook', 'Test'],
+    lesson: `
+      <div class="lcard">
+        <h2>⚡ Laws of Exponents</h2>
+        <span class="teks-tag">TEKS A1.11A–B</span>
+        <p>Exponent rules let us simplify expressions involving powers quickly and accurately. Mastering these is essential for success in Algebra 1 and beyond.</p>
+
+        <div class="concept">
+          <div class="label">📋 The 6 Laws</div>
+          <div class="formula">Product: xᵃ · xᵇ = x^(a+b)</div>
+          <p>Add exponents when multiplying same base.</p>
+        </div>
+        <div class="concept">
+          <div class="label">📋 Quotient Rule</div>
+          <div class="formula">xᵃ ÷ xᵇ = x^(a−b)</div>
+          <p>Subtract exponents when dividing same base.</p>
+        </div>
+        <div class="concept">
+          <div class="label">📋 Power Rule</div>
+          <div class="formula">(xᵃ)ᵇ = x^(a·b)</div>
+          <p>Multiply exponents when raising a power to a power.</p>
+        </div>
+        <div class="concept">
+          <div class="label">📋 Zero & Negative Exponents</div>
+          <div class="formula">x⁰ = 1  ·  x⁻ⁿ = 1/xⁿ</div>
+          <p>Any non-zero base to the zero power is 1. Negative exponents mean reciprocal.</p>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Worked Examples</div>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text"><span class="step-math">x³ · x⁵ = x^(3+5) = x⁸</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text"><span class="step-math">y⁷ ÷ y³ = y^(7−3) = y⁴</span></div></div>
+          <div class="step-row"><div class="step-num">3</div><div class="step-text"><span class="step-math">(2x²)³ = 2³ · x^(2·3) = 8x⁶</span></div></div>
+          <div class="step-row"><div class="step-num">4</div><div class="step-text"><span class="step-math">5⁰ = 1</span></div></div>
+          <div class="step-row"><div class="step-num">5</div><div class="step-text"><span class="step-math">x⁻² = 1/x²</span></div></div>
+        </div>
+
+        <div class="tip"><div class="tip-ico">⚠️</div><p>Common mistake: x³ · x² ≠ x⁶ (don't multiply exponents when multiplying same-base terms — ADD them!)</p></div>
+      </div>`,
+    practice: [
+      { q: "Simplify: x⁴ · x³", choices: ["x⁷","x¹²","x⁴","2x⁷"], ans: 0, explain: "Product rule: add exponents → x^(4+3) = x⁷" },
+      { q: "Simplify: y⁸ ÷ y²", choices: ["y⁶","y⁴","y¹⁰","y¹⁶"], ans: 0, explain: "Quotient rule: subtract exponents → y^(8−2) = y⁶" },
+      { q: "Simplify: (3x²)⁴", choices: ["81x⁸","12x⁶","81x⁶","12x⁸"], ans: 0, explain: "Power rule: 3⁴=81, x^(2·4)=x⁸ → 81x⁸" },
+      { q: "What is 7⁰ · x⁻²?", choices: ["1/x²","7x²","0","7/x²"], ans: 0, explain: "7⁰=1; x⁻²=1/x² → 1 · 1/x² = 1/x²" },
+    ],
+    workbook: [
+      { q: "Simplify: (2x³y²)⁴", ans: "16x¹²y⁸", hint: "Raise each factor to the 4th power" },
+      { q: "Simplify: (x⁵y³)/(x²y)", ans: "x³y²", hint: "Subtract exponents for x and y separately" },
+      { q: "Write with positive exponents: 3x⁻² y⁰", ans: "3/x²", hint: "y⁰=1, x⁻²=1/x²" },
+    ],
+    test: [
+      { q: "Simplify: a⁵ · a⁻²", choices: ["a³","a⁷","a¹⁰","a⁻³"], ans: 0, explain: "5+(−2)=3 → a³" },
+      { q: "Simplify: (4x³)²", choices: ["16x⁶","8x⁶","16x⁵","8x⁵"], ans: 0, explain: "4²=16; x^(3·2)=x⁶ → 16x⁶" },
+      { q: "Simplify: x⁶y⁴ / x²y", choices: ["x⁴y³","x³y⁴","x⁴y⁵","x⁸y⁵"], ans: 0, explain: "x^(6−2)=x⁴; y^(4−1)=y³ → x⁴y³" },
+      { q: "What is (2⁰ + 3⁻¹)?", choices: ["4/3","1/3","2/3","2"], ans: 0, explain: "2⁰=1; 3⁻¹=1/3; 1+1/3=4/3" },
+      { q: "Which equals x⁻⁴?", choices: ["1/x⁴","x⁴","−x⁴","4/x"], ans: 0, explain: "Negative exponent means reciprocal: x⁻⁴ = 1/x⁴" },
+    ]
+  },
+
+  '1-3': {
+    title: 'Polynomials & Radical Expressions',
+    teks: 'TEKS A1.10B–C',
+    steps: ['Lesson', 'Practice', 'Workbook', 'Test'],
+    lesson: `
+      <div class="lcard">
+        <h2>🧮 Polynomials & Radical Expressions</h2>
+        <span class="teks-tag">TEKS A1.10B–C</span>
+        <p>Polynomials are algebraic expressions with one or more terms. Radical expressions involve square roots or other roots. Both appear throughout Algebra 1.</p>
+
+        <div class="concept">
+          <div class="label">📋 Polynomial Vocabulary</div>
+          <div class="formula">ax² + bx + c</div>
+          <p><strong>Monomial:</strong> 1 term (e.g., 5x²) | <strong>Binomial:</strong> 2 terms | <strong>Trinomial:</strong> 3 terms | <strong>Degree:</strong> highest exponent</p>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Adding & Subtracting Polynomials</div>
+          <p>Simplify: <span class="step-math">(3x² + 2x − 1) + (x² − 5x + 4)</span></p>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Remove parentheses: <span class="step-math">3x² + 2x − 1 + x² − 5x + 4</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Combine like terms: <span class="step-math">4x² − 3x + 3</span></div></div>
+        </div>
+
+        <div class="example">
+          <div class="ex-label">📘 Multiplying Polynomials (FOIL)</div>
+          <p>Expand: <span class="step-math">(x + 3)(x − 2)</span></p>
+          <div class="step-row"><div class="step-num">F</div><div class="step-text"><strong>First:</strong> <span class="step-math">x · x = x²</span></div></div>
+          <div class="step-row"><div class="step-num">O</div><div class="step-text"><strong>Outer:</strong> <span class="step-math">x · (−2) = −2x</span></div></div>
+          <div class="step-row"><div class="step-num">I</div><div class="step-text"><strong>Inner:</strong> <span class="step-math">3 · x = 3x</span></div></div>
+          <div class="step-row"><div class="step-num">L</div><div class="step-text"><strong>Last:</strong> <span class="step-math">3 · (−2) = −6</span></div></div>
+          <div class="step-row"><div class="step-num">✓</div><div class="step-text">Combine: <span class="step-math">x² + x − 6</span></div></div>
+        </div>
+
+        <div class="concept">
+          <div class="label">📋 Simplifying Radicals</div>
+          <div class="formula">√(a·b) = √a · √b</div>
+          <p>Find perfect square factors and pull them outside the radical.</p>
+        </div>
+        <div class="example">
+          <div class="ex-label">📘 Simplifying √72</div>
+          <div class="step-row"><div class="step-num">1</div><div class="step-text">Factor: <span class="step-math">72 = 36 × 2</span></div></div>
+          <div class="step-row"><div class="step-num">2</div><div class="step-text">Split: <span class="step-math">√36 · √2 = 6√2</span></div></div>
+        </div>
+
+        <div class="tip"><div class="tip-ico">💡</div><p>Memorize perfect squares: 1, 4, 9, 16, 25, 36, 49, 64, 81, 100. Spotting them speeds up radical simplification!</p></div>
+      </div>`,
+    practice: [
+      { q: "Add: (2x² + 3x) + (x² − x + 5)", choices: ["3x² + 2x + 5","x² + 2x + 5","3x² − 2x + 5","3x⁴ + 2x"], ans: 0, explain: "2x²+x²=3x²; 3x−x=2x; +5 → 3x²+2x+5" },
+      { q: "Expand: (x + 4)(x + 2)", choices: ["x²+6x+8","x²+8x+8","x²+6x+6","x²+2x+8"], ans: 0, explain: "FOIL: x²+2x+4x+8 = x²+6x+8" },
+      { q: "Simplify: √48", choices: ["4√3","6√2","4√12","12"], ans: 0, explain: "48 = 16×3; √16·√3 = 4√3" },
+      { q: "What is the degree of 5x³ − 2x + 7?", choices: ["3","2","1","5"], ans: 0, explain: "Highest exponent is 3 — so degree is 3." },
+    ],
+    workbook: [
+      { q: "Subtract: (4x² − 3x + 2) − (x² + x − 5)", ans: "3x² − 4x + 7", hint: "Distribute the negative sign to each term in the second polynomial" },
+      { q: "Expand: (2x − 3)(x + 4)", ans: "2x² + 5x − 12", hint: "Use FOIL: First, Outer, Inner, Last" },
+      { q: "Simplify: √75 + √3", ans: "6√3", hint: "Simplify √75 first: √75 = 5√3, then add like radicals" },
+    ],
+    test: [
+      { q: "Simplify: (5x² − 2x) − (3x² + x − 4)", choices: ["2x² − 3x + 4","2x² − x − 4","2x² + 3x + 4","8x² − 3x − 4"], ans: 0, explain: "5x²−3x²=2x²; −2x−x=−3x; 0+4=+4 → 2x²−3x+4" },
+      { q: "Expand: (x − 5)(x + 5)", choices: ["x² − 25","x² + 25","x² − 10x + 25","x² − 10x − 25"], ans: 0, explain: "Difference of squares: (a−b)(a+b)=a²−b²=x²−25" },
+      { q: "Simplify: √200", choices: ["10√2","20√2","4√5","10√4"], ans: 0, explain: "200=100×2; √100·√2=10√2" },
+      { q: "What is (3x+1)²?", choices: ["9x²+6x+1","9x²+1","9x²+3x+1","6x²+6x+1"], ans: 0, explain: "(3x)²+2(3x)(1)+1²=9x²+6x+1" },
+      { q: "Which is a trinomial of degree 2?", choices: ["x²+3x−5","x³+1","4x","x²+x²+x²"], ans: 0, explain: "3 terms, highest power is 2 → degree-2 trinomial" },
+    ]
+  },
+};
+
+// ── UNIT 2 ──────────────────────────────────────────────────────────
+LESSONS['2-1'] = {
+  title: 'Introduction to Functions – Domain & Range',
+  teks: 'TEKS A1.2A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>📈 Introduction to Functions – Domain & Range</h2>
+    <span class="teks-tag">TEKS A1.2A</span>
+    <p>A <strong>function</strong> is a relationship where every input (x) has exactly ONE output (y). We use the <em>vertical line test</em> on a graph — if any vertical line crosses the graph more than once, it is NOT a function.</p>
+    <div class="concept">
+      <div class="label">📋 Key Vocabulary</div>
+      <p><strong>Domain</strong> = all possible INPUT values (x-values)<br>
+         <strong>Range</strong> = all possible OUTPUT values (y-values)<br>
+         <strong>Function notation:</strong> f(x) means "f of x" — plug x in to get the output</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Worked Example 1</div>
+      <div class="formula">Is {(1,3),(2,5),(3,3),(4,7)} a function?</div>
+      <p>Each x-value (1,2,3,4) appears only once → <strong>YES, it is a function.</strong><br>
+      Domain = {1, 2, 3, 4} &nbsp;|&nbsp; Range = {3, 5, 7}</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Worked Example 2</div>
+      <div class="formula">If f(x) = 2x − 5, find f(4)</div>
+      <p>f(4) = 2(4) − 5 = 8 − 5 = <strong>3</strong></p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Memory trick: A function is like a vending machine — one button (input) gives one item (output). Two buttons can give the same item, but one button can't give two different items!</p></div>
+  </div>`,
+  practice: [
+    { q: "Is {(1,2),(2,3),(1,5),(4,6)} a function?", choices: ["Yes","No","Cannot determine","Only if domain is positive"], ans: 1, explain: "x=1 maps to both 2 and 5 — two outputs for one input → NOT a function." },
+    { q: "If f(x) = 3x + 1, what is f(4)?", choices: ["13","12","10","7"], ans: 0, explain: "f(4) = 3(4)+1 = 12+1 = 13" },
+    { q: "What is the domain of {(−2,0),(0,1),(3,4)}?", choices: ["{−2, 0, 3}","{0, 1, 4}","{−2, 1, 3}","All real numbers"], ans: 0, explain: "Domain = all x-values = {−2, 0, 3}" },
+    { q: "Which graph represents a function?", choices: ["A circle","A vertical line","A parabola opening upward","Two horizontal lines"], ans: 2, explain: "A parabola opening upward passes the vertical line test — each x has one y." },
+  ],
+  workbook: [
+    { q: "List the domain and range of: {(−1,4),(0,2),(3,−1),(5,2)}", ans: "Domain: {-1,0,3,5}  Range: {-1,2,4}", hint: "Domain = x-values, Range = y-values (no repeats)" },
+    { q: "If g(x) = x² − 3, find g(−2) and g(5)", ans: "g(-2)=1, g(5)=22", hint: "Substitute each value into the formula" },
+    { q: "Does the table represent a function? x: 1,2,3,2 | y: 4,5,6,7", ans: "No — x=2 has two outputs (5 and 7)", hint: "Check if any x-value repeats with different y-values" },
+  ],
+  test: [
+    { q: "Which set of ordered pairs is a function?", choices: ["{(1,2),(1,3),(2,4)}","{(2,3),(3,4),(2,5)}","{(1,2),(2,3),(3,4)}","{(0,1),(0,2),(0,3)}"], ans: 2, explain: "Each x appears once → function. The others have repeated x-values with different y-values." },
+    { q: "If h(x) = −2x + 7, find h(3)", ans: 0, choices: ["1","13","−6","4"], explain: "h(3) = −2(3)+7 = −6+7 = 1" },
+    { q: "What is the range of f(x) = x² for x ∈ {−2,−1,0,1,2}?", choices: ["{0,1,4}","{−2,−1,0,1,2}","{0,1,2}","{1,4}"], ans: 0, explain: "f gives 4,1,0,1,4 — unique values are {0,1,4}" },
+    { q: "A graph fails the vertical line test. This means:", choices: ["It is not a function","It has no domain","It is linear","It has no range"], ans: 0, explain: "Failing the vertical line test means one x has multiple y-values → not a function." },
+    { q: "If f(x) = 4x − 1, solve f(x) = 11", choices: ["x=3","x=4","x=2","x=12"], ans: 0, explain: "4x−1=11 → 4x=12 → x=3" },
+  ]
+};
+
+LESSONS['2-2'] = {
+  title: 'Slope & Rate of Change',
+  teks: 'TEKS A1.3A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>📈 Slope & Rate of Change</h2>
+    <span class="teks-tag">TEKS A1.3A</span>
+    <p><strong>Slope</strong> measures steepness and direction of a line. It is the <em>rate of change</em> of y compared to x.</p>
+    <div class="concept">
+      <div class="label">📋 Slope Formula</div>
+      <div class="formula">m = (y₂ − y₁) / (x₂ − x₁) = rise / run</div>
+      <p>Positive slope → rises left to right &nbsp;|&nbsp; Negative slope → falls left to right<br>
+         Zero slope → horizontal line &nbsp;|&nbsp; Undefined slope → vertical line</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Worked Example</div>
+      <div class="formula">Find slope through (2, 1) and (6, 9)</div>
+      <p>m = (9−1)/(6−2) = 8/4 = <strong>2</strong><br>
+      The line rises 2 units for every 1 unit right.</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Remember: slope = rise OVER run. Think of stairs — rise is how high you go up, run is how far you go forward.</p></div>
+  </div>`,
+  practice: [
+    { q: "Find the slope through (0,0) and (4,8)", choices: ["2","0.5","4","8"], ans: 0, explain: "m = (8−0)/(4−0) = 8/4 = 2" },
+    { q: "A line passes through (3,7) and (3,−2). What is its slope?", choices: ["Undefined","0","9","−9"], ans: 0, explain: "Same x-values → vertical line → slope is undefined." },
+    { q: "What is the slope of a horizontal line?", choices: ["0","1","Undefined","−1"], ans: 0, explain: "Horizontal lines have no rise, so rise/run = 0/run = 0." },
+    { q: "Find slope through (−1, 4) and (3, −4)", choices: ["−2","2","0.5","−0.5"], ans: 0, explain: "m = (−4−4)/(3−(−1)) = −8/4 = −2" },
+  ],
+  workbook: [
+    { q: "Find the slope of the line through (−3, 1) and (5, 5)", ans: "1/2", hint: "Use m = (y2-y1)/(x2-x1)" },
+    { q: "A ramp rises 3 feet over a horizontal distance of 12 feet. What is the slope?", ans: "1/4", hint: "Slope = rise/run = 3/12" },
+    { q: "Plot two points on the line with slope 3 passing through (0, −1) and describe the direction", ans: "Points: (0,-1) and (1,2); line rises left to right (positive slope)", hint: "From the y-intercept, go up 3 and right 1 to find the next point" },
+  ],
+  test: [
+    { q: "Find the slope through (2,−3) and (8, 9)", choices: ["2","−2","0.5","3"], ans: 0, explain: "m = (9−(−3))/(8−2) = 12/6 = 2" },
+    { q: "Which slope describes a line falling from left to right?", choices: ["Negative","Positive","Zero","Undefined"], ans: 0, explain: "Negative slope means y decreases as x increases — falling left to right." },
+    { q: "Find slope: (0,5) and (4,5)", choices: ["0","5","Undefined","1"], ans: 0, explain: "Same y-values → horizontal → slope = 0" },
+    { q: "A line has slope 3/4. If x increases by 8, how much does y change?", choices: ["6","8","3","4"], ans: 0, explain: "y change = slope × x change = (3/4)(8) = 6" },
+    { q: "Find slope through (−2,6) and (4,−3)", choices: ["−3/2","3/2","−2/3","2/3"], ans: 0, explain: "m = (−3−6)/(4−(−2)) = −9/6 = −3/2" },
+  ]
+};
+
+LESSONS['2-3'] = {
+  title: 'Linear Equations: Slope-Intercept & Standard Form',
+  teks: 'TEKS A1.2B',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>📈 Linear Equations: Slope-Intercept & Standard Form</h2>
+    <span class="teks-tag">TEKS A1.2B</span>
+    <p>Every non-vertical line can be written in multiple forms. The two most important are slope-intercept and standard form.</p>
+    <div class="concept">
+      <div class="label">📋 Two Key Forms</div>
+      <div class="formula">Slope-Intercept: y = mx + b &nbsp;&nbsp; Standard: Ax + By = C</div>
+      <p><strong>m</strong> = slope &nbsp;|&nbsp; <strong>b</strong> = y-intercept (where line crosses y-axis)</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example 1 – Write equation with slope 3, y-intercept −2</div>
+      <div class="formula">y = 3x − 2</div>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example 2 – Write equation through (4, 1) with slope 2</div>
+      <p>Use point-slope: y − y₁ = m(x − x₁)<br>
+      y − 1 = 2(x − 4) → y − 1 = 2x − 8 → <strong>y = 2x − 7</strong></p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>To convert to standard form: move all variable terms left, constants right. Keep A positive!</p></div>
+  </div>`,
+  practice: [
+    { q: "What is the slope of y = −4x + 7?", choices: ["−4","7","4","−7"], ans: 0, explain: "In y=mx+b, the coefficient of x is the slope → m = −4" },
+    { q: "What is the y-intercept of y = 5x − 3?", choices: ["−3","5","3","0"], ans: 0, explain: "b = −3 (the constant term)" },
+    { q: "Write the equation of a line with slope 2 and y-intercept 1", choices: ["y=2x+1","y=x+2","y=2+x","y=2x−1"], ans: 0, explain: "y = mx + b = 2x + 1" },
+    { q: "Rewrite 2x + y = 6 in slope-intercept form", choices: ["y=−2x+6","y=2x+6","y=6−x","y=2x−6"], ans: 0, explain: "Subtract 2x: y = −2x + 6" },
+  ],
+  workbook: [
+    { q: "Write the equation of the line through (0,−4) with slope 3", ans: "y = 3x − 4", hint: "Use y=mx+b with m=3 and b=−4" },
+    { q: "Write the equation through (2,5) and (4,11)", ans: "y = 3x − 1", hint: "First find slope m=(11-5)/(4-2)=3, then use point-slope" },
+    { q: "Convert 3x − y = 9 to slope-intercept form", ans: "y = 3x − 9", hint: "Solve for y by adding y and subtracting 9 from both sides" },
+  ],
+  test: [
+    { q: "Identify the slope of y = (2/3)x − 5", choices: ["2/3","−5","3/2","5"], ans: 0, explain: "m = 2/3 (coefficient of x)" },
+    { q: "What is the y-intercept of 4x + 2y = 10?", choices: ["5","10","4","2"], ans: 0, explain: "Set x=0: 2y=10 → y=5" },
+    { q: "Write the equation through (0,3) with slope −1", choices: ["y=−x+3","y=x+3","y=3x−1","y=−3x+1"], ans: 0, explain: "y = −1x + 3 = −x + 3" },
+    { q: "Which line is parallel to y = 2x − 7?", choices: ["y=2x+3","y=−2x+3","y=0.5x+1","y=−0.5x"], ans: 0, explain: "Parallel lines have equal slopes. y=2x+3 also has slope 2." },
+    { q: "Write the equation through (1,4) with slope 3", choices: ["y=3x+1","y=3x−1","y=4x+3","y=x+3"], ans: 0, explain: "y−4=3(x−1) → y=3x−3+4 → y=3x+1" },
+  ]
+};
+
+// ── UNIT 3 ──────────────────────────────────────────────────────────
+LESSONS['3-1'] = {
+  title: 'Solving One-Variable Linear Equations',
+  teks: 'TEKS A1.5A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>⚖️ Solving One-Variable Linear Equations</h2>
+    <span class="teks-tag">TEKS A1.5A</span>
+    <p>Solving an equation means finding the value of the variable that makes it true. Use <strong>inverse operations</strong> to isolate the variable — whatever you do to one side, do to the other.</p>
+    <div class="concept">
+      <div class="label">📋 Steps to Solve</div>
+      <p>1. Distribute / combine like terms<br>
+         2. Add/subtract to get variable terms on one side<br>
+         3. Multiply/divide to isolate the variable<br>
+         4. Check your answer!</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">Solve: 3x − 5 = 16</div>
+      <p>Add 5: 3x = 21 &nbsp;→&nbsp; Divide by 3: <strong>x = 7</strong><br>
+      Check: 3(7)−5 = 21−5 = 16 ✓</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Always check your answer by substituting back into the original equation!</p></div>
+  </div>`,
+  practice: [
+    { q: "Solve: x + 9 = 15", choices: ["6","24","−6","9"], ans: 0, explain: "Subtract 9: x = 15−9 = 6" },
+    { q: "Solve: 4x = −20", choices: ["−5","5","−80","80"], ans: 0, explain: "Divide by 4: x = −20/4 = −5" },
+    { q: "Solve: 2x − 3 = 11", choices: ["7","4","−4","14"], ans: 0, explain: "Add 3: 2x=14; divide by 2: x=7" },
+    { q: "Solve: x/3 + 2 = 5", choices: ["9","1","7","3"], ans: 0, explain: "Subtract 2: x/3=3; multiply by 3: x=9" },
+  ],
+  workbook: [
+    { q: "Solve and check: 5x + 7 = 32", ans: "x = 5", hint: "Subtract 7, then divide by 5; check by substituting" },
+    { q: "Solve: −3x + 4 = 19", ans: "x = −5", hint: "Subtract 4 first (giving −3x=15), then divide by −3" },
+    { q: "Solve: (x+3)/4 = 2", ans: "x = 5", hint: "Multiply both sides by 4 first" },
+  ],
+  test: [
+    { q: "Solve: 7x − 3 = 25", choices: ["4","−4","28","22"], ans: 0, explain: "Add 3: 7x=28; divide by 7: x=4" },
+    { q: "Solve: −2x = 14", choices: ["−7","7","−12","12"], ans: 0, explain: "Divide by −2: x=14/(−2)=−7" },
+    { q: "Solve: x/5 − 1 = 3", choices: ["20","4","10","15"], ans: 0, explain: "Add 1: x/5=4; multiply by 5: x=20" },
+    { q: "Solve: 3(x−2) = 12", choices: ["6","2","14","5"], ans: 0, explain: "Distribute: 3x−6=12; add 6: 3x=18; divide: x=6" },
+    { q: "Which value satisfies 2x+5=17?", choices: ["6","7","12","11"], ans: 0, explain: "2(6)+5=12+5=17 ✓" },
+  ]
+};
+
+LESSONS['3-2'] = {
+  title: 'Multi-Step Equations & Variables on Both Sides',
+  teks: 'TEKS A1.5A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>⚖️ Multi-Step Equations & Variables on Both Sides</h2>
+    <span class="teks-tag">TEKS A1.5A</span>
+    <p>When variables appear on BOTH sides, move all variable terms to one side first using addition or subtraction.</p>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">Solve: 5x − 3 = 2x + 9</div>
+      <p>Subtract 2x: 3x − 3 = 9 &nbsp;→&nbsp; Add 3: 3x = 12 &nbsp;→&nbsp; Divide by 3: <strong>x = 4</strong></p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ With Distribution</div>
+      <div class="formula">Solve: 2(x + 3) = 4x − 6</div>
+      <p>Distribute: 2x + 6 = 4x − 6 &nbsp;→&nbsp; −2x both sides: 6 = 2x − 6 &nbsp;→&nbsp; Add 6: 12 = 2x &nbsp;→&nbsp; <strong>x = 6</strong></p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Special cases: if variables cancel and you get a TRUE statement (like 5=5), the answer is ALL REAL NUMBERS. If FALSE (like 3=7), there is NO SOLUTION.</p></div>
+  </div>`,
+  practice: [
+    { q: "Solve: 3x + 5 = x + 13", choices: ["4","9","3","6"], ans: 0, explain: "Subtract x: 2x+5=13; subtract 5: 2x=8; divide: x=4" },
+    { q: "Solve: 7x − 2 = 5x + 8", choices: ["5","1","3","10"], ans: 0, explain: "Subtract 5x: 2x−2=8; add 2: 2x=10; divide: x=5" },
+    { q: "Solve: 2(x+4) = 3x − 1", choices: ["9","1","3","7"], ans: 0, explain: "2x+8=3x−1; subtract 2x: 8=x−1; add 1: x=9" },
+    { q: "Solve: 4x + 3 = 4x − 2", choices: ["No solution","All reals","x=0","x=−5"], ans: 0, explain: "Subtract 4x: 3=−2, which is false → No solution" },
+  ],
+  workbook: [
+    { q: "Solve: 6x − 1 = 2x + 15", ans: "x = 4", hint: "Subtract 2x from both sides, then solve" },
+    { q: "Solve: 3(2x − 1) = 4x + 9", ans: "x = 6", hint: "Distribute 3 first: 6x−3=4x+9" },
+    { q: "Solve: 5x + 8 = 5x + 8", ans: "All real numbers (infinitely many solutions)", hint: "When both sides are identical, every value of x works" },
+  ],
+  test: [
+    { q: "Solve: 9x − 4 = 6x + 11", choices: ["5","7","3","15"], ans: 0, explain: "Subtract 6x: 3x−4=11; add 4: 3x=15; x=5" },
+    { q: "Solve: 4(x−2) = 2x + 6", choices: ["7","1","5","14"], ans: 0, explain: "4x−8=2x+6; 2x=14; x=7" },
+    { q: "Solve: 3x + 7 = 3x − 1", choices: ["No solution","x=0","All reals","x=−8"], ans: 0, explain: "Subtracting 3x gives 7=−1, false → No solution" },
+    { q: "Solve: 2(3x+1) = 7x − 5", choices: ["−7","7","1","−1"], ans: 0, explain: "6x+2=7x−5; 2+5=7x−6x; 7=x → x=7. Wait: 6x+2=7x-5 → 2+5=x → x=7" },
+    { q: "Solve: 5x − 9 = 2x + 6", choices: ["5","−1","3","15"], ans: 0, explain: "3x=15; x=5" },
+  ]
+};
+
+LESSONS['3-3'] = {
+  title: 'Literal Equations & Formulas',
+  teks: 'TEKS A1.12B',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>⚖️ Literal Equations & Formulas</h2>
+    <span class="teks-tag">TEKS A1.12B</span>
+    <p>A <strong>literal equation</strong> has multiple variables. You solve for ONE variable in terms of the others — same steps as regular equations, just with letters instead of numbers.</p>
+    <div class="concept">
+      <div class="label">✏️ Example 1 – Solve for x</div>
+      <div class="formula">ax + b = c &nbsp;→&nbsp; ax = c − b &nbsp;→&nbsp; x = (c−b)/a</div>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example 2 – Solve for h in A = ½bh</div>
+      <p>Multiply both sides by 2: 2A = bh &nbsp;→&nbsp; Divide by b: <strong>h = 2A/b</strong></p>
+    </div>
+    <div class="concept">
+      <div class="label">📋 Common Formulas</div>
+      <p>• Distance: d = rt &nbsp;→ t = d/r, r = d/t<br>
+         • Area of rectangle: A = lw<br>
+         • Perimeter: P = 2l + 2w &nbsp;→ l = (P−2w)/2</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Treat all other variables like numbers. Isolate the target variable the same way you would isolate x!</p></div>
+  </div>`,
+  practice: [
+    { q: "Solve for r: d = rt", choices: ["r=d/t","r=dt","r=t/d","r=d−t"], ans: 0, explain: "Divide both sides by t: r = d/t" },
+    { q: "Solve for w: A = lw", choices: ["w=A/l","w=Al","w=l/A","w=A−l"], ans: 0, explain: "Divide both sides by l: w = A/l" },
+    { q: "Solve for b: P = a + b + c", choices: ["b=P−a−c","b=P+a+c","b=Pa/c","b=P/(a+c)"], ans: 0, explain: "Subtract a and c: b = P − a − c" },
+    { q: "Solve for h: V = lwh", choices: ["h=V/(lw)","h=Vlw","h=V−lw","h=lw/V"], ans: 0, explain: "Divide both sides by lw: h = V/(lw)" },
+  ],
+  workbook: [
+    { q: "Solve for l: P = 2l + 2w", ans: "l = (P − 2w)/2", hint: "Subtract 2w, then divide by 2" },
+    { q: "The formula C = (5/9)(F−32) converts Fahrenheit to Celsius. Solve for F.", ans: "F = (9/5)C + 32", hint: "Multiply both sides by 9/5, then add 32" },
+    { q: "Solve for y: 3x + 2y = 12", ans: "y = (12 − 3x)/2  or  y = 6 − (3/2)x", hint: "Subtract 3x, then divide by 2" },
+  ],
+  test: [
+    { q: "Solve for t: d = rt", choices: ["t=d/r","t=dr","t=r/d","t=d−r"], ans: 0, explain: "Divide both sides by r: t = d/r" },
+    { q: "Solve for b in A = ½bh", choices: ["b=2A/h","b=Ah/2","b=A/(2h)","b=2h/A"], ans: 0, explain: "Multiply by 2: 2A=bh; divide by h: b=2A/h" },
+    { q: "Solve for x: y = mx + b", choices: ["x=(y−b)/m","x=y−mb","x=m(y−b)","x=(y+b)/m"], ans: 0, explain: "Subtract b: y−b=mx; divide by m: x=(y−b)/m" },
+    { q: "Solve for w: P = 2l + 2w", choices: ["w=(P−2l)/2","w=P−2l","w=2P−l","w=P/2−l"], ans: 0, explain: "Subtract 2l: P−2l=2w; divide by 2: w=(P−2l)/2" },
+    { q: "If d=rt and d=150, t=3, find r", choices: ["50","450","0.02","147"], ans: 0, explain: "r=d/t=150/3=50" },
+  ]
+};
+
+// ── UNIT 4 ──────────────────────────────────────────────────────────
+LESSONS['4-1'] = {
+  title: 'Solving & Graphing Linear Inequalities',
+  teks: 'TEKS A1.6A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>📊 Solving & Graphing Linear Inequalities</h2>
+    <span class="teks-tag">TEKS A1.6A</span>
+    <p>Solving inequalities is like solving equations, with one key difference: <strong>when you multiply or divide by a NEGATIVE number, FLIP the inequality sign!</strong></p>
+    <div class="concept">
+      <div class="label">📋 Inequality Symbols</div>
+      <p>• &lt; less than (open circle on number line)<br>
+         • &gt; greater than (open circle)<br>
+         • ≤ less than or equal to (closed circle)<br>
+         • ≥ greater than or equal to (closed circle)</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">Solve: −2x + 3 &gt; 9</div>
+      <p>Subtract 3: −2x &gt; 6 &nbsp;→&nbsp; Divide by −2 (FLIP!): <strong>x &lt; −3</strong><br>
+      Graph: open circle at −3, shade left</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Think of the inequality sign as an arrow pointing at the smaller value. When you flip, the arrow flips too!</p></div>
+  </div>`,
+  practice: [
+    { q: "Solve: x + 5 > 12", choices: ["x>7","x>17","x<7","x<17"], ans: 0, explain: "Subtract 5: x > 12−5 = 7" },
+    { q: "Solve: −3x ≤ 15", choices: ["x≥−5","x≤−5","x≥5","x≤5"], ans: 0, explain: "Divide by −3, flip sign: x ≥ −5" },
+    { q: "Which graph shows x < 2?", choices: ["Open circle at 2, shaded left","Closed circle at 2, shaded left","Open circle at 2, shaded right","Closed circle at 2, shaded right"], ans: 0, explain: "Less than = open circle; shaded to the left (smaller values)" },
+    { q: "Solve: 4x − 8 ≥ 12", choices: ["x≥5","x≤5","x≥1","x≤1"], ans: 0, explain: "Add 8: 4x≥20; divide by 4: x≥5" },
+  ],
+  workbook: [
+    { q: "Solve and graph: 2x − 1 < 9", ans: "x < 5  (open circle at 5, shade left)", hint: "Add 1, then divide by 2" },
+    { q: "Solve: −4x + 7 ≥ −9", ans: "x ≤ 4", hint: "Subtract 7 first, then divide by −4 and flip the inequality" },
+    { q: "Write an inequality for: 'A number decreased by 3 is at most 10'", ans: "n − 3 ≤ 10  →  n ≤ 13", hint: "'At most' means ≤" },
+  ],
+  test: [
+    { q: "Solve: x − 4 > 6", choices: ["x>10","x>2","x<10","x<2"], ans: 0, explain: "Add 4: x > 10" },
+    { q: "Solve: −5x < 20", choices: ["x>−4","x<−4","x>4","x<4"], ans: 0, explain: "Divide by −5, flip: x > −4" },
+    { q: "Solve: 3x + 1 ≤ 16", choices: ["x≤5","x≥5","x≤17","x≥3"], ans: 0, explain: "Subtract 1: 3x≤15; divide: x≤5" },
+    { q: "Which inequality has the solution x ≥ 3?", choices: ["2x − 4 ≥ 2","2x − 4 ≤ 2","x + 3 ≥ 0","−x ≥ −3"], ans: 0, explain: "2x−4≥2 → 2x≥6 → x≥3 ✓" },
+    { q: "A closed circle on a number line at 7 shaded right represents:", choices: ["x≥7","x>7","x≤7","x<7"], ans: 0, explain: "Closed circle = 'or equal to'; right = greater than → x ≥ 7" },
+  ]
+};
+
+LESSONS['4-2'] = {
+  title: 'Compound Inequalities',
+  teks: 'TEKS A1.6A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>📊 Compound Inequalities</h2>
+    <span class="teks-tag">TEKS A1.6A</span>
+    <p>Compound inequalities combine TWO inequalities. Two types: <strong>AND</strong> (intersection) and <strong>OR</strong> (union).</p>
+    <div class="concept">
+      <div class="label">📋 AND vs OR</div>
+      <p><strong>AND:</strong> both conditions must be true → solution is BETWEEN two values<br>
+      Example: −2 &lt; x &lt; 5 (written as one statement)<br><br>
+      <strong>OR:</strong> at least one condition is true → solution goes in TWO directions<br>
+      Example: x &lt; −2 OR x &gt; 5</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example – AND</div>
+      <div class="formula">Solve: −3 ≤ 2x + 1 ≤ 9</div>
+      <p>Subtract 1 from all parts: −4 ≤ 2x ≤ 8 &nbsp;→&nbsp; Divide by 2: <strong>−2 ≤ x ≤ 4</strong></p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>AND = overlap (think of a Venn diagram intersection). OR = everything in either set.</p></div>
+  </div>`,
+  practice: [
+    { q: "Solve: 1 < x + 3 < 7", choices: ["−2<x<4","4<x<10","−2<x<10","1<x<7"], ans: 0, explain: "Subtract 3 from all parts: 1−3<x<7−3 → −2<x<4" },
+    { q: "Which describes an AND inequality?", choices: ["x is between −1 and 5","x<−1 or x>5","x is any real number","x=3"], ans: 0, explain: "AND means x satisfies BOTH conditions — it falls between two values." },
+    { q: "Solve: x < −3 OR x > 4. Which value is in the solution?", choices: ["5","0","2","−1"], ans: 0, explain: "5 > 4, so it satisfies x > 4 ✓" },
+    { q: "Solve: 0 ≤ 3x − 6 ≤ 12", choices: ["2≤x≤6","6≤x≤18","0≤x≤6","−2≤x≤2"], ans: 0, explain: "Add 6: 6≤3x≤18; divide by 3: 2≤x≤6" },
+  ],
+  workbook: [
+    { q: "Solve and graph: −5 < 2x + 1 ≤ 9", ans: "−3 < x ≤ 4", hint: "Subtract 1 from all three parts, then divide by 2" },
+    { q: "Write a compound inequality: 'x is at least −2 AND no more than 7'", ans: "−2 ≤ x ≤ 7", hint: "'At least' means ≥, 'no more than' means ≤" },
+    { q: "Solve: 3x + 1 < −5 OR 2x − 3 > 7", ans: "x < −2 OR x > 5", hint: "Solve each inequality separately" },
+  ],
+  test: [
+    { q: "Solve: 2 ≤ x − 1 < 6", choices: ["3≤x<7","1≤x<5","2≤x<6","3≤x≤7"], ans: 0, explain: "Add 1: 3≤x<7" },
+    { q: "Which value satisfies −1 < x < 4?", choices: ["2","−2","5","4"], ans: 0, explain: "2 is between −1 and 4 ✓" },
+    { q: "Solve: x < 0 OR x > 6. Which is NOT in the solution?", choices: ["3","−5","7","−1"], ans: 0, explain: "3 is not less than 0 and not greater than 6 → NOT in solution" },
+    { q: "Solve: −4 ≤ 2x ≤ 10", choices: ["−2≤x≤5","−8≤x≤20","0≤x≤5","−2≤x≤10"], ans: 0, explain: "Divide by 2: −2≤x≤5" },
+    { q: "An AND compound inequality on a number line looks like:", choices: ["A segment between two values","Two arrows pointing outward","A single point","An arrow pointing one direction"], ans: 0, explain: "AND = values between two bounds = segment (closed or open at ends)" },
+  ]
+};
+
+LESSONS['4-3'] = {
+  title: 'Inequalities in Two Variables',
+  teks: 'TEKS A1.6B',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>📊 Inequalities in Two Variables</h2>
+    <span class="teks-tag">TEKS A1.6B</span>
+    <p>A linear inequality in two variables (like y &gt; 2x − 1) has a solution that is a <strong>region</strong> on the coordinate plane, not just a line.</p>
+    <div class="concept">
+      <div class="label">📋 How to Graph</div>
+      <p>1. Graph the boundary line (use the equation without the inequality)<br>
+         2. Solid line for ≤ or ≥ &nbsp;|&nbsp; Dashed line for &lt; or &gt;<br>
+         3. Test a point (use (0,0) if not on the line)<br>
+         4. Shade the side where the test point makes the inequality TRUE</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">Graph: y &gt; x + 2</div>
+      <p>Line: y = x+2 (dashed, since &gt;)<br>
+      Test (0,0): 0 &gt; 0+2 → 0 &gt; 2 → FALSE → shade the OTHER side (above the line)</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>For y &gt; or y ≥, shade ABOVE the line. For y &lt; or y ≤, shade BELOW the line.</p></div>
+  </div>`,
+  practice: [
+    { q: "Graph y ≤ 3x − 1: the boundary line should be:", choices: ["Solid","Dashed","Dotted","None"], ans: 0, explain: "≤ includes the boundary → solid line" },
+    { q: "Test (0,0) in y > x + 3. Is it in the solution?", choices: ["No (0 > 3 is false)","Yes (0 > 3 is true)","Yes, always","Cannot determine"], ans: 0, explain: "0 > 0+3 → 0>3 is FALSE, so (0,0) is NOT in the shaded region." },
+    { q: "For y < 2x + 1, you shade:", choices: ["Below the dashed line","Above the dashed line","Below the solid line","Above the solid line"], ans: 0, explain: "y < means shade below; < means dashed line" },
+    { q: "Is (3, 5) a solution to y ≥ 2x − 1?", choices: ["Yes","No","Maybe","Only if x>0"], ans: 0, explain: "y≥2x−1 → 5≥2(3)−1=5 → 5≥5 TRUE ✓" },
+  ],
+  workbook: [
+    { q: "Describe how to graph y < −x + 4", ans: "Graph dashed line y=−x+4; test (0,0): 0<4 TRUE; shade below the line (the side containing (0,0))", hint: "Remember: dashed for strict inequality, check (0,0)" },
+    { q: "Is (−2, 7) a solution to y > 3x + 5?", ans: "Yes: 7 > 3(−2)+5 = −1 → 7>−1 TRUE", hint: "Substitute x=−2, y=7 into the inequality" },
+    { q: "Write an inequality whose solution region is above the line y = 2x − 3", ans: "y > 2x − 3  (or y ≥ 2x − 3 if line is included)", hint: "Above = greater than" },
+  ],
+  test: [
+    { q: "What type of line is used to graph y > 4x − 2?", choices: ["Dashed","Solid","Thick","Curved"], ans: 0, explain: "Strict inequality (>) uses a dashed line" },
+    { q: "Which point is in the solution of y ≤ x + 1?", choices: ["(2,2)","(0,5)","(1,4)","(−1,3)"], ans: 0, explain: "Test (2,2): 2≤2+1=3 → 2≤3 TRUE ✓" },
+    { q: "For y ≥ −2x + 6, the shading is:", choices: ["Above the solid line","Below the solid line","Above the dashed line","Below the dashed line"], ans: 0, explain: "≥ means solid line; y≥ means shade above" },
+    { q: "Test (0,0) in 2x − y < 4. Result?", choices: ["TRUE, (0,0) is in the solution","FALSE","Cannot test (0,0) here","Need more info"], ans: 0, explain: "2(0)−0=0 < 4 → TRUE → (0,0) IS in the solution region" },
+    { q: "Which inequality is graphed as a solid line with shading below?", choices: ["y ≤ 3x + 1","y < 3x + 1","y ≥ 3x + 1","y > 3x + 1"], ans: 0, explain: "≤ = solid line; below because y ≤ (not greater)" },
+  ]
+};
+
+// ── UNIT 5 ──────────────────────────────────────────────────────────
+LESSONS['5-1'] = {
+  title: 'Graphing Systems of Equations',
+  teks: 'TEKS A1.3C',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>🔗 Graphing Systems of Equations</h2>
+    <span class="teks-tag">TEKS A1.3C</span>
+    <p>A <strong>system of equations</strong> is two or more equations with the same variables. The solution is the point (x, y) where the graphs INTERSECT.</p>
+    <div class="concept">
+      <div class="label">📋 Three Possible Outcomes</div>
+      <p>• <strong>One solution:</strong> lines cross at exactly one point<br>
+         • <strong>No solution:</strong> parallel lines (same slope, different y-intercepts)<br>
+         • <strong>Infinitely many:</strong> same line (same slope, same y-intercept)</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">y = x + 1 and y = −x + 5</div>
+      <p>At intersection: x+1 = −x+5 → 2x=4 → x=2; y=3<br>
+      Solution: <strong>(2, 3)</strong></p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Always check your solution by substituting (x,y) into BOTH original equations!</p></div>
+  </div>`,
+  practice: [
+    { q: "Two lines intersect at (3, −1). What is the solution to the system?", choices: ["(3,−1)","(−1,3)","(3,1)","No solution"], ans: 0, explain: "The intersection point IS the solution: (3, −1)" },
+    { q: "Lines y=2x+1 and y=2x−3 are:", choices: ["Parallel — no solution","Intersecting — one solution","Same line — infinite solutions","Perpendicular — one solution"], ans: 0, explain: "Same slope (2), different y-intercepts → parallel → no solution" },
+    { q: "Solve graphically: y=x−2 and y=−x+4. Find the x-coordinate of the solution.", choices: ["3","1","2","4"], ans: 0, explain: "Set equal: x−2=−x+4 → 2x=6 → x=3" },
+    { q: "Lines y=3x−1 and y=3x−1 have:", choices: ["Infinitely many solutions","No solution","One solution","Two solutions"], ans: 0, explain: "Identical equations → same line → infinite solutions" },
+  ],
+  workbook: [
+    { q: "Find the solution to the system: y = x + 2 and y = −2x + 8", ans: "(2, 4)", hint: "Set the two expressions for y equal: x+2 = −2x+8" },
+    { q: "Without graphing, determine the number of solutions: y=4x−3 and y=4x+1", ans: "No solution (parallel lines — same slope, different y-intercepts)", hint: "Compare slopes and y-intercepts" },
+    { q: "Check if (1, 3) is the solution to y=2x+1 and y=−x+4", ans: "Yes: 3=2(1)+1=3 ✓ and 3=−1+4=3 ✓", hint: "Substitute (1,3) into both equations" },
+  ],
+  test: [
+    { q: "The solution to a system of two linear equations is:", choices: ["The intersection point of the graphs","The y-intercept of each line","The slope of each line","The x-intercept"], ans: 0, explain: "The solution is where both lines meet — the intersection point." },
+    { q: "Solve: y=x−1 and y=3x−7", choices: ["(3,2)","(2,3)","(1,0)","(4,3)"], ans: 0, explain: "x−1=3x−7 → 6=2x → x=3; y=2 → (3,2)" },
+    { q: "Two lines with the same slope and same y-intercept have:", choices: ["Infinitely many solutions","No solution","Exactly one solution","Two solutions"], ans: 0, explain: "Same line → every point is a solution → infinitely many" },
+    { q: "Solve: y=−2x+6 and y=x", choices: ["(2,2)","(3,3)","(1,4)","(6,6)"], ans: 0, explain: "x=−2x+6 → 3x=6 → x=2; y=2 → (2,2)" },
+    { q: "Parallel lines in a system indicate:", choices: ["No solution","One solution","Infinite solutions","Cannot determine"], ans: 0, explain: "Parallel lines never meet → no intersection → no solution" },
+  ]
+};
+
+LESSONS['5-2'] = {
+  title: 'Substitution Method',
+  teks: 'TEKS A1.3C',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>🔗 Substitution Method</h2>
+    <span class="teks-tag">TEKS A1.3C</span>
+    <p>In the <strong>substitution method</strong>, you solve one equation for a variable, then substitute that expression into the other equation.</p>
+    <div class="concept">
+      <div class="label">📋 Steps</div>
+      <p>1. Solve one equation for x or y (pick the easiest)<br>
+         2. Substitute that expression into the OTHER equation<br>
+         3. Solve for the remaining variable<br>
+         4. Substitute back to find the other variable<br>
+         5. Write solution as (x, y) and check</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">y = 2x − 3 &nbsp;&nbsp; and &nbsp;&nbsp; 3x + y = 12</div>
+      <p>Substitute y = 2x−3 into 3x+y=12:<br>
+      3x + (2x−3) = 12 → 5x−3=12 → 5x=15 → x=3<br>
+      y = 2(3)−3 = 3 &nbsp;&nbsp; <strong>Solution: (3, 3)</strong></p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Look for a variable that's already isolated (like y=...) — that's your fastest starting point!</p></div>
+  </div>`,
+  practice: [
+    { q: "Solve using substitution: y=x+1 and x+y=7", choices: ["(3,4)","(4,3)","(1,6)","(6,1)"], ans: 0, explain: "x+(x+1)=7 → 2x+1=7 → x=3; y=4 → (3,4)" },
+    { q: "Solve: y=3x and 2x+y=10", choices: ["(2,6)","(6,2)","(1,3)","(3,9)"], ans: 0, explain: "2x+3x=10 → 5x=10 → x=2; y=6 → (2,6)" },
+    { q: "Which equation would you solve first in: x−y=3 and 2x+y=9?", choices: ["x−y=3 for x","2x+y=9 for y","Either equation","Neither"], ans: 0, explain: "x−y=3 easily gives x=y+3, a simple expression to substitute." },
+    { q: "Solve: x=4 and 3x+2y=18", choices: ["(4,3)","(3,4)","(4,6)","(6,4)"], ans: 0, explain: "3(4)+2y=18 → 12+2y=18 → 2y=6 → y=3 → (4,3)" },
+  ],
+  workbook: [
+    { q: "Solve using substitution: y = 2x and x + y = 9", ans: "(3, 6)", hint: "Substitute 2x for y in x+y=9" },
+    { q: "Solve: x − y = 1 and 3x + 2y = 17", ans: "(19/5, 14/5) or (3.8, 2.8). Exact: x=19/5, y=14/5", hint: "Solve first equation for x: x=y+1, then substitute" },
+    { q: "Solve: y = −x + 5 and y = x − 1", ans: "(3, 2)", hint: "Set the two expressions equal: −x+5 = x−1" },
+  ],
+  test: [
+    { q: "Solve using substitution: y=x−2 and x+y=8", choices: ["(5,3)","(3,5)","(6,2)","(2,6)"], ans: 0, explain: "x+(x−2)=8 → 2x=10 → x=5; y=3 → (5,3)" },
+    { q: "Solve: y=−2x and 5x+y=9", choices: ["(3,−6)","(−3,6)","(9,0)","(1,−2)"], ans: 0, explain: "5x+(−2x)=9 → 3x=9 → x=3; y=−6 → (3,−6)" },
+    { q: "Solve: x=5 and 2x−3y=1", choices: ["(5,3)","(3,5)","(5,−3)","(1,3)"], ans: 0, explain: "2(5)−3y=1 → 10−3y=1 → 3y=9 → y=3 → (5,3)" },
+    { q: "After substitution you get 0=0. What does this mean?", choices: ["Infinitely many solutions","No solution","x=0","y=0"], ans: 0, explain: "A true statement with no variables means the equations are the same → infinite solutions" },
+    { q: "Solve: y=4 and x+3y=19", choices: ["(7,4)","(4,7)","(19,4)","(−5,4)"], ans: 0, explain: "x+3(4)=19 → x+12=19 → x=7 → (7,4)" },
+  ]
+};
+
+LESSONS['5-3'] = {
+  title: 'Elimination Method',
+  teks: 'TEKS A1.3C',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>🔗 Elimination Method</h2>
+    <span class="teks-tag">TEKS A1.3C</span>
+    <p>In the <strong>elimination method</strong>, you ADD or SUBTRACT the equations to eliminate one variable. Sometimes you must multiply first to create matching coefficients.</p>
+    <div class="concept">
+      <div class="label">✏️ Example 1 – Direct elimination</div>
+      <div class="formula">x + y = 7 &nbsp;&amp;&nbsp; x − y = 3</div>
+      <p>Add equations: 2x = 10 → x=5; substitute: y=2 &nbsp;&nbsp; <strong>(5, 2)</strong></p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example 2 – Multiply first</div>
+      <div class="formula">2x + 3y = 12 &nbsp;&amp;&nbsp; x + y = 5</div>
+      <p>Multiply second by −2: −2x − 2y = −10<br>
+      Add: y = 2; substitute: x = 3 &nbsp;&nbsp; <strong>(3, 2)</strong></p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Use elimination when coefficients are the same or can easily be made the same by multiplying!</p></div>
+  </div>`,
+  practice: [
+    { q: "Solve by elimination: x+y=9 and x−y=3", choices: ["(6,3)","(3,6)","(9,3)","(4,5)"], ans: 0, explain: "Add: 2x=12 → x=6; substitute: 6+y=9 → y=3 → (6,3)" },
+    { q: "Solve: 2x+y=8 and −2x+3y=0", choices: ["(3,2)","(2,3)","(4,0)","(1,6)"], ans: 0, explain: "Add: 4y=8 → y=2; 2x+2=8 → x=3 → (3,2)" },
+    { q: "To eliminate x in 3x+y=7 and x+y=3, multiply the second equation by:", choices: ["−3","3","−1","1/3"], ans: 0, explain: "Multiply 2nd by −3: −3x−3y=−9; add to 3x+y=7 → −2y=−2" },
+    { q: "Solve: x+2y=10 and x+y=6", choices: ["(2,4)","(4,2)","(4,3)","(6,2)"], ans: 0, explain: "Subtract: y=4; x+4=6 → x=2 → (2,4)" },
+  ],
+  workbook: [
+    { q: "Solve by elimination: 3x + y = 11 and x + y = 5", ans: "(3, 2)", hint: "Subtract the second equation from the first to eliminate y" },
+    { q: "Solve: 2x + 3y = 12 and 4x − 3y = 6", ans: "(3, 2)", hint: "Add the equations — the y-terms cancel, giving 6x = 18" },
+    { q: "Solve: x + 2y = 7 and 3x + 2y = 13", ans: "(3, 2)", hint: "Subtract first from second to eliminate the 2y term" },
+  ],
+  test: [
+    { q: "Solve by elimination: x+y=10 and x−y=4", choices: ["(7,3)","(3,7)","(5,5)","(4,6)"], ans: 0, explain: "Add: 2x=14 → x=7; y=3 → (7,3)" },
+    { q: "Solve: 3x+2y=11 and −3x+y=1", choices: ["(1,4)","(4,1)","(2,3)","(3,2)"], ans: 0, explain: "Add equations: 3y=12 → y=4; then 3x+8=11 → 3x=3 → x=1. Solution: (1,4)" },
+    { q: "Solve: 2x+y=7 and x+y=4", choices: ["(3,1)","(1,3)","(7,4)","(2,3)"], ans: 0, explain: "Subtract 2nd from 1st: x=3; 3+y=4 → y=1 → (3,1)" },
+    { q: "When you add two equations and a variable is eliminated, you should:", choices: ["Solve for the remaining variable","Stop — no solution","Multiply by a negative","Subtract instead"], ans: 0, explain: "Elimination worked! Now solve the single-variable equation that remains." },
+    { q: "Solve: x+3y=14 and x+y=6", choices: ["(2,4)","(4,2)","(8,2)","(6,4)"], ans: 0, explain: "Subtract 2nd from 1st: 2y=8 → y=4; x+4=6 → x=2 → (2,4)" },
+  ]
+};
+
+// ── UNIT 6 ──────────────────────────────────────────────────────────
+LESSONS['6-1'] = {
+  title: 'Introduction to Quadratic Functions',
+  teks: 'TEKS A1.7A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>🎯 Introduction to Quadratic Functions</h2>
+    <span class="teks-tag">TEKS A1.7A</span>
+    <p>A <strong>quadratic function</strong> has the form f(x) = ax² + bx + c, where a ≠ 0. Its graph is a U-shaped curve called a <strong>parabola</strong>.</p>
+    <div class="concept">
+      <div class="label">📋 Key Features</div>
+      <p>• <strong>Vertex:</strong> the highest or lowest point (turning point)<br>
+         • <strong>Axis of symmetry:</strong> vertical line through the vertex: x = −b/(2a)<br>
+         • <strong>Opens up</strong> if a &gt; 0 (minimum vertex) &nbsp;|&nbsp; <strong>Opens down</strong> if a &lt; 0 (maximum vertex)</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">f(x) = x² − 4x + 3</div>
+      <p>a=1, b=−4, c=3 → opens UP (a>0)<br>
+      Axis of symmetry: x = −(−4)/(2·1) = 4/2 = <strong>2</strong><br>
+      Vertex: f(2) = 4−8+3 = <strong>−1</strong> → Vertex at (2,−1)</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>The axis of symmetry is like a mirror — the parabola is symmetric on both sides of it!</p></div>
+  </div>`,
+  practice: [
+    { q: "In f(x)=2x²−8x+3, which direction does the parabola open?", choices: ["Up (a=2>0)","Down (a=2>0)","Left","Right"], ans: 0, explain: "a=2 > 0 → parabola opens upward" },
+    { q: "Find the axis of symmetry of f(x) = x² + 6x + 5", choices: ["x=−3","x=3","x=6","x=−6"], ans: 0, explain: "x = −b/(2a) = −6/(2·1) = −3" },
+    { q: "What is the vertex of f(x) = x² − 2x + 1?", choices: ["(1,0)","(0,1)","(−1,0)","(2,1)"], ans: 0, explain: "x=1 (axis of sym); f(1)=1−2+1=0 → vertex (1,0)" },
+    { q: "Which is NOT a quadratic function?", choices: ["y=3x+2","y=x²−1","y=−2x²+5","y=x²+x+1"], ans: 0, explain: "y=3x+2 is linear (degree 1), not quadratic (degree 2)" },
+  ],
+  workbook: [
+    { q: "Find the vertex of f(x) = x² − 6x + 8", ans: "Vertex: (3, −1)", hint: "Find axis x=−b/(2a)=3, then evaluate f(3)" },
+    { q: "Does f(x) = −3x² + 12x − 5 have a maximum or minimum? Find it.", ans: "Maximum at x=2; f(2)=−12+24−5=7 → maximum value is 7", hint: "a<0 means maximum. Use x=−b/(2a)" },
+    { q: "Find the y-intercept of f(x) = 2x² − 3x + 4", ans: "y-intercept = 4 (set x=0)", hint: "The y-intercept is always the constant term c when x=0" },
+  ],
+  test: [
+    { q: "In f(x)=−x²+4x−1, the parabola opens:", choices: ["Down","Up","Left","Right"], ans: 0, explain: "a=−1 < 0 → opens downward" },
+    { q: "Find the axis of symmetry: f(x)=2x²−12x+7", choices: ["x=3","x=6","x=−3","x=2"], ans: 0, explain: "x=−(−12)/(2·2)=12/4=3" },
+    { q: "What is the vertex of f(x)=x²+2x−3?", choices: ["(−1,−4)","(1,0)","(2,5)","(0,−3)"], ans: 0, explain: "x=−2/2=−1; f(−1)=1−2−3=−4 → (−1,−4)" },
+    { q: "The y-intercept of f(x)=3x²−x+5 is:", choices: ["5","3","−1","0"], ans: 0, explain: "Set x=0: f(0)=0−0+5=5" },
+    { q: "Which quadratic has a maximum?", choices: ["f(x)=−2x²+x+1","f(x)=x²+3","f(x)=3x²−1","f(x)=x²"], ans: 0, explain: "a=−2<0 → opens down → has a maximum" },
+  ]
+};
+
+LESSONS['6-2'] = {
+  title: 'Graphing Parabolas & Key Features',
+  teks: 'TEKS A1.7A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>🎯 Graphing Parabolas & Key Features</h2>
+    <span class="teks-tag">TEKS A1.7A</span>
+    <p>To fully graph a parabola, find its key features: vertex, axis of symmetry, x-intercepts (zeros), and y-intercept.</p>
+    <div class="concept">
+      <div class="label">📋 Key Features Checklist</div>
+      <p>• <strong>Vertex:</strong> (h, k) — use x = −b/2a, then find y<br>
+         • <strong>Axis of symmetry:</strong> x = −b/2a<br>
+         • <strong>X-intercepts (zeros):</strong> where y = 0 (solve ax²+bx+c=0)<br>
+         • <strong>Y-intercept:</strong> the value of c<br>
+         • <strong>Domain:</strong> all real numbers &nbsp;|&nbsp; <strong>Range:</strong> y ≥ k (opens up) or y ≤ k (opens down)</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example: f(x) = x² − 4</div>
+      <p>Vertex: (0,−4) &nbsp;|&nbsp; AOS: x=0 &nbsp;|&nbsp; X-int: ±2 &nbsp;|&nbsp; Y-int: −4<br>
+      Opens up &nbsp;|&nbsp; Range: y ≥ −4</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Plot the vertex first, then use symmetry to plot points on both sides. The parabola is a mirror image across the axis of symmetry!</p></div>
+  </div>`,
+  practice: [
+    { q: "What are the x-intercepts of f(x)=x²−9?", choices: ["x=3 and x=−3","x=9 and x=−9","x=3 only","x=0"], ans: 0, explain: "x²−9=0 → x²=9 → x=±3" },
+    { q: "What is the range of f(x)=x²+1 (vertex at (0,1), opens up)?", choices: ["y≥1","y≤1","All reals","y>0"], ans: 0, explain: "Opens up, vertex at y=1 → range is y≥1" },
+    { q: "What is the y-intercept of f(x)=2x²−5x+3?", choices: ["3","−5","2","0"], ans: 0, explain: "Set x=0: f(0)=0−0+3=3" },
+    { q: "How many x-intercepts can a parabola have?", choices: ["0, 1, or 2","Always 2","Always 1","3 or more"], ans: 0, explain: "A parabola can touch the x-axis 0, 1 (vertex), or 2 times." },
+  ],
+  workbook: [
+    { q: "Find all key features of f(x) = x² − 2x − 3", ans: "Vertex: (1,−4); AOS: x=1; X-intercepts: x=3 and x=−1; Y-intercept: −3; Opens up", hint: "AOS: x=−(−2)/2=1; f(1)=1−2−3=−4; zeros: factor as (x−3)(x+1)" },
+    { q: "What is the domain of ANY quadratic function?", ans: "All real numbers", hint: "Quadratic functions are defined for every x value" },
+    { q: "Describe the range of f(x) = −x² + 4 (vertex at (0,4), opens down)", ans: "y ≤ 4", hint: "Opens down means the vertex is the MAXIMUM, so y can only go down from there" },
+  ],
+  test: [
+    { q: "Find x-intercepts of f(x)=x²−16", choices: ["x=4 and x=−4","x=16","x=4 only","No x-intercepts"], ans: 0, explain: "x²=16 → x=±4" },
+    { q: "The vertex of f(x)=x²−4x+4 is:", choices: ["(2,0)","(0,4)","(4,0)","(−2,0)"], ans: 0, explain: "x=4/2=2; f(2)=4−8+4=0 → (2,0)" },
+    { q: "What is the range of f(x)=−x²+9 (vertex (0,9), opens down)?", choices: ["y≤9","y≥9","y≤0","All reals"], ans: 0, explain: "Opens down, max at y=9 → range: y≤9" },
+    { q: "The axis of symmetry of f(x)=3x²+12x+1 is:", choices: ["x=−2","x=2","x=−4","x=4"], ans: 0, explain: "x=−12/(2·3)=−12/6=−2" },
+    { q: "How many x-intercepts does f(x)=x²+4 have?", choices: ["0","1","2","4"], ans: 0, explain: "x²+4=0 → x²=−4 → no real solutions → 0 x-intercepts" },
+  ]
+};
+
+LESSONS['6-3'] = {
+  title: 'Transformations of Quadratic Functions',
+  teks: 'TEKS A1.7C',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>🎯 Transformations of Quadratic Functions</h2>
+    <span class="teks-tag">TEKS A1.7C</span>
+    <p>The <strong>vertex form</strong> f(x) = a(x−h)² + k makes transformations easy to see. The parent function is f(x) = x².</p>
+    <div class="concept">
+      <div class="label">📋 Transformation Rules</div>
+      <p>• <strong>h</strong>: shifts LEFT (+h) or RIGHT (−h) → vertex x = h<br>
+         • <strong>k</strong>: shifts UP (+k) or DOWN (−k) → vertex y = k<br>
+         • <strong>|a| > 1</strong>: narrower (vertical stretch)<br>
+         • <strong>|a| < 1</strong>: wider (vertical compression)<br>
+         • <strong>a < 0</strong>: reflects over x-axis (flips upside down)</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">f(x) = −2(x−3)² + 5</div>
+      <p>a=−2 → opens down, narrower than parent<br>
+      h=3, k=5 → vertex at (3, 5)<br>
+      Shifted right 3, up 5; reflected over x-axis</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Remember: (x−h)² — if h is POSITIVE in the formula, the shift is to the RIGHT. The sign inside the parentheses is OPPOSITE the direction!</p></div>
+  </div>`,
+  practice: [
+    { q: "What is the vertex of f(x) = (x−4)² + 1?", choices: ["(4,1)","(−4,1)","(1,4)","(4,−1)"], ans: 0, explain: "Vertex form a(x−h)²+k → h=4, k=1 → vertex (4,1)" },
+    { q: "f(x) = −(x+2)² − 3 opens:", choices: ["Down","Up","Left","Right"], ans: 0, explain: "a=−1 < 0 → opens downward" },
+    { q: "Compare f(x)=3x² to f(x)=x². The graph of f(x)=3x² is:", choices: ["Narrower","Wider","Same shape","Reflected"], ans: 0, explain: "|a|=3>1 → vertical stretch → narrower parabola" },
+    { q: "What transformation shifts f(x)=x² down 5 units?", choices: ["f(x)=x²−5","f(x)=x²+5","f(x)=(x−5)²","f(x)=(x+5)²"], ans: 0, explain: "Subtracting outside the square shifts down: x²+(−5)=x²−5" },
+  ],
+  workbook: [
+    { q: "Write f(x)=x²−6x+11 in vertex form", ans: "f(x) = (x−3)² + 2", hint: "Complete the square: x²−6x+9+2 = (x−3)²+2" },
+    { q: "Describe all transformations of f(x) = 0.5(x+1)² − 4 from the parent y=x²", ans: "Left 1, down 4, wider (vertical compression by 0.5), opens up", hint: "h=−1 (left), k=−4 (down), a=0.5<1 (wider)" },
+    { q: "Write an equation of a parabola with vertex (−2, 5) that opens downward", ans: "f(x) = −(x+2)² + 5  (or any a<0 value like −2, −3, etc.)", hint: "Use vertex form: a(x−h)²+k with h=−2, k=5, a<0" },
+  ],
+  test: [
+    { q: "What is the vertex of f(x) = 2(x+3)² − 7?", choices: ["(−3,−7)","(3,−7)","(−3,7)","(3,7)"], ans: 0, explain: "h=−3, k=−7 → vertex (−3,−7)" },
+    { q: "Which equation shifts y=x² left 4 units and up 2 units?", choices: ["y=(x+4)²+2","y=(x−4)²+2","y=(x+4)²−2","y=x²+4+2"], ans: 0, explain: "Left 4 → (x+4); up 2 → +2 → y=(x+4)²+2" },
+    { q: "Compare y=¼x² to y=x². The graph is:", choices: ["Wider","Narrower","Same","Reflected"], ans: 0, explain: "|a|=¼<1 → vertical compression → wider" },
+    { q: "f(x) = −3(x−1)² + 6 has its vertex at:", choices: ["(1,6)","(−1,6)","(1,−6)","(3,6)"], ans: 0, explain: "h=1, k=6 → vertex (1,6)" },
+    { q: "Write the vertex form equation: vertex (2,−3), opens up, a=1", choices: ["y=(x−2)²−3","y=(x+2)²−3","y=(x−2)²+3","y=x²−3"], ans: 0, explain: "a(x−h)²+k = 1(x−2)²+(−3) = (x−2)²−3" },
+  ]
+};
+
+// ── UNIT 7 ──────────────────────────────────────────────────────────
+LESSONS['7-1'] = {
+  title: 'Solving Quadratics by Factoring',
+  teks: 'TEKS A1.8A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>🔢 Solving Quadratics by Factoring</h2>
+    <span class="teks-tag">TEKS A1.8A</span>
+    <p>To solve ax²+bx+c=0 by factoring: factor the quadratic, then set each factor equal to zero (Zero Product Property).</p>
+    <div class="concept">
+      <div class="label">📋 Zero Product Property</div>
+      <div class="formula">If (A)(B) = 0, then A = 0 OR B = 0</div>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">Solve: x² + 5x + 6 = 0</div>
+      <p>Factor: (x+2)(x+3) = 0<br>
+      x+2=0 → x=−2 &nbsp;OR&nbsp; x+3=0 → x=−3<br>
+      <strong>Solutions: x=−2 and x=−3</strong></p>
+    </div>
+    <div class="concept">
+      <div class="label">📋 Factoring Patterns</div>
+      <p>• Difference of squares: a²−b² = (a+b)(a−b)<br>
+         • Perfect square trinomial: a²+2ab+b² = (a+b)²</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Always move everything to one side first! The equation must equal ZERO before you factor.</p></div>
+  </div>`,
+  practice: [
+    { q: "Solve: (x−5)(x+3) = 0", choices: ["x=5 or x=−3","x=−5 or x=3","x=5 and x=3","x=−5 and x=−3"], ans: 0, explain: "Set each factor to zero: x−5=0→x=5; x+3=0→x=−3" },
+    { q: "Solve: x² − 7x + 12 = 0", choices: ["x=3 or x=4","x=−3 or x=−4","x=3 or x=−4","x=12 or x=1"], ans: 0, explain: "Factor: (x−3)(x−4)=0 → x=3 or x=4" },
+    { q: "Solve: x² − 25 = 0", choices: ["x=5 or x=−5","x=25","x=5","x=−5"], ans: 0, explain: "Difference of squares: (x+5)(x−5)=0 → x=±5" },
+    { q: "Solve: x² + 6x = 0", choices: ["x=0 or x=−6","x=6 or x=−6","x=0 only","x=−6 only"], ans: 0, explain: "Factor: x(x+6)=0 → x=0 or x=−6" },
+  ],
+  workbook: [
+    { q: "Solve: x² − 2x − 15 = 0", ans: "x = 5 or x = −3", hint: "Find two numbers that multiply to −15 and add to −2: that's 5 and −3" },
+    { q: "Solve: 2x² + 7x + 3 = 0", ans: "x = −1/2 or x = −3", hint: "Factor: (2x+1)(x+3)=0" },
+    { q: "Solve: x² = 16", ans: "x = 4 or x = −4", hint: "Move all terms left: x²−16=0, then factor as difference of squares" },
+  ],
+  test: [
+    { q: "Solve: x² − x − 6 = 0", choices: ["x=3 or x=−2","x=−3 or x=2","x=3 or x=2","x=6 or x=1"], ans: 0, explain: "Factor: (x−3)(x+2)=0 → x=3 or x=−2" },
+    { q: "Solve: x² + 4x + 4 = 0", choices: ["x=−2","x=2","x=4","x=0"], ans: 0, explain: "Perfect square: (x+2)²=0 → x=−2 (double root)" },
+    { q: "Solve: x² − 36 = 0", choices: ["x=6 or x=−6","x=6","x=18 or x=−18","x=36"], ans: 0, explain: "Difference of squares: (x+6)(x−6)=0 → x=±6" },
+    { q: "Solve: 3x² − 12x = 0", choices: ["x=0 or x=4","x=4","x=0 or x=−4","x=12"], ans: 0, explain: "Factor: 3x(x−4)=0 → x=0 or x=4" },
+    { q: "Solve: x² − 3x − 10 = 0", choices: ["x=5 or x=−2","x=−5 or x=2","x=5 or x=2","x=10 or x=1"], ans: 0, explain: "Factor: (x−5)(x+2)=0 → x=5 or x=−2" },
+  ]
+};
+
+LESSONS['7-2'] = {
+  title: 'Completing the Square & Square Roots',
+  teks: 'TEKS A1.8A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>🔢 Completing the Square & Square Roots</h2>
+    <span class="teks-tag">TEKS A1.8A</span>
+    <p>When quadratics can't be factored easily, use <strong>square roots</strong> or <strong>completing the square</strong> to solve them.</p>
+    <div class="concept">
+      <div class="label">📋 Square Root Method</div>
+      <div class="formula">If x² = k, then x = ±√k</div>
+      <p>Example: 2x² − 18 = 0 → 2x²=18 → x²=9 → <strong>x=±3</strong></p>
+    </div>
+    <div class="concept">
+      <div class="label">📋 Completing the Square Steps</div>
+      <p>1. Move constant to right<br>
+         2. Divide all by a (if a≠1)<br>
+         3. Add (b/2)² to BOTH sides<br>
+         4. Write left side as (x + b/2)²<br>
+         5. Take square root of both sides</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">x² + 6x − 7 = 0</div>
+      <p>x² + 6x = 7 → add (3)²=9: x²+6x+9 = 16<br>
+      (x+3)² = 16 → x+3 = ±4 → <strong>x=1 or x=−7</strong></p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>The number to add is always (b/2)² — half the middle coefficient, squared!</p></div>
+  </div>`,
+  practice: [
+    { q: "Solve: x² = 49", choices: ["x=±7","x=7","x=−7","x=±49"], ans: 0, explain: "Take square root of both sides: x=±√49=±7" },
+    { q: "Solve: (x−3)² = 25", choices: ["x=8 or x=−2","x=3 or x=−3","x=28 or x=−22","x=5 or x=−5"], ans: 0, explain: "x−3=±5 → x=3+5=8 or x=3−5=−2" },
+    { q: "To complete the square in x²+8x, you add:", choices: ["16","4","8","64"], ans: 0, explain: "(b/2)²=(8/2)²=4²=16" },
+    { q: "Solve: x² − 4x + 4 = 9 by square roots", choices: ["x=5 or x=1","x=9 or x=4","x=3 or x=−3","x=7 or x=−1"], ans: 0, explain: "(x−2)²=9 → x−2=±3 → x=5 or x=−1" },
+  ],
+  workbook: [
+    { q: "Solve by completing the square: x² + 10x + 9 = 0", ans: "x = −1 or x = −9", hint: "x²+10x=−9; add 25: (x+5)²=16; x+5=±4" },
+    { q: "Solve: 3x² − 75 = 0", ans: "x = ±5", hint: "Isolate x²: 3x²=75 → x²=25 → x=±5" },
+    { q: "Solve by completing the square: x² − 6x + 5 = 0", ans: "x = 5 or x = 1", hint: "x²−6x=−5; add 9: (x−3)²=4; x−3=±2" },
+  ],
+  test: [
+    { q: "Solve: x² = 144", choices: ["x=±12","x=12","x=72","x=±144"], ans: 0, explain: "x=±√144=±12" },
+    { q: "Solve: (x+4)² = 36", choices: ["x=2 or x=−10","x=4 or x=−4","x=6 or x=−6","x=10 or x=−2"], ans: 0, explain: "x+4=±6 → x=2 or x=−10" },
+    { q: "Complete the square: x²+12x+? makes a perfect square", choices: ["36","6","144","24"], ans: 0, explain: "(12/2)²=6²=36" },
+    { q: "Solve by completing the square: x²−8x=9", choices: ["x=9 or x=−1","x=−9 or x=1","x=8 or x=−1","x=4 or x=−4"], ans: 0, explain: "add 16: (x−4)²=25; x−4=±5; x=9 or x=−1" },
+    { q: "Solve: 5x² = 45", choices: ["x=±3","x=±9","x=3","x=9"], ans: 0, explain: "x²=9 → x=±3" },
+  ]
+};
+
+LESSONS['7-3'] = {
+  title: 'The Quadratic Formula',
+  teks: 'TEKS A1.8A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>🔢 The Quadratic Formula</h2>
+    <span class="teks-tag">TEKS A1.8A</span>
+    <p>The <strong>quadratic formula</strong> solves ANY quadratic equation ax²+bx+c=0:</p>
+    <div class="concept">
+      <div class="label">📋 The Formula</div>
+      <div class="formula">x = (−b ± √(b²−4ac)) / (2a)</div>
+    </div>
+    <div class="concept">
+      <div class="label">📋 The Discriminant: b²−4ac</div>
+      <p>• If b²−4ac &gt; 0: <strong>2 real solutions</strong><br>
+         • If b²−4ac = 0: <strong>1 real solution</strong> (double root)<br>
+         • If b²−4ac &lt; 0: <strong>0 real solutions</strong></p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">Solve: x² − 5x + 6 = 0</div>
+      <p>a=1, b=−5, c=6<br>
+      x = (5 ± √(25−24)) / 2 = (5 ± 1) / 2<br>
+      <strong>x=3 or x=2</strong></p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Memorize the formula by singing it to the tune of "Pop Goes the Weasel"! Practice identifying a, b, c carefully — signs matter!</p></div>
+  </div>`,
+  practice: [
+    { q: "In 2x²−3x+1=0, identify a, b, c", choices: ["a=2, b=−3, c=1","a=2, b=3, c=1","a=−3, b=2, c=1","a=1, b=−3, c=2"], ans: 0, explain: "Match to ax²+bx+c: a=2, b=−3, c=1" },
+    { q: "What is the discriminant of x²−4x+4=0?", choices: ["0","8","−4","16"], ans: 0, explain: "b²−4ac=(−4)²−4(1)(4)=16−16=0 → one solution" },
+    { q: "How many solutions does x²+x+5=0 have? (discriminant=1−20=−19)", choices: ["0","1","2","3"], ans: 0, explain: "Discriminant=−19<0 → no real solutions" },
+    { q: "Use the quadratic formula to solve x²−6x+8=0", choices: ["x=4 or x=2","x=−4 or x=−2","x=6 or x=8","x=1 or x=8"], ans: 0, explain: "b²−4ac=36−32=4; x=(6±2)/2 → x=4 or x=2" },
+  ],
+  workbook: [
+    { q: "Solve using quadratic formula: 2x²+5x−3=0", ans: "x = 1/2 or x = −3", hint: "a=2, b=5, c=−3; discriminant=25+24=49; x=(−5±7)/4" },
+    { q: "Find the discriminant and number of solutions: 4x²−12x+9=0", ans: "Discriminant = 144−144 = 0; one real solution (double root)", hint: "b²−4ac = (−12)²−4(4)(9)" },
+    { q: "Solve: x²+2x−4=0 (leave answer in simplified radical form)", ans: "x = −1 ± √5", hint: "discriminant=4+16=20=4·5; x=(−2±2√5)/2=−1±√5" },
+  ],
+  test: [
+    { q: "Use quadratic formula: x²−7x+10=0", choices: ["x=5 or x=2","x=−5 or x=−2","x=7 or x=10","x=1 or x=10"], ans: 0, explain: "disc=49−40=9; x=(7±3)/2 → x=5 or x=2" },
+    { q: "The discriminant is 0. How many real solutions?", choices: ["1","0","2","Infinite"], ans: 0, explain: "Discriminant=0 → one repeated real solution" },
+    { q: "Identify a, b, c in −3x²+2x−5=0", choices: ["a=−3, b=2, c=−5","a=3, b=2, c=5","a=−3, b=−2, c=5","a=2, b=−3, c=−5"], ans: 0, explain: "Match coefficients: a=−3, b=2, c=−5" },
+    { q: "The discriminant of 3x²+x+4=0 is:", choices: ["1−48=−47","1+48=49","9−48=−39","1−12=−11"], ans: 0, explain: "b²−4ac=1²−4(3)(4)=1−48=−47 → no real solutions" },
+    { q: "Solve: x²+4x+3=0 using any method", choices: ["x=−1 or x=−3","x=1 or x=3","x=−1 or x=3","x=4 or x=3"], ans: 0, explain: "Factor (x+1)(x+3)=0 or use formula: x=−1 or x=−3" },
+  ]
+};
+
+// ── UNIT 8 ──────────────────────────────────────────────────────────
+LESSONS['8-1'] = {
+  title: 'Exponential Growth & Decay',
+  teks: 'TEKS A1.9A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>📉 Exponential Growth & Decay</h2>
+    <span class="teks-tag">TEKS A1.9A</span>
+    <p><strong>Exponential functions</strong> have the form f(x) = ab^x, where b is the base. They model populations, money, and radioactive decay.</p>
+    <div class="concept">
+      <div class="label">📋 Growth vs Decay</div>
+      <div class="formula">f(x) = a · b^x</div>
+      <p>• <strong>a</strong> = initial value (when x=0)<br>
+         • <strong>b &gt; 1</strong>: exponential GROWTH (increasing)<br>
+         • <strong>0 &lt; b &lt; 1</strong>: exponential DECAY (decreasing)</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example – Growth</div>
+      <div class="formula">Population: P = 500 · (1.03)^t</div>
+      <p>Starts at 500; grows 3% per year. After 2 years: 500·(1.03)²≈530.45</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example – Decay</div>
+      <div class="formula">Value: V = 10000 · (0.8)^t</div>
+      <p>Starts at $10,000; loses 20% per year. After 3 years: 10000·(0.8)³=$5,120</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Growth rate r%: b = 1+r/100. Decay rate r%: b = 1−r/100.</p></div>
+  </div>`,
+  practice: [
+    { q: "In f(x)=200·(0.75)^x, is this growth or decay?", choices: ["Decay (b=0.75<1)","Growth (b=0.75<1)","Neither","Cannot determine"], ans: 0, explain: "b=0.75 is between 0 and 1 → exponential decay" },
+    { q: "What is the initial value of f(x)=450·(1.2)^x?", choices: ["450","1.2","0","Cannot determine"], ans: 0, explain: "Initial value = a = 450 (the value when x=0)" },
+    { q: "A town starts with 1,000 people and grows 5% per year. After 1 year:", choices: ["1,050","1,500","950","1,005"], ans: 0, explain: "1000·(1.05)¹=1050" },
+    { q: "Which function represents exponential growth?", choices: ["y=3·(2)^x","y=3·(0.5)^x","y=3x+2","y=3x²"], ans: 0, explain: "b=2>1 and the function is in form ab^x → exponential growth" },
+  ],
+  workbook: [
+    { q: "A car worth $25,000 depreciates 15% per year. Write the function and find the value after 4 years.", ans: "V(t)=25000·(0.85)^t; after 4 yrs: 25000·(0.85)^4≈$13,050.16", hint: "Decay: b = 1−0.15 = 0.85" },
+    { q: "Bacteria double every hour. Starting with 50, write the function.", ans: "B(t)=50·(2)^t", hint: "Doubling means b=2" },
+    { q: "Find f(3) for f(x)=1000·(0.9)^x", ans: "f(3)=1000·(0.9)^3=1000·0.729=729", hint: "Calculate 0.9³ = 0.9×0.9×0.9" },
+  ],
+  test: [
+    { q: "Which base indicates exponential growth?", choices: ["b=1.5","b=0.5","b=0","b=1"], ans: 0, explain: "b>1 means growth. b=1.5 > 1 → growth." },
+    { q: "f(x)=800·(0.6)^x. What is the y-intercept?", choices: ["800","0.6","480","0"], ans: 0, explain: "y-intercept = f(0) = 800·1 = 800" },
+    { q: "A population grows 10% per year from 2,000. After 2 years:", choices: ["2,420","2,200","2,100","4,000"], ans: 0, explain: "2000·(1.1)²=2000·1.21=2420" },
+    { q: "Which is an exponential function?", choices: ["y=4^x","y=4x","y=x⁴","y=x+4"], ans: 0, explain: "y=4^x has the variable in the exponent → exponential" },
+    { q: "A medication decays at 30% per hour. Starting with 200mg, after 3 hours:", choices: ["≈68.6mg","140mg","20mg","200mg"], ans: 0, explain: "200·(0.7)³=200·0.343≈68.6mg" },
+  ]
+};
+
+LESSONS['8-2'] = {
+  title: 'Interpreting Scatterplots & Trend Lines',
+  teks: 'TEKS A1.4A',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>📉 Interpreting Scatterplots & Trend Lines</h2>
+    <span class="teks-tag">TEKS A1.4A</span>
+    <p>A <strong>scatterplot</strong> displays data as points on a coordinate plane. A <strong>trend line</strong> (line of best fit) models the relationship between the two variables.</p>
+    <div class="concept">
+      <div class="label">📋 Types of Correlation</div>
+      <p>• <strong>Positive:</strong> as x increases, y increases (points go up left→right)<br>
+         • <strong>Negative:</strong> as x increases, y decreases (points go down)<br>
+         • <strong>No correlation:</strong> scattered with no pattern</p>
+    </div>
+    <div class="concept">
+      <div class="label">📋 Strength of Correlation</div>
+      <p>• <strong>Strong:</strong> points cluster close to the trend line<br>
+         • <strong>Weak:</strong> points are spread far from the line</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Using the Trend Line</div>
+      <p>If the trend line is y = 2x + 1 and x = 5, predict y = 2(5)+1 = <strong>11</strong><br>
+      This is called <strong>interpolation</strong> (within data) or <strong>extrapolation</strong> (outside data).</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Correlation does NOT mean causation! Just because two things are correlated doesn't mean one causes the other.</p></div>
+  </div>`,
+  practice: [
+    { q: "A scatterplot shows that as study hours increase, test scores increase. This is:", choices: ["Positive correlation","Negative correlation","No correlation","Inverse correlation"], ans: 0, explain: "Both variables increase together → positive correlation" },
+    { q: "Points scattered randomly with no pattern show:", choices: ["No correlation","Positive correlation","Negative correlation","Perfect correlation"], ans: 0, explain: "No pattern → no correlation" },
+    { q: "A trend line has equation y=−3x+50. Predict y when x=10", choices: ["20","−30","80","50"], ans: 0, explain: "y=−3(10)+50=−30+50=20" },
+    { q: "Which scatterplot shows strong negative correlation?", choices: ["Points closely follow a downward-sloping line","Points closely follow an upward-sloping line","Points are randomly scattered","Points form a curve"], ans: 0, explain: "Strong = close to trend line; negative = downward slope" },
+  ],
+  workbook: [
+    { q: "The trend line for temperature vs ice cream sales is y=5x−20. Predict sales when temperature is 90°F", ans: "y = 5(90)−20 = 430 units", hint: "Substitute x=90 into the equation" },
+    { q: "Describe the correlation: as age of car increases, its value decreases", ans: "Negative correlation", hint: "One goes up, the other goes down → negative" },
+    { q: "A trend line passes through (2,10) and (6,18). Write its equation.", ans: "y = 2x + 6", hint: "Find slope: (18−10)/(6−2)=2; use point-slope with (2,10)" },
+  ],
+  test: [
+    { q: "As temperature increases, heating bills decrease. This shows:", choices: ["Negative correlation","Positive correlation","No correlation","Exponential growth"], ans: 0, explain: "One increases, the other decreases → negative correlation" },
+    { q: "A trend line y=1.5x+4 predicts y when x=8:", choices: ["16","12","8","4"], ans: 0, explain: "y=1.5(8)+4=12+4=16" },
+    { q: "Points very close to the trend line indicate:", choices: ["Strong correlation","Weak correlation","No correlation","Negative correlation"], ans: 0, explain: "Close to trend line = strong linear relationship" },
+    { q: "Using a trend line to predict WITHIN the range of data is called:", choices: ["Interpolation","Extrapolation","Correlation","Regression"], ans: 0, explain: "Interpolation = predicting within the data range" },
+    { q: "Which statement is true about correlation and causation?", choices: ["Correlation does not imply causation","Correlation always implies causation","Causation requires strong correlation","They are the same thing"], ans: 0, explain: "Two correlated variables don't necessarily have a cause-effect relationship." },
+  ]
+};
+
+LESSONS['8-3'] = {
+  title: 'Statistical Analysis & Correlation',
+  teks: 'TEKS A1.4B',
+  steps: ['Lesson','Practice','Workbook','Test'],
+  lesson: `<div class="lcard">
+    <h2>📉 Statistical Analysis & Correlation</h2>
+    <span class="teks-tag">TEKS A1.4B</span>
+    <p>Statistics help us summarize, analyze, and interpret data. Key measures include central tendency and spread.</p>
+    <div class="concept">
+      <div class="label">📋 Measures of Central Tendency</div>
+      <p>• <strong>Mean:</strong> average = sum ÷ count<br>
+         • <strong>Median:</strong> middle value when data is sorted<br>
+         • <strong>Mode:</strong> most frequent value</p>
+    </div>
+    <div class="concept">
+      <div class="label">📋 Correlation Coefficient (r)</div>
+      <p>r is a number between −1 and 1 that measures strength and direction of linear correlation:<br>
+         • r near +1: strong positive &nbsp;|&nbsp; r near −1: strong negative &nbsp;|&nbsp; r near 0: weak/no correlation</p>
+    </div>
+    <div class="concept">
+      <div class="label">✏️ Example</div>
+      <div class="formula">Data: 4, 7, 7, 10, 12</div>
+      <p>Mean = (4+7+7+10+12)/5 = 40/5 = <strong>8</strong><br>
+      Median = <strong>7</strong> (middle value)<br>
+      Mode = <strong>7</strong> (appears twice)</p>
+    </div>
+    <div class="tip"><div class="tip-ico">💡</div><p>Outliers affect the MEAN the most. If data has outliers, the median is usually a better measure of center!</p></div>
+  </div>`,
+  practice: [
+    { q: "Find the mean of: 5, 8, 10, 15, 12", choices: ["10","8","12","50"], ans: 0, explain: "Sum=50; mean=50/5=10" },
+    { q: "Find the median of: 3, 7, 1, 9, 5", choices: ["5","3","7","6"], ans: 0, explain: "Sort: 1,3,5,7,9 → middle value = 5" },
+    { q: "A correlation coefficient of r=−0.95 indicates:", choices: ["Strong negative correlation","Strong positive correlation","Weak correlation","No correlation"], ans: 0, explain: "Near −1 = strong; negative sign = negative direction" },
+    { q: "Which measure is most affected by outliers?", choices: ["Mean","Median","Mode","Range"], ans: 0, explain: "Outliers pull the mean toward them since they're included in the sum/average." },
+  ],
+  workbook: [
+    { q: "Find the mean, median, and mode of: 6, 9, 3, 6, 11, 3, 6", ans: "Mean=44/7≈6.3; Median=6; Mode=6", hint: "Sort first: 3,3,6,6,6,9,11. Middle (4th value) = 6" },
+    { q: "Data: 2, 4, 6, 8, 100. How does the outlier (100) affect the mean?", ans: "Mean with outlier=(120/5)=24. Without: (20/4)=5. The outlier greatly inflates the mean.", hint: "Calculate mean both ways — with and without 100" },
+    { q: "r=0.12 for two variables. Describe this relationship.", ans: "Very weak positive correlation — the variables have almost no linear relationship", hint: "r near 0 means weak; positive means slight upward trend" },
+  ],
+  test: [
+    { q: "Find the mean of: 10, 20, 30, 40, 50", choices: ["30","25","35","50"], ans: 0, explain: "Sum=150; mean=150/5=30" },
+    { q: "Find the median of: 11, 4, 8, 15, 6", choices: ["8","4","11","6"], ans: 0, explain: "Sort: 4,6,8,11,15 → middle = 8" },
+    { q: "r=0.87 indicates:", choices: ["Strong positive correlation","Weak positive correlation","Strong negative correlation","No correlation"], ans: 0, explain: "Near +1 = strong; positive sign = positive correlation" },
+    { q: "Which measure of center is LEAST affected by outliers?", choices: ["Median","Mean","Range","Sum"], ans: 0, explain: "Median is the middle value and is resistant to extreme values (outliers)." },
+    { q: "In a data set, the value 2 appears 5 times and no other value repeats. The mode is:", choices: ["2","5","Cannot determine","No mode"], ans: 0, explain: "The mode is the most frequent value = 2" },
+  ]
+};
+
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+let currentUnit = null;
+let currentLesson = null;
+let currentStep = 0; // 0=lesson,1=practice,2=workbook,3=test
+let practiceScore = 0;
+let testAnswers = {};
+
+// ═══════════════════════════════════════════════
+//  HOME
+// ═══════════════════════════════════════════════
+function getUnitProgress(uIdx){
+  const p = PROGRESS[uIdx];
+  const total = UNITS[uIdx].lessons * 3 + 1; // lessons × steps + test
+  const done = p.lessonsComplete.length * 3 + (p.testScore !== null ? 1 : 0);
+  return Math.min(100, Math.round((done/total)*100));
+}
+function getUnitState(uIdx){
+  const p = PROGRESS[uIdx];
+  if(p.testScore !== null) return 'completed';
+  if(p.lessonsComplete.length > 0) return 'current';
+  return 'start';
+}
+
+function renderHome(){
+  const grid = document.getElementById('unitsGrid');
+  grid.innerHTML = '';
+  let totalPct = 0, done = 0;
+  UNITS.forEach((u, i) => {
+    const pct = getUnitProgress(i);
+    totalPct += pct;
+    if(pct===100) done++;
+    const state = getUnitState(i);
+    const stateLabel = {current:'▶ Start',start:'▶ Start',completed:'✅ Done',locked:'🔒 Locked'}[state];
+    const stateClass = {current:'ss',start:'ss',completed:'sd',locked:'sl'}[state];
+    const locked = state === 'locked';
+    const div = document.createElement('div');
+    div.className = `ucard${locked?' locked':''}${state==='completed'?' completed':''}${state==='current'?' current':''}`;
+    div.innerHTML = `
+      <div class="u-accent" style="background:${u.color}"></div>
+      <div class="u-head">
+        <div class="u-icon" style="background:${u.light}">${u.icon}</div>
+        <div><div class="u-num">Unit ${u.num}</div><div class="u-title">${u.title}</div><div class="u-teks">${u.teks}</div></div>
+      </div>
+      <div class="u-desc">${u.desc}</div>
+      <div class="u-bar"><div class="u-bar-fill" style="width:${pct}%;background:${u.color}"></div></div>
+      <div class="u-foot">
+        <span class="u-lessons">📖 ${u.lessons} lessons · ${pct}% done</span>
+        <span class="u-status ${stateClass}">${stateLabel}</span>
+      </div>`;
+    if(!locked) div.addEventListener('click', ()=>openUnit(i));
+    grid.appendChild(div);
+  });
+  const overall = Math.round(totalPct/UNITS.length);
+  document.getElementById('overallBar').style.width = overall+'%';
+  document.getElementById('progPct').textContent = overall+'% complete';
+  document.getElementById('progFrac').textContent = done+' / '+UNITS.length+' units';
+}
+
+function goHome(){ showView('homeView'); renderHome(); }
+function scrollToUnits(){ document.getElementById('unitsAnchor').scrollIntoView({behavior:'smooth'}); }
+function startLearning(){
+  for(let i=0;i<UNITS.length;i++){
+    if(getUnitState(i)!=='locked'&&getUnitProgress(i)<100){ openUnit(i); return; }
+  }
+  openUnit(0);
+}
+
+// ═══════════════════════════════════════════════
+//  UNIT → LESSON
+// ═══════════════════════════════════════════════
+function openUnit(uIdx){
+  currentUnit = uIdx;
+  const p = PROGRESS[uIdx];
+  // Find first incomplete lesson
+  let lIdx = 0;
+  for(let l=1;l<=UNITS[uIdx].lessons;l++){
+    if(!p.lessonsComplete.includes(l)){ lIdx=l; break; }
+  }
+  if(lIdx===0) lIdx=1; // all done, show first
+  openLesson(uIdx+1, lIdx);
+}
+
+function openLesson(unitNum, lessonNum){
+  currentUnit = unitNum-1;
+  currentLesson = lessonNum;
+  currentStep = 0;
+  testAnswers = {};
+  practiceScore = 0;
+
+  document.getElementById('lvTitle').textContent = `Unit ${unitNum}: ${UNITS[unitNum-1].title}`;
+  showView('lessonView');
+  renderStep();
+}
+
+function renderStep(){
+  renderStepNav();
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const ld = LESSONS[key];
+  if(!ld){ return; }
+  const c = document.getElementById('lcontent');
+  if(currentStep===0) renderLesson(ld, c);
+  else if(currentStep===1) renderPractice(ld, c);
+  else if(currentStep===2) renderWorkbook(ld, c);
+  else renderTest(ld, c);
+  c.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderStepNav(){
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const ld = LESSONS[key];
+  const steps = ld ? ld.steps : ['Lesson','Practice','Workbook','Test'];
+  const nav = document.getElementById('lsteps');
+  nav.innerHTML = '';
+  // Lesson nav
+  for(let l=1;l<=UNITS[currentUnit].lessons;l++){
+    const done = PROGRESS[currentUnit].lessonsComplete.includes(l);
+    const active = l===currentLesson;
+    const btn = document.createElement('button');
+    btn.className = `lstep${done?' done':active?' active':' locked2'}`;
+    btn.textContent = (done?'✓ ':'')+'Lesson '+l;
+    const ll = l;
+    btn.addEventListener('click', ()=>{ currentLesson=ll; currentStep=0; renderStep(); });
+    nav.appendChild(btn);
+  }
+  // Step nav for current lesson
+  const div = document.createElement('div');
+  div.style.cssText='display:flex;gap:6px;padding-left:12px;border-left:2px solid #E5E7EB;margin-left:6px';
+  steps.forEach((s,i)=>{
+    const btn = document.createElement('button');
+    btn.className = `lstep${i===currentStep?' active':''}`;
+    btn.textContent = ['📖','✏️','📝','🧪'][i]+' '+s;
+    const si=i;
+    btn.addEventListener('click',()=>{ currentStep=si; renderStep(); });
+    div.appendChild(btn);
+  });
+  nav.appendChild(div);
+}
+
+function renderLesson(ld, c){
+  c.innerHTML = ld.lesson + `
+    <div class="nav-row">
+      <div></div>
+      <button class="btn btn-pu" onclick="currentStep=1;renderStep()">✏️ Practice Problems →</button>
+    </div>`;
+}
+
+function renderPractice(ld, c){
+  practiceScore = 0;
+  let html = `<div class="practice">
+    <h3>✏️ Practice Problems</h3>
+    <div class="score-bar"><span class="score-num" id="scoreNum">0</span><span class="score-lbl">/ ${ld.practice.length} correct</span></div>`;
+  ld.practice.forEach((p,pi)=>{
+    html += `<div class="prob" id="prob${pi}">
+      <div class="prob-q">Q${pi+1}. ${p.q}</div>
+      <div class="choices">
+        ${p.choices.map((ch,ci)=>`<button class="choice" onclick="checkPractice(${pi},${ci})" id="pc${pi}_${ci}">${ch}</button>`).join('')}
+      </div>
+      <div class="feedback" id="fb${pi}"></div>
+    </div>`;
+  });
+  html += `</div>
+    <div class="nav-row">
+      <button class="btn btn-sm" style="background:#E5E7EB;color:#374151" onclick="currentStep=0;renderStep()">← Back to Lesson</button>
+      <button class="btn btn-pu" onclick="goWorkbook()">📝 Workbook Assignment →</button>
+    </div>`;
+  c.innerHTML = html;
+}
+
+function checkPractice(pi, ci){
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const p = LESSONS[key].practice[pi];
+  const prob = document.getElementById('prob'+pi);
+  const fb = document.getElementById('fb'+pi);
+  // disable all choices
+  for(let i=0;i<p.choices.length;i++){
+    const btn = document.getElementById(`pc${pi}_${i}`);
+    btn.disabled = true;
+    if(i===p.ans) btn.className='choice correct-ans';
+    else if(i===ci && ci!==p.ans) btn.className='choice wrong-ans';
+  }
+  if(ci===p.ans){
+    prob.className='prob correct';
+    fb.className='feedback show fb-c';
+    fb.textContent='✅ Correct! '+p.explain;
+    practiceScore++;
+  } else {
+    prob.className='prob wrong';
+    fb.className='feedback show fb-w';
+    fb.textContent='❌ Not quite. '+p.explain;
+  }
+  document.getElementById('scoreNum').textContent = practiceScore;
+}
+
+function goWorkbook(){
+  currentStep=2; renderStep();
+}
+
+function renderWorkbook(ld, c){
+  let html = `<div class="wb-card">
+    <h3>📝 Workbook Assignment</h3>
+    <p style="color:var(--mu);font-size:14px;font-weight:600;margin-bottom:20px">Type your answers below. Press "Check" to see if you're correct.</p>`;
+  ld.workbook.forEach((p,i)=>{
+    html += `<div class="wb-prob">
+      <div class="wp-q">Problem ${i+1}: ${p.q}</div>
+      <div style="font-size:12px;color:var(--mu);font-weight:600;margin-bottom:6px">💡 Hint: ${p.hint}</div>
+      <input class="wb-input" id="wbi${i}" placeholder="Type your answer here..." />
+      <button class="check-btn" onclick="checkWB(${i},'${p.ans.replace(/'/g,"\\'")}')">Check Answer</button>
+      <div class="wb-feedback" id="wbf${i}"></div>
+    </div>`;
+  });
+  html += `</div>
+    <div class="nav-row">
+      <button class="btn btn-sm" style="background:#E5E7EB;color:#374151" onclick="currentStep=1;renderStep()">← Practice</button>
+      <button class="btn btn-pu" onclick="currentStep=3;renderStep()">🧪 Take Unit Test →</button>
+    </div>`;
+  c.innerHTML = html;
+  PROGRESS[currentUnit].workbookDone = true;
+  saveP();
+}
+
+function checkWB(i, ans){
+  const inp = document.getElementById('wbi'+i);
+  const fb = document.getElementById('wbf'+i);
+  const val = inp.value.trim().toLowerCase().replace(/\s/g,'');
+  const correct = ans.toLowerCase().replace(/\s/g,'');
+  if(val===correct){
+    inp.className='wb-input correct-inp';
+    fb.className='wb-feedback show';
+    fb.style.color='var(--gr)';
+    fb.textContent='✅ Correct! Great work!';
+  } else {
+    inp.className='wb-input wrong-inp';
+    fb.className='wb-feedback show';
+    fb.style.color='var(--re)';
+    fb.textContent='❌ Not quite. The answer is: '+ans+'. Review the lesson and try again!';
+  }
+}
+
+function renderTest(ld, c){
+  let html = `<div class="test-card">
+    <h3>🧪 Unit ${currentUnit+1} Test — Lesson ${currentLesson}</h3>
+    <p class="desc">Answer all questions, then submit for your grade. Good luck!</p>`;
+  ld.test.forEach((q,qi)=>{
+    html += `<div class="test-q" id="tq${qi}">
+      <div class="qnum">Question ${qi+1}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="test-choices">
+        ${q.choices.map((ch,ci)=>`<button class="test-choice" onclick="selectTest(${qi},${ci})" id="tc${qi}_${ci}">${String.fromCharCode(65+ci)}. ${ch}</button>`).join('')}
+      </div>
+    </div>`;
+  });
+  html += `</div>
+    <div id="testSubmit" style="text-align:center;margin-bottom:24px">
+      <button class="btn btn-y" onclick="submitTest()" style="font-size:18px;padding:16px 40px">Submit Test ✓</button>
+    </div>
+    <div id="testResult" style="display:none"></div>`;
+  c.innerHTML = html;
+}
+
+function selectTest(qi, ci){
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const q = LESSONS[key].test[qi];
+  testAnswers[qi] = ci;
+  for(let i=0;i<q.choices.length;i++){
+    const btn = document.getElementById(`tc${qi}_${i}`);
+    btn.className = i===ci ? 'test-choice sel' : 'test-choice';
+  }
+}
+
+function submitTest(){
+  const key = `${currentUnit+1}-${currentLesson}`;
+  const ld = LESSONS[key];
+  let correct = 0;
+  ld.test.forEach((q,qi)=>{
+    const sel = testAnswers[qi];
+    for(let i=0;i<q.choices.length;i++){
+      const btn = document.getElementById(`tc${qi}_${i}`);
+      btn.disabled = true;
+      if(i===q.ans) btn.className='test-choice reveal-c';
+      else if(i===sel && sel!==q.ans) btn.className='test-choice reveal-w';
+    }
+    if(sel===q.ans) correct++;
+  });
+  const pct = Math.round((correct/ld.test.length)*100);
+  const grade = pct>=90?'A':pct>=80?'B':pct>=70?'C':pct>=60?'D':'F';
+  const msg = pct>=90?'Outstanding! 🌟':pct>=80?'Great job! 🎉':pct>=70?'Good work! 👍':pct>=60?'Almost there! Keep practicing!':'Review the lesson and try again!';
+
+  PROGRESS[currentUnit].testScore = pct;
+  if(!PROGRESS[currentUnit].lessonsComplete.includes(currentLesson)){
+    PROGRESS[currentUnit].lessonsComplete.push(currentLesson);
+  }
+  saveP();
+
+  document.getElementById('testSubmit').style.display='none';
+  document.getElementById('testResult').style.display='block';
+  document.getElementById('testResult').innerHTML = `
+    <div class="result-card">
+      <div class="grade">${grade}</div>
+      <div class="grade-label">${correct} / ${ld.test.length} correct · ${pct}%</div>
+      <div class="grade-sub">${msg}</div>
+    </div>
+    <div style="text-align:center;margin-bottom:32px">
+      <p style="color:var(--mu);font-size:14px;font-weight:700;margin-bottom:16px">Explanations:</p>
+      ${ld.test.map((q,qi)=>`<div style="text-align:left;background:#F8F7FF;border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px"><strong>Q${qi+1}:</strong> ${q.explain}</div>`).join('')}
+    </div>
+    <div class="nav-row">
+      <button class="btn btn-sm" style="background:#E5E7EB;color:#374151" onclick="currentStep=0;currentLesson=1;renderStep()">↺ Redo Lessons</button>
+      ${getNextNav()}
+    </div>`;
+}
+
+function getNextNav(){
+  const nextLesson = currentLesson + 1;
+  if(nextLesson <= UNITS[currentUnit].lessons){
+    return `<button class="btn btn-pu" onclick="currentLesson=${nextLesson};currentStep=0;renderStep()">Next Lesson ${nextLesson} →</button>`;
+  } else {
+    const nextUnit = currentUnit + 1;
+    if(nextUnit < UNITS.length){
+      return `<button class="btn btn-pu" onclick="openUnit(${nextUnit})">Next: Unit ${nextUnit+1} →</button>`;
+    }
+    return `<button class="btn btn-y" onclick="goHome()">🏆 Course Complete! →</button>`;
+  }
+}
+
+// ═══════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// init
+window.addEventListener('load', ()=>{ renderHome(); });
+</script>
+</body>
+</html>
