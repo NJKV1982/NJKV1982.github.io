@@ -692,6 +692,21 @@ function persist(){
   USERS[SESS].done = doneState;
   USERS[SESS].groc = grocState;
   saveUsers();
+  showSavedToast();
+}
+
+function showSavedToast(){
+  let t = document.getElementById('savedToast');
+  if(!t){
+    t = document.createElement('div');
+    t.id = 'savedToast';
+    t.style.cssText = 'position:fixed;bottom:22px;right:18px;background:#2E7D32;color:#fff;padding:7px 16px;border-radius:20px;font-size:.8rem;font-weight:700;z-index:9998;box-shadow:0 4px 14px rgba(0,0,0,.2);opacity:0;transition:opacity .25s;pointer-events:none;';
+    t.textContent = '✓ Saved to your profile';
+    document.body.appendChild(t);
+  }
+  clearTimeout(t._tid);
+  t.style.opacity = '1';
+  t._tid = setTimeout(()=>{ t.style.opacity='0'; }, 1800);
 }
 
 // ═══════════════════════════════════════════════════════════════════
