@@ -5,827 +5,1036 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gujarati Meal Plan</title>
 <style>
-  :root {
-    --saffron: #FF6D00;
-    --saffron-light: #FF9800;
-    --saffron-pale: #FFF3E0;
-    --green: #2E7D32;
-    --green-light: #4CAF50;
-    --green-pale: #F1F8E9;
-    --gold: #F9A825;
-    --text: #1A1A1A;
-    --text-muted: #666;
-    --white: #FFFFFF;
-    --shadow: rgba(0,0,0,0.12);
-    --radius: 14px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #FFF8E1 0%, #F1F8E9 100%);
-    min-height: 100vh;
-    color: var(--text);
-  }
+:root{--saf:#FF6D00;--saf2:#FF9800;--safp:#FFF3E0;--grn:#2E7D32;--grnl:#4CAF50;--grnp:#F1F8E9;--gold:#F9A825;--txt:#1A1A1A;--muted:#666;--r:14px;--sh:rgba(0,0,0,0.1);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:linear-gradient(135deg,#FFF8E1,#F1F8E9);min-height:100vh;color:var(--txt);}
 
-  /* HEADER */
-  header {
-    background: linear-gradient(135deg, #E65100, #FF8F00, #FF6D00);
-    color: white;
-    text-align: center;
-    padding: 28px 20px 20px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 4px 16px rgba(230,81,0,0.3);
-  }
-  header h1 { font-size: 2rem; font-weight: 700; letter-spacing: 1px; text-shadow: 0 2px 6px rgba(0,0,0,0.2); }
-  header p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
-  .header-badges { display: flex; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-  .badge {
-    background: rgba(255,255,255,0.2);
-    border: 1px solid rgba(255,255,255,0.4);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 0.78rem;
-    backdrop-filter: blur(4px);
-  }
+/* ── LOGIN SCREEN ────────────────────────────────────── */
+#loginScreen{position:fixed;inset:0;background:linear-gradient(160deg,#E65100,#FF8F00,#2E7D32);display:flex;align-items:center;justify-content:center;z-index:9999;padding:16px;}
+#loginScreen.gone{display:none;}
+.login-box{background:#fff;border-radius:22px;padding:30px 26px;max-width:380px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,.3);text-align:center;}
+.login-logo{font-size:2.8rem;margin-bottom:6px;}
+.login-title{font-size:1.3rem;font-weight:800;color:var(--saf);margin-bottom:2px;}
+.login-sub{font-size:.8rem;color:var(--muted);margin-bottom:22px;}
+.login-step{display:none;}
+.login-step.active{display:block;}
+.login-label{display:block;font-size:.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px;text-align:left;}
+.login-input{width:100%;padding:11px 15px;border:2px solid #ddd;border-radius:12px;font-size:1rem;outline:none;transition:border .2s;letter-spacing:1px;}
+.login-input:focus{border-color:var(--saf);}
+.login-input.big{font-size:1.6rem;text-align:center;letter-spacing:8px;font-weight:700;}
+.login-btn{width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(135deg,#E65100,#FF8F00);color:#fff;font-weight:800;font-size:1rem;cursor:pointer;margin-top:14px;transition:opacity .2s;}
+.login-btn:hover{opacity:.9;}
+.login-btn.secondary{background:#f5f5f5;color:var(--muted);}
+.login-err{color:#e53935;font-size:.8rem;margin-top:7px;min-height:18px;}
+.otp-box{background:#FFF3E0;border:2px solid #FFCC80;border-radius:12px;padding:14px;margin:12px 0;font-size:.85rem;color:#E65100;}
+.otp-code{font-size:2rem;font-weight:800;letter-spacing:6px;color:var(--saf);display:block;margin-top:4px;}
+.user-chip-list{display:flex;flex-direction:column;gap:8px;margin:10px 0;}
+.user-chip{display:flex;align-items:center;gap:10px;padding:10px 14px;border:2px solid #eee;border-radius:12px;cursor:pointer;transition:all .15s;text-align:left;}
+.user-chip:hover{border-color:var(--saf);background:var(--safp);}
+.user-chip-icon{font-size:1.5rem;}
+.user-chip-name{font-weight:700;font-size:.9rem;}
+.user-chip-phone{font-size:.75rem;color:var(--muted);}
+.login-divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:#ccc;font-size:.75rem;}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:#eee;}
 
-  /* MAIN NAV TABS */
-  .main-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    padding: 16px 20px;
-    background: white;
-    border-bottom: 2px solid #eee;
-    flex-wrap: wrap;
-  }
-  .main-tab {
-    padding: 8px 22px;
-    border-radius: 30px;
-    border: 2px solid #ddd;
-    background: white;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    transition: all 0.2s;
-  }
-  .main-tab:hover { border-color: var(--saffron); color: var(--saffron); }
-  .main-tab.active {
-    background: var(--saffron);
-    border-color: var(--saffron);
-    color: white;
-    box-shadow: 0 3px 10px rgba(255,109,0,0.35);
-  }
+/* ── HEADER ────────────────────────────────────── */
+header{background:linear-gradient(135deg,#E65100,#FF8F00,#FF6D00);color:#fff;text-align:center;padding:16px 20px 12px;position:sticky;top:0;z-index:100;box-shadow:0 4px 16px rgba(230,81,0,.3);}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.hdr-center{flex:1;}
+header h1{font-size:1.6rem;font-weight:700;letter-spacing:1px;text-shadow:0 2px 6px rgba(0,0,0,.2);}
+header p{font-size:.78rem;opacity:.9;margin-top:2px;}
+.user-info{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:5px 12px;cursor:pointer;white-space:nowrap;}
+.user-info:hover{background:rgba(255,255,255,.3);}
+.user-name{font-size:.78rem;font-weight:700;}
+.badges{display:flex;justify-content:center;gap:7px;margin-top:8px;flex-wrap:wrap;}
+.badge{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:2px 10px;font-size:.72rem;}
 
-  /* CONTENT SECTIONS */
-  .section { display: none; padding: 24px 16px; max-width: 1100px; margin: 0 auto; }
-  .section.active { display: block; }
+/* ── NAV ────────────────────────────────────── */
+.nav{display:flex;justify-content:center;gap:7px;padding:12px 16px;background:#fff;border-bottom:2px solid #eee;flex-wrap:wrap;}
+.nav-btn{padding:7px 16px;border-radius:30px;border:2px solid #ddd;background:#fff;cursor:pointer;font-size:.83rem;font-weight:600;color:var(--muted);transition:all .2s;}
+.nav-btn:hover{border-color:var(--saf);color:var(--saf);}
+.nav-btn.active{background:var(--saf);border-color:var(--saf);color:#fff;box-shadow:0 3px 10px rgba(255,109,0,.3);}
 
-  /* WEEK SELECTOR */
-  .week-selector {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 22px;
-    flex-wrap: wrap;
-  }
-  .week-btn {
-    padding: 7px 18px;
-    border-radius: 20px;
-    border: 2px solid var(--saffron);
-    background: white;
-    color: var(--saffron);
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.85rem;
-    transition: all 0.2s;
-  }
-  .week-btn:hover, .week-btn.active {
-    background: var(--saffron);
-    color: white;
-    box-shadow: 0 2px 8px rgba(255,109,0,0.3);
-  }
+/* ── SECTIONS ────────────────────────────────────── */
+.sec{display:none;padding:18px 14px;max-width:1100px;margin:0 auto;}
+.sec.active{display:block;}
 
-  /* WEEK GRID */
-  .week-grid { display: none; }
-  .week-grid.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+/* ── TODAY BANNER ────────────────────────────────────── */
+.today-banner{background:linear-gradient(135deg,#1B5E20,#2E7D32);color:#fff;border-radius:var(--r);padding:14px 16px;margin-bottom:16px;box-shadow:0 3px 14px rgba(46,125,50,.3);display:flex;align-items:center;gap:12px;}
+.today-banner.hidden{display:none;}
+.today-icon{font-size:1.8rem;}
+.today-info{flex:1;}
+.today-date{font-weight:700;font-size:.95rem;}
+.today-meals{font-size:.8rem;opacity:.85;margin-top:2px;}
+.today-jump{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:6px 14px;border-radius:20px;font-size:.78rem;font-weight:700;cursor:pointer;}
+.today-jump:hover{background:rgba(255,255,255,.3);}
 
-  /* DAY CARD */
-  .day-card {
-    background: white;
-    border-radius: var(--radius);
-    box-shadow: 0 2px 12px var(--shadow);
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .day-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
-  .day-card.done { opacity: 0.6; }
+/* ── WEEK ────────────────────────────────────── */
+.week-bar{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap;}
+.wbtn{padding:6px 16px;border-radius:20px;border:2px solid var(--saf);background:#fff;color:var(--saf);cursor:pointer;font-weight:600;font-size:.82rem;transition:all .2s;}
+.wbtn.active,.wbtn:hover{background:var(--saf);color:#fff;}
+.wgrid{display:none;}
+.wgrid.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
 
-  .day-header {
-    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
-    color: white;
-    padding: 10px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .day-header .day-name { font-weight: 700; font-size: 1rem; }
-  .day-header .day-date { font-size: 0.8rem; opacity: 0.9; }
-  .day-header .day-num {
-    background: rgba(255,255,255,0.25);
-    border-radius: 50%;
-    width: 28px; height: 28px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 0.85rem;
-  }
+/* ── DAY CARD ────────────────────────────────────── */
+.day-card{background:#fff;border-radius:var(--r);box-shadow:0 2px 12px var(--sh);overflow:hidden;transition:transform .2s,box-shadow .2s;}
+.day-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.13);}
+.day-card.today-card{box-shadow:0 0 0 3px var(--grn),0 6px 20px rgba(46,125,50,.25);}
+.day-head{background:linear-gradient(135deg,var(--saf),var(--saf2));color:#fff;padding:9px 13px;display:flex;justify-content:space-between;align-items:center;}
+.day-card.today-card .day-head{background:linear-gradient(135deg,#1B5E20,#2E7D32);}
+.day-head .dn{font-weight:700;font-size:.95rem;}
+.day-head .dd{font-size:.78rem;opacity:.9;}
+.day-num{background:rgba(255,255,255,.25);border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;}
+.today-badge{background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.5);border-radius:10px;padding:1px 7px;font-size:.68rem;font-weight:700;}
 
-  .meal-block { padding: 12px 14px; border-bottom: 1px solid #f0f0f0; }
-  .meal-block:last-child { border-bottom: none; }
-  .meal-label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 5px;
-  }
-  .meal-label.brunch { color: var(--saffron); }
-  .meal-label.dinner { color: var(--green); }
-  .meal-label .time-tag {
-    background: var(--saffron-pale);
-    color: var(--saffron);
-    padding: 1px 8px;
-    border-radius: 10px;
-    font-size: 0.7rem;
-  }
-  .meal-label.dinner .time-tag { background: var(--green-pale); color: var(--green); }
-  .meal-text { font-size: 0.88rem; line-height: 1.5; color: var(--text); }
-  .fusion-tag {
-    display: inline-block;
-    background: linear-gradient(135deg, #7B1FA2, #E91E63);
-    color: white;
-    padding: 1px 8px;
-    border-radius: 10px;
-    font-size: 0.68rem;
-    font-weight: 700;
-    margin-left: 4px;
-    vertical-align: middle;
-  }
-  .special-tag {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--gold), #FF6D00);
-    color: white;
-    padding: 1px 8px;
-    border-radius: 10px;
-    font-size: 0.68rem;
-    font-weight: 700;
-    margin-left: 4px;
-    vertical-align: middle;
-  }
+/* ── MEAL SLOT ────────────────────────────────────── */
+.meal-slot{padding:10px 12px;border-bottom:1px solid #f0f0f0;}
+.meal-slot:last-of-type{border-bottom:none;}
+.slot-label{display:flex;align-items:center;gap:6px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;}
+.slot-label.brunch{color:var(--saf);}
+.slot-label.dinner{color:var(--grn);}
+.time-tag{background:var(--safp);color:var(--saf);padding:1px 7px;border-radius:10px;font-size:.68rem;}
+.dinner-slot .time-tag{background:var(--grnp);color:var(--grn);}
+.dish-chips-row{display:flex;flex-wrap:wrap;gap:5px;min-height:24px;}
+.dish-chip{display:inline-flex;align-items:center;gap:4px;background:var(--safp);border:1px solid #FFCC80;color:var(--saf);padding:3px 8px 3px 9px;border-radius:14px;font-size:.78rem;cursor:pointer;transition:background .15s;}
+.dish-chip:hover{background:#FFE0B2;}
+.dish-chip.dinner-chip{background:var(--grnp);border-color:#A5D6A7;color:var(--grn);}
+.dish-chip.dinner-chip:hover{background:#C8E6C9;}
+.chip-del{margin-left:2px;width:14px;height:14px;border-radius:50%;background:rgba(0,0,0,.15);border:none;cursor:pointer;font-size:.65rem;display:flex;align-items:center;justify-content:center;color:#555;line-height:1;flex-shrink:0;}
+.chip-del:hover{background:rgba(255,0,0,.25);color:#c00;}
+.add-dish-btn{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:14px;border:1.5px dashed var(--saf);background:none;color:var(--saf);font-size:.75rem;cursor:pointer;margin-top:4px;transition:all .15s;}
+.add-dish-btn:hover{background:var(--safp);}
+.slot-footer{padding:7px 12px 8px;display:flex;justify-content:flex-end;align-items:center;gap:8px;}
+.done-btn{background:none;border:2px solid #ddd;border-radius:20px;padding:3px 11px;font-size:.7rem;cursor:pointer;color:#aaa;transition:all .2s;}
+.done-btn:hover{border-color:var(--grn);color:var(--grn);}
+.done-btn.on{background:var(--grn);border-color:var(--grn);color:#fff;}
+.day-card.done-card{opacity:.55;}
 
-  .notes-row {
-    padding: 7px 14px;
-    background: #FAFAFA;
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-  }
-  .notes-text { flex: 1; }
-  .done-btn {
-    background: none;
-    border: 2px solid #ddd;
-    border-radius: 20px;
-    padding: 3px 12px;
-    font-size: 0.72rem;
-    cursor: pointer;
-    color: #999;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .done-btn:hover { border-color: var(--green); color: var(--green); }
-  .done-btn.checked { background: var(--green); border-color: var(--green); color: white; }
+/* ── PROGRESS ────────────────────────────────────── */
+.prog-bar-wrap{background:#fff;border-radius:var(--r);padding:12px 16px;margin-bottom:16px;box-shadow:0 2px 8px var(--sh);display:flex;align-items:center;gap:14px;}
+.prog-track{flex:1;background:#eee;border-radius:10px;height:9px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--grn),var(--grnl));border-radius:10px;transition:width .4s;}
+.prog-txt{font-weight:700;color:var(--grn);font-size:.88rem;white-space:nowrap;}
 
-  /* PROGRESS BAR */
-  .progress-section {
-    background: white;
-    border-radius: var(--radius);
-    padding: 14px 18px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px var(--shadow);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .progress-label { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; }
-  .progress-bar-wrap { flex: 1; background: #eee; border-radius: 10px; height: 10px; overflow: hidden; }
-  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-light)); border-radius: 10px; transition: width 0.4s; }
-  .progress-count { font-weight: 700; color: var(--green); font-size: 0.9rem; white-space: nowrap; }
+/* ── RECIPE BOOK ────────────────────────────────────── */
+.rec-toolbar{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
+.rec-search{flex:1;min-width:160px;padding:9px 14px;border:2px solid #ddd;border-radius:30px;font-size:.88rem;outline:none;}
+.rec-search:focus{border-color:var(--saf);}
+.add-rec-btn{padding:9px 20px;border-radius:30px;border:none;background:linear-gradient(135deg,#E65100,#FF8F00);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;white-space:nowrap;}
+.cat-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.cat-pill{padding:5px 13px;border-radius:20px;border:1.5px solid #ddd;background:#fff;cursor:pointer;font-size:.78rem;color:var(--muted);transition:all .15s;}
+.cat-pill.active{background:var(--saf);border-color:var(--saf);color:#fff;}
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.rec-card{background:#fff;border-radius:var(--r);box-shadow:0 2px 10px var(--sh);overflow:hidden;}
+.rec-card-head{padding:11px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #f5f5f5;}
+.rec-icon{font-size:1.5rem;}
+.rec-name{flex:1;font-weight:700;font-size:.9rem;}
+.rec-cat-tag{font-size:.68rem;padding:2px 8px;border-radius:10px;background:var(--safp);color:var(--saf);border:1px solid #FFCC80;}
+.rec-del-btn{background:none;border:none;cursor:pointer;color:#ddd;font-size:1rem;padding:2px 5px;border-radius:6px;transition:color .15s;}
+.rec-del-btn:hover{color:#e53935;}
+.rec-ings{padding:10px 14px;}
+.rec-ings-title{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.rec-ing-list{display:flex;flex-wrap:wrap;gap:4px;}
+.rec-ing{font-size:.74rem;background:#f5f5f5;padding:2px 8px;border-radius:10px;color:#555;}
+.rec-empty{text-align:center;padding:40px;color:var(--muted);font-size:.9rem;}
 
-  /* GROCERY LIST */
-  .grocery-search {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .grocery-search input {
-    flex: 1;
-    padding: 10px 16px;
-    border: 2px solid #ddd;
-    border-radius: 30px;
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .grocery-search input:focus { border-color: var(--green); }
+/* ── OVERVIEW ────────────────────────────────────── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:20px;}
+.stat-card{background:#fff;border-radius:var(--r);padding:16px;box-shadow:0 2px 10px var(--sh);text-align:center;}
+.stat-icon{font-size:1.8rem;margin-bottom:6px;}
+.stat-num{font-size:1.7rem;font-weight:700;color:var(--saf);}
+.stat-lbl{font-size:.75rem;color:var(--muted);}
+.sec-title{font-size:1rem;font-weight:700;margin:18px 0 10px;display:flex;align-items:center;gap:7px;}
+.sec-title::after{content:'';flex:1;height:2px;background:linear-gradient(90deg,#eee,transparent);}
+.chip-row{display:flex;flex-wrap:wrap;gap:7px;}
+.info-chip{padding:5px 13px;border-radius:20px;font-size:.8rem;font-weight:500;}
+.c-guj{background:var(--safp);color:var(--saf);border:1px solid #FFCC80;}
+.c-fus{background:#F3E5F5;color:#7B1FA2;border:1px solid #CE93D8;}
+.c-spe{background:var(--grnp);color:var(--grn);border:1px solid #A5D6A7;}
 
-  .grocery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
-  .grocery-cat {
-    background: white;
-    border-radius: var(--radius);
-    box-shadow: 0 2px 10px var(--shadow);
-    overflow: hidden;
-  }
-  .grocery-cat-header {
-    padding: 11px 16px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .grocery-items { padding: 8px 0; }
-  .grocery-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 16px;
-    border-bottom: 1px solid #f5f5f5;
-    transition: background 0.15s;
-    cursor: pointer;
-  }
-  .grocery-item:last-child { border-bottom: none; }
-  .grocery-item:hover { background: #FAFAFA; }
-  .grocery-item input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--green); }
-  .grocery-item-name { flex: 1; font-size: 0.88rem; }
-  .grocery-item-name.checked { text-decoration: line-through; color: #aaa; }
-  .grocery-item-qty { font-size: 0.78rem; color: var(--text-muted); background: #f5f5f5; padding: 2px 8px; border-radius: 10px; }
-  .cat-progress { font-size: 0.75rem; color: var(--text-muted); }
+/* ── GROCERY ────────────────────────────────────── */
+.groc-search{width:100%;padding:9px 14px;border:2px solid #ddd;border-radius:30px;font-size:.88rem;outline:none;margin-bottom:14px;}
+.groc-search:focus{border-color:var(--grn);}
+.groc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+.groc-cat{background:#fff;border-radius:var(--r);box-shadow:0 2px 10px var(--sh);overflow:hidden;}
+.groc-cat-hd{padding:10px 14px;font-weight:700;font-size:.9rem;display:flex;justify-content:space-between;}
+.groc-item{display:flex;align-items:center;gap:9px;padding:6px 14px;border-bottom:1px solid #f5f5f5;cursor:pointer;transition:background .12s;}
+.groc-item:last-child{border-bottom:none;}
+.groc-item:hover{background:#fafafa;}
+.groc-item input{width:15px;height:15px;cursor:pointer;accent-color:var(--grn);}
+.groc-nm{flex:1;font-size:.85rem;}
+.groc-nm.done{text-decoration:line-through;color:#bbb;}
+.groc-qty{font-size:.75rem;color:var(--muted);background:#f5f5f5;padding:1px 7px;border-radius:10px;}
 
-  /* OVERVIEW SECTION */
-  .overview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px; }
-  .stat-card {
-    background: white;
-    border-radius: var(--radius);
-    padding: 18px;
-    box-shadow: 0 2px 10px var(--shadow);
-    text-align: center;
-  }
-  .stat-icon { font-size: 2rem; margin-bottom: 8px; }
-  .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--saffron); }
-  .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
-
-  .dish-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    background: var(--saffron-pale);
-    color: var(--saffron);
-    border: 1px solid #FFCC80;
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 0.82rem;
-    font-weight: 500;
-  }
-  .chip.fusion { background: #F3E5F5; color: #7B1FA2; border-color: #CE93D8; }
-  .chip.special { background: #E8F5E9; color: var(--green); border-color: #A5D6A7; }
-
-  .section-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text);
-    margin: 20px 0 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-title::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, #eee, transparent); }
-
-  /* CLICKABLE DISH */
-  .dish-pill {
-    display: inline;
-    cursor: pointer;
-    border-bottom: 1.5px dashed var(--saffron);
-    color: var(--text);
-    transition: color 0.15s, background 0.15s;
-    border-radius: 4px;
-    padding: 0 2px;
-  }
-  .dish-pill:hover { color: var(--saffron); background: var(--saffron-pale); }
-
-  /* MODAL */
-  .modal-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.45);
-    z-index: 999;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal-box {
-    background: white;
-    border-radius: 18px;
-    max-width: 460px;
-    width: 100%;
-    max-height: 85vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    animation: modalIn 0.2s ease;
-  }
-  @keyframes modalIn { from { transform: scale(0.92); opacity:0; } to { transform: scale(1); opacity:1; } }
-  .modal-header {
-    background: linear-gradient(135deg, #E65100, #FF8F00);
-    color: white;
-    padding: 16px 20px;
-    border-radius: 18px 18px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .modal-title { font-size: 1rem; font-weight: 700; line-height: 1.4; }
-  .modal-close {
-    background: rgba(255,255,255,0.25);
-    border: none; color: white;
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    font-size: 1rem;
-    cursor: pointer;
-    flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .modal-close:hover { background: rgba(255,255,255,0.4); }
-  .modal-body { padding: 16px 20px; }
-  .modal-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; }
-  .ing-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-  .ing-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 12px;
-    background: #FFF8E1;
-    border-radius: 10px;
-    font-size: 0.88rem;
-    border-left: 3px solid var(--saffron);
-  }
-  .ing-item .ing-icon { font-size: 1rem; flex-shrink: 0; }
-
-  /* RESPONSIVE */
-  @media(max-width: 600px) {
-    header h1 { font-size: 1.5rem; }
-    .week-grid.active { grid-template-columns: 1fr; }
-    .grocery-grid { grid-template-columns: 1fr; }
-  }
+/* ── MODALS ────────────────────────────────────── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;padding:14px;}
+.overlay.open{display:flex;}
+.mbox{background:#fff;border-radius:18px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:mIn .2s ease;}
+@keyframes mIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.mbox.sm{max-width:420px;}
+.mbox.md{max-width:560px;}
+.mbox.lg{max-width:680px;}
+.mhd{background:linear-gradient(135deg,#E65100,#FF8F00);color:#fff;padding:15px 18px;border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+.mhd.green{background:linear-gradient(135deg,#1B5E20,#2E7D32);}
+.mhd-title{font-size:.95rem;font-weight:700;line-height:1.4;}
+.mhd-sub{font-size:.75rem;opacity:.8;margin-top:2px;}
+.mbtn-close{background:rgba(255,255,255,.25);border:none;color:#fff;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:.9rem;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.mbtn-close:hover{background:rgba(255,255,255,.4);}
+.mbody{padding:16px 18px;}
+.ing-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.ing-item{display:flex;align-items:center;gap:9px;padding:7px 11px;background:#FFF8E1;border-radius:10px;font-size:.85rem;border-left:3px solid var(--saf);}
+.picker-search{width:100%;padding:8px 13px;border:2px solid #ddd;border-radius:20px;font-size:.85rem;outline:none;margin-bottom:10px;}
+.picker-search:focus{border-color:var(--saf);}
+.picker-list{display:flex;flex-direction:column;gap:6px;max-height:52vh;overflow-y:auto;}
+.picker-item{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:10px;border:1.5px solid #eee;cursor:pointer;transition:all .15s;}
+.picker-item:hover{border-color:var(--saf);background:var(--safp);}
+.picker-icon{font-size:1.2rem;}
+.picker-name{flex:1;font-size:.88rem;font-weight:600;}
+.picker-cat{font-size:.72rem;color:var(--muted);}
+.form-group{margin-bottom:14px;}
+.form-label{display:block;font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.form-input{width:100%;padding:9px 13px;border:2px solid #ddd;border-radius:10px;font-size:.88rem;outline:none;transition:border-color .15s;}
+.form-input:focus{border-color:var(--saf);}
+.form-row{display:flex;gap:10px;}
+.form-row .form-group{flex:1;}
+.ing-builder{border:2px solid #ddd;border-radius:10px;padding:10px;}
+.ing-builder-list{display:flex;flex-direction:column;gap:5px;margin-bottom:8px;max-height:160px;overflow-y:auto;}
+.ing-row{display:flex;gap:6px;align-items:center;}
+.ing-row input{flex:1;padding:5px 9px;border:1.5px solid #eee;border-radius:8px;font-size:.82rem;outline:none;}
+.ing-row input:focus{border-color:var(--saf);}
+.ing-row-del{background:none;border:none;cursor:pointer;color:#ddd;font-size:.9rem;padding:3px 5px;}
+.ing-row-del:hover{color:#e53935;}
+.ing-add-row{display:flex;gap:7px;}
+.ing-add-row input{flex:1;padding:6px 10px;border:1.5px dashed #ddd;border-radius:8px;font-size:.82rem;outline:none;}
+.ing-add-row input:focus{border-color:var(--saf);}
+.btn-add-ing{padding:6px 12px;background:var(--safp);border:1.5px solid #FFCC80;color:var(--saf);border-radius:8px;cursor:pointer;font-size:.8rem;font-weight:700;}
+.btn-add-ing:hover{background:#FFE0B2;}
+.form-submit-row{display:flex;gap:10px;margin-top:18px;}
+.btn-save{flex:1;padding:10px;background:linear-gradient(135deg,#E65100,#FF8F00);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9rem;cursor:pointer;}
+.btn-cancel{padding:10px 20px;background:#f5f5f5;border:none;border-radius:10px;font-size:.9rem;cursor:pointer;color:var(--muted);}
+.btn-save:hover{opacity:.9;}
+@media(max-width:600px){
+  header h1{font-size:1.3rem;}
+  .wgrid.active{grid-template-columns:1fr;}
+  .rec-grid{grid-template-columns:1fr;}
+  .groc-grid{grid-template-columns:1fr;}
+  .stat-grid{grid-template-columns:repeat(2,1fr);}
+  .hdr-row{flex-wrap:wrap;}
+}
 </style>
 </head>
 <body>
 
+<!-- ══════════════════════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════════════════════ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">🌿</div>
+    <div class="login-title">Gujarati Meal Plan</div>
+    <div class="login-sub">Your personal vegetarian meal planner</div>
+
+    <!-- Step 1: Choose or new -->
+    <div class="login-step active" id="ls1">
+      <div id="existingUsers" style="display:none">
+        <div style="font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;text-align:left;">Your profiles</div>
+        <div class="user-chip-list" id="userChipList"></div>
+        <div class="login-divider">or</div>
+      </div>
+      <button class="login-btn" onclick="goStep('ls2')">📱 Create New Profile</button>
+    </div>
+
+    <!-- Step 2: Enter phone -->
+    <div class="login-step" id="ls2">
+      <div class="form-group" style="margin-bottom:12px">
+        <label class="login-label">Your phone number</label>
+        <input class="login-input" id="phoneInput" type="tel" placeholder="e.g. 9876543210" maxlength="15" oninput="clearErr()">
+      </div>
+      <div class="login-err" id="phoneErr"></div>
+      <button class="login-btn" onclick="submitPhone()">Continue →</button>
+      <button class="login-btn secondary" onclick="goStep('ls1')" style="margin-top:8px">← Back</button>
+    </div>
+
+    <!-- Step 3a: New user — show OTP + set name -->
+    <div class="login-step" id="ls3a">
+      <div style="font-size:.85rem;font-weight:700;margin-bottom:8px;color:var(--txt)">Verify your number</div>
+      <div class="otp-box">
+        📲 Your one-time code is:
+        <span class="otp-code" id="otpDisplay"></span>
+        <span style="font-size:.72rem;display:block;margin-top:4px;color:#BF360C">(In a real app this would arrive by SMS — note it down to sign in next time)</span>
+      </div>
+      <div class="form-group" style="margin-bottom:8px">
+        <label class="login-label">Enter the code above</label>
+        <input class="login-input big" id="otpInput" type="number" placeholder="------" maxlength="6" oninput="clearErr()">
+      </div>
+      <div class="form-group" style="margin-bottom:8px">
+        <label class="login-label">Your name</label>
+        <input class="login-input" id="nameInput" placeholder="e.g. Janki" oninput="clearErr()">
+      </div>
+      <div class="login-err" id="otpErr"></div>
+      <button class="login-btn" onclick="verifyOTP()">Create Profile ✓</button>
+      <button class="login-btn secondary" onclick="goStep('ls2')" style="margin-top:8px">← Back</button>
+    </div>
+
+    <!-- Step 3b: Existing user — enter OTP -->
+    <div class="login-step" id="ls3b">
+      <div style="font-size:.85rem;font-weight:700;margin-bottom:6px;color:var(--txt)" id="welcomeBack"></div>
+      <div class="otp-box" id="returnOTPBox">
+        📲 Your one-time code is:
+        <span class="otp-code" id="returnOTPDisplay"></span>
+        <span style="font-size:.72rem;display:block;margin-top:4px;color:#BF360C">(In a real app this would arrive by SMS)</span>
+      </div>
+      <div class="form-group" style="margin-bottom:8px">
+        <label class="login-label">Enter the code</label>
+        <input class="login-input big" id="returnOTPInput" type="number" placeholder="------" maxlength="6" oninput="clearErr()">
+      </div>
+      <div class="login-err" id="returnErr"></div>
+      <button class="login-btn" onclick="verifyReturnOTP()">Sign In →</button>
+      <button class="login-btn secondary" onclick="goStep('ls2')" style="margin-top:8px">← Back</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════════════ -->
 <header>
-  <h1>🌿 Gujarati Meal Plan</h1>
-  <p>July 2026 &nbsp;·&nbsp; Pure Vegetarian</p>
-  <div class="header-badges">
+  <div class="hdr-row">
+    <div class="hdr-center">
+      <h1>🌿 Gujarati Meal Plan</h1>
+      <p>July 2026 &nbsp;·&nbsp; Pure Vegetarian</p>
+    </div>
+    <div class="user-info" onclick="signOut()" title="Sign out">
+      <span>👤</span>
+      <span class="user-name" id="headerUserName">User</span>
+      <span style="font-size:.65rem;opacity:.8">Sign out</span>
+    </div>
+  </div>
+  <div class="badges">
     <span class="badge">🕙 Brunch 10:00 AM</span>
     <span class="badge">🍽 Dinner 5:00 PM</span>
-    <span class="badge">🌱 Pure Vegetarian</span>
+    <span class="badge">🌱 No Eggs · No Meat</span>
     <span class="badge">28 Days</span>
   </div>
 </header>
 
-<div class="main-tabs">
-  <button class="main-tab active" onclick="showSection('overview')">📋 Overview</button>
-  <button class="main-tab" onclick="showSection('meals')">🗓 Meal Plan</button>
-  <button class="main-tab" onclick="showSection('grocery')">🛒 Grocery List</button>
-</div>
+<nav class="nav">
+  <button class="nav-btn active" onclick="showSec('overview')">📋 Overview</button>
+  <button class="nav-btn" onclick="showSec('meals')">🗓 Meal Plan</button>
+  <button class="nav-btn" onclick="showSec('recipes')">🍳 Recipe Book</button>
+  <button class="nav-btn" onclick="showSec('grocery')">🛒 Grocery</button>
+</nav>
 
-<!-- ═══ OVERVIEW SECTION ═══ -->
-<div class="section active" id="overview">
-  <div class="overview-grid">
-    <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-num">28</div><div class="stat-label">Days Planned</div></div>
-    <div class="stat-card"><div class="stat-icon">🥣</div><div class="stat-num">56</div><div class="stat-label">Total Meals</div></div>
-    <div class="stat-card"><div class="stat-icon">🌮</div><div class="stat-num">4</div><div class="stat-label">Fusion Days</div></div>
-    <div class="stat-card"><div class="stat-icon">🎉</div><div class="stat-num">6</div><div class="stat-label">Special Meals</div></div>
+<!-- OVERVIEW -->
+<div class="sec active" id="overview">
+  <div class="stat-grid">
+    <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-num">28</div><div class="stat-lbl">Days Planned</div></div>
+    <div class="stat-card"><div class="stat-icon">🥣</div><div class="stat-num">56</div><div class="stat-lbl">Total Meals</div></div>
+    <div class="stat-card"><div class="stat-icon">🍳</div><div class="stat-num" id="recCount">0</div><div class="stat-lbl">Recipes in DB</div></div>
+    <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-num" id="doneCount">0</div><div class="stat-lbl">Days Completed</div></div>
   </div>
-
-  <div class="section-title">🍛 Gujarati Classics</div>
-  <div class="dish-chips">
-    <span class="chip">Gujarati Dal</span><span class="chip">Mix Dal Fry</span><span class="chip">Khata Mung</span>
-    <span class="chip">Mung Dal Khichdi</span><span class="chip">Sabudana Khichdi</span><span class="chip">Dhokla</span>
-    <span class="chip">Khaman</span><span class="chip">Pauva (Poha)</span><span class="chip">Thepla</span>
-    <span class="chip">Kadhi</span><span class="chip">Jeera Rice</span><span class="chip">Plain Rice</span>
-    <span class="chip">Aloo Paratha</span><span class="chip">Idli Sambar</span><span class="chip">Upma</span>
+  <div class="sec-title">🍛 Gujarati Classics</div>
+  <div class="chip-row">
+    <span class="info-chip c-guj">Gujarati Dal</span><span class="info-chip c-guj">Mix Dal Fry</span><span class="info-chip c-guj">Khata Mung</span>
+    <span class="info-chip c-guj">Mung Dal Khichdi</span><span class="info-chip c-guj">Sabudana Khichdi</span><span class="info-chip c-guj">Dhokla</span>
+    <span class="info-chip c-guj">Khaman</span><span class="info-chip c-guj">Poha</span><span class="info-chip c-guj">Thepla</span>
+    <span class="info-chip c-guj">Kadhi</span><span class="info-chip c-guj">Jeera Rice</span><span class="info-chip c-guj">Idli Sambar</span>
   </div>
-
-  <div class="section-title">🌮 Fusion Dishes</div>
-  <div class="dish-chips">
-    <span class="chip fusion">Mexican Quesadilla 🌮</span>
-    <span class="chip fusion">Red Sauce Veggie Pasta 🍝</span>
+  <div class="sec-title">🌮 Fusion</div>
+  <div class="chip-row">
+    <span class="info-chip c-fus">Mexican Quesadilla 🌮</span>
+    <span class="info-chip c-fus">Red Sauce Veggie Pasta 🍝</span>
   </div>
-
-  <div class="section-title">🎉 Special Weekend Meals</div>
-  <div class="dish-chips">
-    <span class="chip special">Undhiyu + Puri + Shrikhand</span>
-    <span class="chip special">Chole Bhature</span>
-    <span class="chip special">Pav Bhaji</span>
-    <span class="chip special">Paneer Butter Masala + Naan</span>
-    <span class="chip special">Rajma + Shrikhand</span>
-    <span class="chip special">Chole Bhature</span>
+  <div class="sec-title">🎉 Special Weekend Meals</div>
+  <div class="chip-row">
+    <span class="info-chip c-spe">Undhiyu + Puri</span><span class="info-chip c-spe">Chole Bhature</span>
+    <span class="info-chip c-spe">Pav Bhaji</span><span class="info-chip c-spe">Paneer Butter Masala</span>
+    <span class="info-chip c-spe">Rajma + Shrikhand</span>
   </div>
-
-  <div style="margin-top:24px;text-align:center;">
-    <button onclick="showSection('meals')" style="background:linear-gradient(135deg,#E65100,#FF8F00);color:white;border:none;padding:12px 32px;border-radius:30px;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(230,81,0,0.35);">
-      View Full Meal Plan →
-    </button>
+  <div style="text-align:center;margin-top:22px;">
+    <button onclick="showSec('meals')" style="background:linear-gradient(135deg,#E65100,#FF8F00);color:#fff;border:none;padding:11px 28px;border-radius:30px;font-size:.95rem;font-weight:700;cursor:pointer;">View Meal Plan →</button>
   </div>
 </div>
 
-<!-- ═══ MEALS SECTION ═══ -->
-<div class="section" id="meals">
-  <div class="progress-section">
-    <span class="progress-label">Monthly Progress</span>
-    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
-    <span class="progress-count" id="progressCount">0 / 28 days</span>
-  </div>
-
-  <div class="week-selector">
-    <button class="week-btn active" onclick="showWeek(1, this)">Week 1 · Jul 1–7</button>
-    <button class="week-btn" onclick="showWeek(2, this)">Week 2 · Jul 8–14</button>
-    <button class="week-btn" onclick="showWeek(3, this)">Week 3 · Jul 15–21</button>
-    <button class="week-btn" onclick="showWeek(4, this)">Week 4 · Jul 22–28</button>
-  </div>
-
-  <div class="week-grid active" id="week1"></div>
-  <div class="week-grid" id="week2"></div>
-  <div class="week-grid" id="week3"></div>
-  <div class="week-grid" id="week4"></div>
-</div>
-
-<!-- ═══ GROCERY SECTION ═══ -->
-<div class="section" id="grocery">
-  <div class="grocery-search">
-    <input type="text" id="grocerySearch" placeholder="🔍  Search ingredients..." oninput="filterGrocery()">
-  </div>
-  <div style="margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-    <span style="font-size:0.85rem;color:#666;" id="groceryProgress">0 of 0 items checked</span>
-    <button onclick="clearGrocery()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:4px 14px;font-size:0.8rem;cursor:pointer;color:#999;">Clear all</button>
-  </div>
-  <div class="grocery-grid" id="groceryGrid"></div>
-</div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="dishModal" onclick="handleOverlayClick(event)">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="modal-title" id="modalTitle">Dish Name</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+<!-- MEAL PLAN -->
+<div class="sec" id="meals">
+  <div class="today-banner" id="todayBanner">
+    <div class="today-icon">📅</div>
+    <div class="today-info">
+      <div class="today-date" id="todayDate"></div>
+      <div class="today-meals" id="todayMeals"></div>
     </div>
-    <div class="modal-body">
-      <div class="modal-sub" id="modalSub"></div>
-      <ul class="ing-list" id="ingList"></ul>
+    <button class="today-jump" onclick="jumpToToday()">Jump to Today →</button>
+  </div>
+  <div class="prog-bar-wrap">
+    <span style="font-size:.82rem;color:var(--muted);white-space:nowrap">Monthly Progress</span>
+    <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    <span class="prog-txt" id="progTxt">0 / 28</span>
+  </div>
+  <div class="week-bar">
+    <button class="wbtn active" id="wb1" onclick="showWeek(1,this)">Week 1 · Jul 1–7</button>
+    <button class="wbtn" id="wb2" onclick="showWeek(2,this)">Week 2 · Jul 8–14</button>
+    <button class="wbtn" id="wb3" onclick="showWeek(3,this)">Week 3 · Jul 15–21</button>
+    <button class="wbtn" id="wb4" onclick="showWeek(4,this)">Week 4 · Jul 22–28</button>
+  </div>
+  <div class="wgrid active" id="wg1"></div>
+  <div class="wgrid" id="wg2"></div>
+  <div class="wgrid" id="wg3"></div>
+  <div class="wgrid" id="wg4"></div>
+</div>
+
+<!-- RECIPE BOOK -->
+<div class="sec" id="recipes">
+  <div class="rec-toolbar">
+    <input class="rec-search" id="recSearch" placeholder="🔍 Search recipes..." oninput="filterRecipes()">
+    <button class="add-rec-btn" onclick="openAddRecipe()">＋ Add Recipe</button>
+  </div>
+  <div class="cat-filters" id="catFilters"></div>
+  <div class="rec-grid" id="recGrid"></div>
+</div>
+
+<!-- GROCERY -->
+<div class="sec" id="grocery">
+  <input class="groc-search" id="grocSearch" placeholder="🔍 Search ingredients..." oninput="filterGrocery()">
+  <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap;">
+    <span style="font-size:.82rem;color:var(--muted)" id="grocProg">0 of 0 checked</span>
+    <button onclick="clearGrocery()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:3px 12px;font-size:.78rem;cursor:pointer;color:#aaa;">Clear all</button>
+  </div>
+  <div class="groc-grid" id="grocGrid"></div>
+</div>
+
+<!-- MODAL: Ingredient Viewer -->
+<div class="overlay" id="ingModal" onclick="closeIfOverlay(event,'ingModal')">
+  <div class="mbox sm">
+    <div class="mhd">
+      <div><div class="mhd-title" id="ingTitle"></div><div class="mhd-sub">Ingredients for this dish</div></div>
+      <button class="mbtn-close" onclick="close1('ingModal')">✕</button>
+    </div>
+    <div class="mbody"><ul class="ing-list" id="ingList"></ul></div>
+  </div>
+</div>
+
+<!-- MODAL: Recipe Picker -->
+<div class="overlay" id="pickerModal" onclick="closeIfOverlay(event,'pickerModal')">
+  <div class="mbox md">
+    <div class="mhd">
+      <div><div class="mhd-title" id="pickerTitle">Add Dish</div><div class="mhd-sub" id="pickerSub"></div></div>
+      <button class="mbtn-close" onclick="close1('pickerModal')">✕</button>
+    </div>
+    <div class="mbody">
+      <input class="picker-search" id="pickerSearch" placeholder="Search recipes..." oninput="filterPicker()">
+      <div class="picker-list" id="pickerList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Add Recipe -->
+<div class="overlay" id="addRecModal" onclick="closeIfOverlay(event,'addRecModal')">
+  <div class="mbox lg">
+    <div class="mhd green">
+      <div><div class="mhd-title">Add New Recipe</div><div class="mhd-sub">Fill in the details below</div></div>
+      <button class="mbtn-close" onclick="close1('addRecModal')">✕</button>
+    </div>
+    <div class="mbody">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Recipe Name *</label>
+          <input class="form-input" id="fName" placeholder="e.g. Masala Khichdi">
+        </div>
+        <div class="form-group" style="max-width:90px;">
+          <label class="form-label">Icon</label>
+          <input class="form-input" id="fIcon" placeholder="🍲" maxlength="2">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category *</label>
+        <select class="form-input" id="fCat">
+          <option>Brunch</option><option>Dal &amp; Curry</option><option>Rice &amp; Khichdi</option>
+          <option>Bread</option><option>Sabji</option><option>Fusion</option>
+          <option>Dessert &amp; Extras</option><option>Beverage</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ingredients</label>
+        <div class="ing-builder">
+          <div class="ing-builder-list" id="fIngList"></div>
+          <div class="ing-add-row">
+            <input id="fIngInput" placeholder="Type ingredient, press Add..." onkeydown="if(event.key==='Enter'){addIngredientToForm();}">
+            <button class="btn-add-ing" onclick="addIngredientToForm()">+ Add</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-submit-row">
+        <button class="btn-cancel" onclick="close1('addRecModal')">Cancel</button>
+        <button class="btn-save" onclick="saveRecipe()">💾 Save Recipe</button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-// ── DATA ─────────────────────────────────────────────────────────────────────
-const meals = [
-  // Week 1
-  {day:1,date:"Jul 1",wday:"Wed",brunch:"Poha (Pauva) + Masala Chai",dinner:"Gujarati Dal + Jeera Rice + Roti + Aloo Gobi",notes:"Soak dal in morning",special:false,fusion:false},
-  {day:2,date:"Jul 2",wday:"Thu",brunch:"Dhokla + Green Chutney + Chai",dinner:"Mix Dal Fry + Plain Rice + Roti + Bhindi Masala",notes:"Make dhokla batter night before",special:false,fusion:false},
-  {day:3,date:"Jul 3",wday:"Fri",brunch:"Thepla + Dahi + Mango Pickle",dinner:"Khata Mung + Rice + Roti + Mix Veg Sabji",notes:"Soak mung overnight",special:false,fusion:false},
-  {day:4,date:"Jul 4",wday:"Sat",brunch:"Sabudana Khichdi + Dahi",dinner:"Undhiyu + Puri + Shrikhand",notes:"Soak sabudana overnight; Undhiyu 1 hr",special:true,fusion:false},
-  {day:5,date:"Jul 5",wday:"Sun",brunch:"Mung Dal Khichdi + Kadhi + Papad",dinner:"Chole + Puri + Kachumber Salad",notes:"Soak chole overnight",special:true,fusion:false},
-  {day:6,date:"Jul 6",wday:"Mon",brunch:"Khaman + Chutney + Chai",dinner:"Dal Makhani + Jeera Rice + Roti + Sabji",notes:"Quick khaman from besan",special:false,fusion:false},
-  {day:7,date:"Jul 7",wday:"Tue",brunch:"Upma + Coconut Chutney + Chai",dinner:"Rajma + Plain Rice + Roti + Onion Salad",notes:"Soak rajma overnight",special:false,fusion:false},
-  // Week 2
-  {day:8,date:"Jul 8",wday:"Wed",brunch:"Idli (3 pcs) + Sambar + Chutney",dinner:"Gujarati Dal + Plain Rice + Roti + Aloo Methi",notes:"Soak idli batter previous night",special:false,fusion:false},
-  {day:9,date:"Jul 9",wday:"Thu",brunch:"Aloo Paratha + Dahi + Pickle",dinner:"Mix Dal Fry + Jeera Rice + Roti + Palak Sabji",notes:"",special:false,fusion:false},
-  {day:10,date:"Jul 10",wday:"Fri",brunch:"Pauva Batata + Green Chutney + Chai",dinner:"Khata Mung + Roti + Plain Rice + Tindora Sabji",notes:"Soak mung overnight",special:false,fusion:false},
-  {day:11,date:"Jul 11",wday:"Sat",brunch:"Mexican Quesadilla (Tortilla, Beans, Guac, Salsa, Cheese, Veggies)",dinner:"Paneer Butter Masala + Naan + Jeera Rice + Raita",notes:"Fusion Saturday!",special:true,fusion:true},
-  {day:12,date:"Jul 12",wday:"Sun",brunch:"Dhokla + Khaman Platter + Chai",dinner:"Chole Bhature + Dahi + Salad",notes:"Soak chole overnight",special:true,fusion:false},
-  {day:13,date:"Jul 13",wday:"Mon",brunch:"Methi Thepla + Dahi + Chai",dinner:"Red Sauce Veggie Pasta (Zucchini, Bell Pepper, Mushroom)",notes:"Fusion Monday!",special:false,fusion:true},
-  {day:14,date:"Jul 14",wday:"Tue",brunch:"Sabudana Khichdi + Dahi",dinner:"Gujarati Dal + Plain Rice + Roti + Dudhi Sabji",notes:"Soak sabudana overnight",special:false,fusion:false},
-  // Week 3
-  {day:15,date:"Jul 15",wday:"Wed",brunch:"Khaman + Green Chutney + Chai",dinner:"Mix Dal Fry + Jeera Rice + Roti + Bhindi Masala",notes:"",special:false,fusion:false},
-  {day:16,date:"Jul 16",wday:"Thu",brunch:"Upma + Coconut Chutney + Chai",dinner:"Kadhi + Plain Rice + Roti + Aloo Gobi",notes:"",special:false,fusion:false},
-  {day:17,date:"Jul 17",wday:"Fri",brunch:"Thepla + Dahi + Pickle",dinner:"Mung Dal Khichdi + Kadhi + Papad",notes:"Easy Friday",special:false,fusion:false},
-  {day:18,date:"Jul 18",wday:"Sat",brunch:"Poha (Pauva) + Masala Chai",dinner:"Pav Bhaji",notes:"Butter the pav!",special:true,fusion:false},
-  {day:19,date:"Jul 19",wday:"Sun",brunch:"Mexican Quesadilla (Beans, Salsa, Guac, Cheese, Peppers)",dinner:"Gujarati Dal + Rice + Roti + Mix Indian Veg",notes:"Sunday fusion brunch",special:false,fusion:true},
-  {day:20,date:"Jul 20",wday:"Mon",brunch:"Idli + Sambar + Chutney",dinner:"Chana Masala + Jeera Rice + Roti + Onion Salad",notes:"Soak idli batter night before",special:false,fusion:false},
-  {day:21,date:"Jul 21",wday:"Tue",brunch:"Mung Dal Khichdi + Dahi",dinner:"Red Sauce Veggie Pasta (Eggplant, Spinach, Olives)",notes:"Fusion Tuesday",special:false,fusion:true},
-  // Week 4
-  {day:22,date:"Jul 22",wday:"Wed",brunch:"Dhokla + Green Chutney + Chai",dinner:"Khata Mung + Plain Rice + Roti + Mix Indian Veg",notes:"Soak mung overnight",special:false,fusion:false},
-  {day:23,date:"Jul 23",wday:"Thu",brunch:"Aloo Paratha + Dahi + Pickle",dinner:"Mix Dal Fry + Jeera Rice + Roti + Sabji",notes:"",special:false,fusion:false},
-  {day:24,date:"Jul 24",wday:"Fri",brunch:"Sabudana Khichdi + Dahi",dinner:"Gujarati Dal + Plain Rice + Roti + Aloo Methi",notes:"Soak sabudana overnight",special:false,fusion:false},
-  {day:25,date:"Jul 25",wday:"Sat",brunch:"Poha (Pauva) + Chai",dinner:"Rajma + Rice + Roti + Kachumber + Shrikhand",notes:"Special sweet ending!",special:true,fusion:false},
-  {day:26,date:"Jul 26",wday:"Sun",brunch:"Mexican Quesadilla (Tortilla, Beans, Guac, Salsa, Veggies)",dinner:"Paneer Tikka Masala + Naan + Jeera Rice + Raita",notes:"Sunday special",special:true,fusion:true},
-  {day:27,date:"Jul 27",wday:"Mon",brunch:"Khaman + Chutney + Chai",dinner:"Mix Dal Fry + Plain Rice + Roti + Bhindi Masala",notes:"",special:false,fusion:false},
-  {day:28,date:"Jul 28",wday:"Tue",brunch:"Upma + Coconut Chutney + Chai",dinner:"Mung Dal Khichdi + Kadhi + Papad",notes:"Light week ender",special:false,fusion:false},
+// ═══════════════════════════════════════════════════════════════════
+// DEFAULT DATA
+// ═══════════════════════════════════════════════════════════════════
+const DEFAULT_RECIPES = [
+  {id:"poha",name:"Poha (Pauva)",icon:"🍚",cat:"Brunch",ing:["Poha (Flattened Rice)","Potatoes","Mustard Seeds","Curry Leaves","Turmeric","Green Chilies","Onion","Lemon","Peanuts","Oil","Salt"]},
+  {id:"dhokla",name:"Dhokla",icon:"🟡",cat:"Brunch",ing:["Besan (Gram Flour)","Dahi / Yogurt","Ginger","Green Chilies","Turmeric","Mustard Seeds","Sesame Seeds","Sugar","Oil","Salt","Eno / Baking Soda"]},
+  {id:"khaman",name:"Khaman",icon:"🟡",cat:"Brunch",ing:["Besan (Gram Flour)","Dahi / Yogurt","Ginger","Green Chilies","Turmeric","Mustard Seeds","Sesame Seeds","Sugar","Oil","Salt"]},
+  {id:"thepla",name:"Thepla",icon:"🫓",cat:"Brunch",ing:["Whole Wheat Flour","Methi Leaves","Dahi / Yogurt","Turmeric","Red Chili Powder","Ginger","Oil","Salt"]},
+  {id:"methi-thepla",name:"Methi Thepla",icon:"🫓",cat:"Brunch",ing:["Whole Wheat Flour","Methi (Fenugreek Leaves)","Dahi / Yogurt","Turmeric","Red Chili Powder","Ginger","Oil","Salt"]},
+  {id:"sabudana-khichdi",name:"Sabudana Khichdi",icon:"⚪",cat:"Brunch",ing:["Sabudana (Sago)","Potatoes","Peanuts","Green Chilies","Cumin Seeds","Ghee","Salt","Lemon"]},
+  {id:"upma",name:"Upma",icon:"🍳",cat:"Brunch",ing:["Semolina (Sooji / Rava)","Mustard Seeds","Curry Leaves","Onion","Green Chilies","Ginger","Oil","Salt"]},
+  {id:"idli",name:"Idli",icon:"⚪",cat:"Brunch",ing:["Idli Rice","Urad Dal","Salt","Water"]},
+  {id:"aloo-paratha",name:"Aloo Paratha",icon:"🫓",cat:"Brunch",ing:["Whole Wheat Flour","Potatoes","Green Chilies","Ginger","Cumin Powder","Salt","Ghee"]},
+  {id:"mung-dal-khichdi",name:"Mung Dal Khichdi",icon:"🟢",cat:"Brunch",ing:["Mung Dal (yellow split)","Basmati Rice","Ghee","Cumin Seeds","Turmeric","Salt"]},
+  {id:"quesadilla",name:"Mexican Quesadilla",icon:"🌮",cat:"Fusion",ing:["Flour Tortillas","Black Beans","Avocado","Salsa","Cheese (Mexican blend)","Bell Peppers","Corn","Guacamole"]},
+  {id:"gujarati-dal",name:"Gujarati Dal",icon:"🫕",cat:"Dal & Curry",ing:["Toor Dal","Tomatoes","Tamarind","Sugar / Jaggery","Mustard Seeds","Cumin Seeds","Turmeric","Red Chili Powder","Ghee","Curry Leaves","Hing (Asafoetida)"]},
+  {id:"mix-dal-fry",name:"Mix Dal Fry",icon:"🫕",cat:"Dal & Curry",ing:["Toor Dal","Chana Dal","Masoor Dal","Onion","Tomatoes","Ginger","Garlic","Turmeric","Red Chili Powder","Cumin Seeds","Garam Masala","Oil"]},
+  {id:"khata-mung",name:"Khata Mung",icon:"🟢",cat:"Dal & Curry",ing:["Whole Mung (Green)","Dahi / Yogurt","Turmeric","Mustard Seeds","Curry Leaves","Green Chilies","Ginger","Oil","Sugar / Jaggery"]},
+  {id:"kadhi",name:"Kadhi",icon:"🟡",cat:"Dal & Curry",ing:["Besan (Gram Flour)","Dahi / Yogurt","Turmeric","Mustard Seeds","Curry Leaves","Green Chilies","Ginger","Oil","Salt"]},
+  {id:"dal-makhani",name:"Dal Makhani",icon:"🫕",cat:"Dal & Curry",ing:["Urad Dal","Kidney Beans","Butter","Cream","Onion","Tomatoes","Garam Masala","Ginger","Garlic"]},
+  {id:"rajma",name:"Rajma",icon:"🫘",cat:"Dal & Curry",ing:["Rajma (Kidney Beans)","Onion","Tomatoes","Rajma Masala","Ginger","Garlic","Oil"]},
+  {id:"chole",name:"Chole",icon:"🫘",cat:"Dal & Curry",ing:["Kabuli Chana (Chickpeas)","Onion","Tomatoes","Chana Masala","Ginger","Garlic","Oil"]},
+  {id:"chana-masala",name:"Chana Masala",icon:"🫘",cat:"Dal & Curry",ing:["Kabuli Chana","Onion","Tomatoes","Chana Masala","Ginger","Garlic","Cumin Seeds","Oil"]},
+  {id:"paneer-butter-masala",name:"Paneer Butter Masala",icon:"🧀",cat:"Dal & Curry",ing:["Paneer","Butter","Cream","Tomatoes","Onion","Ginger","Garlic","Garam Masala","Kashmiri Red Chili"]},
+  {id:"paneer-tikka-masala",name:"Paneer Tikka Masala",icon:"🧀",cat:"Dal & Curry",ing:["Paneer","Dahi / Yogurt","Bell Peppers","Onion","Tomatoes","Ginger","Garlic","Garam Masala","Oil"]},
+  {id:"red-sauce-pasta",name:"Red Sauce Veggie Pasta",icon:"🍝",cat:"Fusion",ing:["Pasta (penne/rigatoni)","Tomato Paste","Olive Oil","Garlic","Dried Oregano","Dried Basil","Bell Peppers","Zucchini","Mushrooms","Eggplant","Spinach"]},
+  {id:"pav-bhaji",name:"Pav Bhaji",icon:"🍛",cat:"Dal & Curry",ing:["Potatoes","Mixed Vegetables","Tomatoes","Pav Bhaji Masala","Butter","Pav Buns","Onion","Lemon"]},
+  {id:"undhiyu",name:"Undhiyu",icon:"🍲",cat:"Dal & Curry",ing:["Baby Potatoes","Yam (Suran)","Eggplant","Methi Leaves","Green Chilies","Coconut (grated)","Sesame Seeds","Oil","Mustard Seeds"]},
+  {id:"chole-bhature",name:"Chole Bhature",icon:"🫘",cat:"Dal & Curry",ing:["Kabuli Chana","Onion","Tomatoes","Chana Masala","Ginger","Garlic","Whole Wheat Flour","Dahi / Yogurt","Oil"]},
+  {id:"sambar",name:"Sambar",icon:"🍲",cat:"Dal & Curry",ing:["Toor Dal","Tomatoes","Tamarind","Mustard Seeds","Curry Leaves","Dry Red Chilies","Turmeric","Oil"]},
+  {id:"jeera-rice",name:"Jeera Rice",icon:"🍚",cat:"Rice & Khichdi",ing:["Basmati Rice","Cumin Seeds","Ghee","Salt"]},
+  {id:"plain-rice",name:"Plain Rice",icon:"🍚",cat:"Rice & Khichdi",ing:["Basmati Rice","Salt","Water"]},
+  {id:"roti",name:"Roti",icon:"🫓",cat:"Bread",ing:["Whole Wheat Flour","Salt","Oil / Ghee","Water"]},
+  {id:"puri",name:"Puri",icon:"🫓",cat:"Bread",ing:["Whole Wheat Flour","Oil (for frying)","Salt"]},
+  {id:"naan",name:"Naan",icon:"🫓",cat:"Bread",ing:["Whole Wheat Flour","Dahi / Yogurt","Ghee","Salt","Baking Powder"]},
+  {id:"aloo-gobi",name:"Aloo Gobi",icon:"🥦",cat:"Sabji",ing:["Potatoes","Cauliflower","Turmeric","Red Chili Powder","Cumin Seeds","Coriander Powder","Oil"]},
+  {id:"bhindi-masala",name:"Bhindi Masala",icon:"🥬",cat:"Sabji",ing:["Okra (Bhindi)","Onion","Tomatoes","Turmeric","Red Chili Powder","Cumin Seeds","Oil"]},
+  {id:"palak-sabji",name:"Palak Sabji",icon:"🥬",cat:"Sabji",ing:["Spinach (Palak)","Onion","Garlic","Ginger","Turmeric","Cumin Seeds","Oil"]},
+  {id:"aloo-methi",name:"Aloo Methi",icon:"🥬",cat:"Sabji",ing:["Potatoes","Methi (Fenugreek Leaves)","Turmeric","Red Chili Powder","Cumin Seeds","Oil"]},
+  {id:"dudhi-sabji",name:"Dudhi Sabji",icon:"🥒",cat:"Sabji",ing:["Bottle Gourd (Dudhi)","Turmeric","Cumin Seeds","Mustard Seeds","Oil"]},
+  {id:"tindora-sabji",name:"Tindora Sabji",icon:"🥒",cat:"Sabji",ing:["Ivy Gourd (Tindora)","Turmeric","Red Chili Powder","Cumin Seeds","Oil"]},
+  {id:"mix-veg",name:"Mix Indian Veg",icon:"🥗",cat:"Sabji",ing:["Mixed Vegetables","Onion","Tomatoes","Turmeric","Garam Masala","Cumin Seeds","Oil"]},
+  {id:"raita",name:"Raita",icon:"🥛",cat:"Dessert & Extras",ing:["Dahi / Yogurt","Cucumber","Cumin Powder","Salt"]},
+  {id:"kachumber",name:"Kachumber Salad",icon:"🥗",cat:"Dessert & Extras",ing:["Cucumber","Onion","Tomatoes","Lemon","Salt"]},
+  {id:"shrikhand",name:"Shrikhand",icon:"🍮",cat:"Dessert & Extras",ing:["Dahi / Yogurt (hung)","Sugar / Jaggery","Cardamom (elaichi)","Saffron"]},
+  {id:"papad",name:"Papad",icon:"🔵",cat:"Dessert & Extras",ing:["Papad (store-bought)"]},
+  {id:"coconut-chutney",name:"Coconut Chutney",icon:"🟢",cat:"Dessert & Extras",ing:["Coconut (grated)","Green Chilies","Ginger","Lemon","Salt"]},
+  {id:"chai",name:"Masala Chai",icon:"☕",cat:"Beverage",ing:["Whole Milk","Masala Chai Tea","Sugar / Jaggery","Ginger"]},
 ];
 
-const groceryData = [
-  {cat:"🥦 Vegetables", color:"#E8F5E9", hcolor:"#2E7D32", items:[
-    {name:"Potatoes (Aloo)",qty:"5 kg"},{name:"Cauliflower (Gobi)",qty:"4 heads"},
-    {name:"Okra (Bhindi)",qty:"2 kg"},{name:"Spinach (Palak)",qty:"4 bunches"},
-    {name:"Bottle Gourd (Dudhi)",qty:"2 pcs"},{name:"Ivy Gourd (Tindora)",qty:"500 g"},
-    {name:"Fenugreek Leaves (Methi)",qty:"4 bunches"},{name:"Eggplant / Brinjal",qty:"4 pcs"},
-    {name:"Zucchini",qty:"3 pcs"},{name:"Bell Peppers (mixed)",qty:"6 pcs"},
-    {name:"Mushrooms",qty:"500 g"},{name:"Tomatoes",qty:"3 kg"},
-    {name:"Onions",qty:"3 kg"},{name:"Garlic",qty:"3 bulbs"},
-    {name:"Ginger",qty:"300 g"},{name:"Green Chilies",qty:"200 g"},
-    {name:"Cucumber",qty:"8 pcs"},{name:"Lemon / Lime",qty:"12 pcs"},
-    {name:"Avocado",qty:"8 pcs"},{name:"Baby Potatoes",qty:"500 g"},
-    {name:"Yam (Suran)",qty:"300 g"},{name:"Corn (frozen)",qty:"1 bag"},
-  ]},
-  {cat:"🫘 Lentils & Legumes", color:"#FFF3E0", hcolor:"#E65100", items:[
-    {name:"Toor Dal",qty:"2 kg"},{name:"Mung Dal (yellow split)",qty:"1 kg"},
-    {name:"Chana Dal",qty:"500 g"},{name:"Masoor Dal",qty:"500 g"},
-    {name:"Urad Dal",qty:"500 g"},{name:"Rajma (Kidney Beans)",qty:"1.5 kg"},
-    {name:"Kabuli Chana (Chickpeas)",qty:"1.5 kg"},{name:"Black Beans (canned)",qty:"4 cans"},
-    {name:"Whole Mung (Green)",qty:"500 g"},{name:"Roasted Chana",qty:"500 g"},
-  ]},
-  {cat:"🌾 Grains & Flour", color:"#FFFDE7", hcolor:"#F57F17", items:[
-    {name:"Basmati Rice",qty:"5 kg"},{name:"Idli Rice",qty:"1 kg"},
-    {name:"Sabudana (Sago)",qty:"1 kg"},{name:"Poha (Flattened Rice)",qty:"1.5 kg"},
-    {name:"Semolina (Sooji/Rava)",qty:"1 kg"},{name:"Whole Wheat Flour (Atta)",qty:"5 kg"},
-    {name:"Besan (Gram Flour)",qty:"1.5 kg"},{name:"Rice Flour",qty:"500 g"},
-    {name:"Pav Buns",qty:"3 packs"},{name:"Flour Tortillas (large)",qty:"2 packs"},
-    {name:"Pasta (penne/rigatoni)",qty:"1 kg"},
-  ]},
-  {cat:"🥛 Dairy", color:"#E3F2FD", hcolor:"#1565C0", items:[
-    {name:"Whole Milk",qty:"8 litres"},{name:"Dahi / Yogurt",qty:"3 kg"},
-    {name:"Paneer",qty:"1 kg"},{name:"Ghee",qty:"500 g"},
-    {name:"Butter",qty:"250 g"},{name:"Cheese (Mexican blend)",qty:"400 g"},
-    {name:"Cream / Heavy Cream",qty:"200 ml"},{name:"Shrikhand",qty:"2 cups"},
-  ]},
-  {cat:"🫙 Pantry & Spices", color:"#F3E5F5", hcolor:"#6A1B9A", items:[
-    {name:"Mustard Seeds",qty:"100 g"},{name:"Cumin Seeds (Jeera)",qty:"150 g"},
-    {name:"Turmeric Powder",qty:"150 g"},{name:"Red Chili Powder",qty:"150 g"},
-    {name:"Coriander Powder",qty:"150 g"},{name:"Garam Masala",qty:"100 g"},
-    {name:"Cumin Powder",qty:"100 g"},{name:"Hing (Asafoetida)",qty:"1 bottle"},
-    {name:"Curry Leaves",qty:"3 packs"},{name:"Dry Red Chilies",qty:"100 g"},
-    {name:"Pav Bhaji Masala",qty:"2 packs"},{name:"Rajma Masala",qty:"2 packs"},
-    {name:"Chana Masala",qty:"2 packs"},{name:"Sugar / Jaggery",qty:"500 g"},
-    {name:"Salt",qty:"1 kg"},{name:"Oil (Sunflower/Canola)",qty:"3 litres"},
-    {name:"Olive Oil",qty:"500 ml"},{name:"Tamarind",qty:"100 g"},
-    {name:"Tomato Paste (canned)",qty:"4 cans"},{name:"Salsa (jar)",qty:"2 jars"},
-    {name:"Dried Oregano",qty:"1 bottle"},{name:"Dried Basil",qty:"1 bottle"},
-    {name:"Coconut (grated/frozen)",qty:"400 g"},{name:"Peanuts",qty:"500 g"},
-  ]},
-  {cat:"🍿 Snacks & Extras", color:"#FCE4EC", hcolor:"#C62828", items:[
-    {name:"Makhana (Fox Nuts)",qty:"400 g"},{name:"Papad",qty:"2 packs"},
-    {name:"Pickle (Mango/Mixed)",qty:"1 jar"},{name:"Guacamole (store-bought)",qty:"2 packs"},
-    {name:"Chakli",qty:"1 pack"},
-  ]},
+const DEFAULT_PLAN = [
+  {day:1,date:"Jul 1",wday:"Wed",brunch:["poha","chai"],dinner:["gujarati-dal","jeera-rice","roti","aloo-gobi"],notes:"Soak dal in morning"},
+  {day:2,date:"Jul 2",wday:"Thu",brunch:["dhokla","coconut-chutney"],dinner:["mix-dal-fry","plain-rice","roti","bhindi-masala"],notes:"Make dhokla batter night before"},
+  {day:3,date:"Jul 3",wday:"Fri",brunch:["thepla"],dinner:["khata-mung","plain-rice","roti","mix-veg"],notes:"Soak mung overnight"},
+  {day:4,date:"Jul 4",wday:"Sat",brunch:["sabudana-khichdi"],dinner:["undhiyu","puri","shrikhand"],notes:"Soak sabudana overnight"},
+  {day:5,date:"Jul 5",wday:"Sun",brunch:["mung-dal-khichdi","kadhi"],dinner:["chole","puri","kachumber"],notes:"Soak chole overnight"},
+  {day:6,date:"Jul 6",wday:"Mon",brunch:["khaman","coconut-chutney"],dinner:["dal-makhani","jeera-rice","roti"],notes:""},
+  {day:7,date:"Jul 7",wday:"Tue",brunch:["upma","coconut-chutney"],dinner:["rajma","plain-rice","roti"],notes:"Soak rajma overnight"},
+  {day:8,date:"Jul 8",wday:"Wed",brunch:["idli","sambar","coconut-chutney"],dinner:["gujarati-dal","plain-rice","roti","aloo-methi"],notes:"Soak idli batter previous night"},
+  {day:9,date:"Jul 9",wday:"Thu",brunch:["aloo-paratha"],dinner:["mix-dal-fry","jeera-rice","roti","palak-sabji"],notes:""},
+  {day:10,date:"Jul 10",wday:"Fri",brunch:["poha"],dinner:["khata-mung","plain-rice","roti","tindora-sabji"],notes:"Soak mung overnight"},
+  {day:11,date:"Jul 11",wday:"Sat",brunch:["quesadilla"],dinner:["paneer-butter-masala","naan","jeera-rice","raita"],notes:"Fusion Saturday!"},
+  {day:12,date:"Jul 12",wday:"Sun",brunch:["dhokla","khaman"],dinner:["chole-bhature","raita"],notes:"Soak chole overnight"},
+  {day:13,date:"Jul 13",wday:"Mon",brunch:["methi-thepla"],dinner:["red-sauce-pasta"],notes:"Fusion Monday!"},
+  {day:14,date:"Jul 14",wday:"Tue",brunch:["sabudana-khichdi"],dinner:["gujarati-dal","plain-rice","roti","dudhi-sabji"],notes:"Soak sabudana overnight"},
+  {day:15,date:"Jul 15",wday:"Wed",brunch:["khaman","coconut-chutney"],dinner:["mix-dal-fry","jeera-rice","roti","bhindi-masala"],notes:""},
+  {day:16,date:"Jul 16",wday:"Thu",brunch:["upma"],dinner:["kadhi","plain-rice","roti","aloo-gobi"],notes:""},
+  {day:17,date:"Jul 17",wday:"Fri",brunch:["thepla"],dinner:["mung-dal-khichdi","kadhi","papad"],notes:"Easy Friday"},
+  {day:18,date:"Jul 18",wday:"Sat",brunch:["poha","chai"],dinner:["pav-bhaji"],notes:"Butter the pav!"},
+  {day:19,date:"Jul 19",wday:"Sun",brunch:["quesadilla"],dinner:["gujarati-dal","plain-rice","roti","mix-veg"],notes:"Fusion Sunday"},
+  {day:20,date:"Jul 20",wday:"Mon",brunch:["idli","sambar"],dinner:["chana-masala","jeera-rice","roti"],notes:"Soak idli batter night before"},
+  {day:21,date:"Jul 21",wday:"Tue",brunch:["mung-dal-khichdi"],dinner:["red-sauce-pasta"],notes:"Fusion Tuesday"},
+  {day:22,date:"Jul 22",wday:"Wed",brunch:["dhokla","coconut-chutney"],dinner:["khata-mung","plain-rice","roti","mix-veg"],notes:"Soak mung overnight"},
+  {day:23,date:"Jul 23",wday:"Thu",brunch:["aloo-paratha"],dinner:["mix-dal-fry","jeera-rice","roti"],notes:""},
+  {day:24,date:"Jul 24",wday:"Fri",brunch:["sabudana-khichdi"],dinner:["gujarati-dal","plain-rice","roti","aloo-methi"],notes:"Soak sabudana overnight"},
+  {day:25,date:"Jul 25",wday:"Sat",brunch:["poha","chai"],dinner:["rajma","plain-rice","roti","kachumber","shrikhand"],notes:"Special sweet ending!"},
+  {day:26,date:"Jul 26",wday:"Sun",brunch:["quesadilla"],dinner:["paneer-tikka-masala","naan","jeera-rice","raita"],notes:"Sunday special"},
+  {day:27,date:"Jul 27",wday:"Mon",brunch:["khaman","coconut-chutney"],dinner:["mix-dal-fry","plain-rice","roti","bhindi-masala"],notes:""},
+  {day:28,date:"Jul 28",wday:"Tue",brunch:["upma","coconut-chutney"],dinner:["mung-dal-khichdi","kadhi","papad"],notes:"Light week ender"},
 ];
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
-const doneState = JSON.parse(localStorage.getItem('gmp_done') || '{}');
-const groceryState = JSON.parse(localStorage.getItem('gmp_grocery') || '{}');
+const GROCERY = [
+  {cat:"🥦 Vegetables",color:"#E8F5E9",hc:"#2E7D32",items:[["Potatoes (Aloo)","5 kg"],["Cauliflower (Gobi)","4 heads"],["Okra (Bhindi)","2 kg"],["Spinach (Palak)","4 bunches"],["Bottle Gourd (Dudhi)","2 pcs"],["Ivy Gourd (Tindora)","500 g"],["Fenugreek Leaves (Methi)","4 bunches"],["Eggplant / Brinjal","4 pcs"],["Zucchini","3 pcs"],["Bell Peppers (mixed)","6 pcs"],["Mushrooms","500 g"],["Tomatoes","3 kg"],["Onions","3 kg"],["Garlic","3 bulbs"],["Ginger","300 g"],["Green Chilies","200 g"],["Cucumber","8 pcs"],["Lemon / Lime","12 pcs"],["Avocado","8 pcs"],["Baby Potatoes","500 g"],["Yam (Suran)","300 g"],["Corn (frozen)","1 bag"]]},
+  {cat:"🫘 Lentils & Legumes",color:"#FFF3E0",hc:"#E65100",items:[["Toor Dal","2 kg"],["Mung Dal (yellow split)","1 kg"],["Chana Dal","500 g"],["Masoor Dal","500 g"],["Urad Dal","500 g"],["Rajma (Kidney Beans)","1.5 kg"],["Kabuli Chana (Chickpeas)","1.5 kg"],["Black Beans (canned)","4 cans"],["Whole Mung (Green)","500 g"]]},
+  {cat:"🌾 Grains & Flour",color:"#FFFDE7",hc:"#F57F17",items:[["Basmati Rice","5 kg"],["Idli Rice","1 kg"],["Sabudana (Sago)","1 kg"],["Poha (Flattened Rice)","1.5 kg"],["Semolina (Sooji/Rava)","1 kg"],["Whole Wheat Flour (Atta)","5 kg"],["Besan (Gram Flour)","1.5 kg"],["Pav Buns","3 packs"],["Flour Tortillas (large)","2 packs"],["Pasta (penne/rigatoni)","1 kg"]]},
+  {cat:"🥛 Dairy",color:"#E3F2FD",hc:"#1565C0",items:[["Whole Milk","8 litres"],["Dahi / Yogurt","3 kg"],["Paneer","1 kg"],["Ghee","500 g"],["Butter","250 g"],["Cheese (Mexican blend)","400 g"],["Cream / Heavy Cream","200 ml"]]},
+  {cat:"🫙 Pantry & Spices",color:"#F3E5F5",hc:"#6A1B9A",items:[["Mustard Seeds","100 g"],["Cumin Seeds (Jeera)","150 g"],["Turmeric Powder","150 g"],["Red Chili Powder","150 g"],["Coriander Powder","150 g"],["Garam Masala","100 g"],["Hing (Asafoetida)","1 bottle"],["Curry Leaves","3 packs"],["Sugar / Jaggery","500 g"],["Salt","1 kg"],["Oil (Sunflower/Canola)","3 litres"],["Olive Oil","500 ml"],["Tamarind","100 g"],["Tomato Paste (canned)","4 cans"],["Salsa (jar)","2 jars"],["Dried Oregano","1 bottle"],["Dried Basil","1 bottle"],["Coconut (grated/frozen)","400 g"],["Peanuts","500 g"],["Sesame Seeds (Til)","150 g"],["Chana Masala","2 packs"],["Pav Bhaji Masala","2 packs"],["Rajma Masala","2 packs"]]},
+  {cat:"🍿 Snacks & Extras",color:"#FCE4EC",hc:"#C62828",items:[["Papad","2 packs"],["Pickle (Mango/Mixed)","1 jar"],["Guacamole (store-bought)","2 packs"],["Eno / Fruit Salt","2 packs"]]},
+  {cat:"🍵 Beverages",color:"#E0F2F1",hc:"#00695C",items:[["Masala Chai Tea","2 packs"],["Saffron","1 small box"],["Cardamom (elaichi)","50 g"]]},
+];
 
-function saveDone() { try { localStorage.setItem('gmp_done', JSON.stringify(doneState)); } catch(e){} }
-function saveGrocery() { try { localStorage.setItem('gmp_grocery', JSON.stringify(groceryState)); } catch(e){} }
+// ═══════════════════════════════════════════════════════════════════
+// USER / AUTH STATE
+// ═══════════════════════════════════════════════════════════════════
+// gmp_users  = { phone: {name, pin(hashed), rdb, plan, done, groc} }
+// gmp_sess   = phone (sessionStorage)
+let USERS = {};
+let SESS  = null; // active phone
+let pendingPhone = '';
+let pendingOTP   = '';
+let recipeDB, mealPlan, doneState, grocState;
+const CATS = ['All','Brunch','Dal & Curry','Rice & Khichdi','Bread','Sabji','Fusion','Dessert & Extras','Beverage'];
 
-// ── RENDER MEALS ──────────────────────────────────────────────────────────────
-function renderMeals() {
-  [1,2,3,4].forEach(w => {
-    const grid = document.getElementById('week'+w);
-    grid.innerHTML = '';
-    const wMeals = meals.slice((w-1)*7, w*7);
-    wMeals.forEach(m => {
-      const done = !!doneState[m.day];
-      const fusionBrunch = m.fusion && (m.brunch.toLowerCase().includes('quesadilla'));
-      const fusionDinner = m.fusion && !fusionBrunch;
-      grid.innerHTML += `
-        <div class="day-card ${done ? 'done' : ''}" id="card-${m.day}">
-          <div class="day-header">
-            <div>
-              <div class="day-name">${m.wday}</div>
-              <div class="day-date">${m.date}</div>
-            </div>
-            <div class="day-num">${m.day}</div>
-          </div>
-          <div class="meal-block">
-            <div class="meal-label brunch">🥣 Brunch <span class="time-tag">10:00 AM</span></div>
-            <div class="meal-text">${makeMealHtml(m.brunch)}${fusionBrunch ? '<span class="fusion-tag">FUSION</span>' : ''}</div>
-          </div>
-          <div class="meal-block">
-            <div class="meal-label dinner">🍽 Dinner <span class="time-tag">5:00 PM</span></div>
-            <div class="meal-text">${makeMealHtml(m.dinner)}${m.special ? '<span class="special-tag">SPECIAL</span>' : ''}${fusionDinner ? '<span class="fusion-tag">FUSION</span>' : ''}</div>
-          </div>
-          <div class="notes-row">
-            <span class="notes-text">${m.notes ? '📌 ' + m.notes : ''}</span>
-            <button class="done-btn ${done ? 'checked' : ''}" onclick="toggleDone(${m.day})">${done ? '✓ Done' : 'Mark done'}</button>
-          </div>
-        </div>`;
-    });
-  });
-  updateProgress();
-}
+function loadUsers(){ USERS = JSON.parse(localStorage.getItem('gmp_users')||'{}'); }
+function saveUsers(){ localStorage.setItem('gmp_users', JSON.stringify(USERS)); }
+function makeOTP(){ return String(Math.floor(100000+Math.random()*900000)); }
 
-function toggleDone(day) {
-  doneState[day] = !doneState[day];
-  saveDone();
-  const card = document.getElementById('card-' + day);
-  card.classList.toggle('done', !!doneState[day]);
-  const btn = card.querySelector('.done-btn');
-  btn.classList.toggle('checked', !!doneState[day]);
-  btn.textContent = doneState[day] ? '✓ Done' : 'Mark done';
-  updateProgress();
-}
-
-function updateProgress() {
-  const count = Object.values(doneState).filter(Boolean).length;
-  const pct = Math.round((count / 28) * 100);
-  document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressCount').textContent = count + ' / 28 days';
-}
-
-// ── RENDER GROCERY ────────────────────────────────────────────────────────────
-function renderGrocery() {
-  const grid = document.getElementById('groceryGrid');
-  grid.innerHTML = '';
-  groceryData.forEach((cat, ci) => {
-    const checked = cat.items.filter((_, ii) => groceryState[ci+'_'+ii]).length;
-    grid.innerHTML += `
-      <div class="grocery-cat">
-        <div class="grocery-cat-header" style="background:${cat.color};color:${cat.hcolor}">
-          <span>${cat.cat}</span>
-          <span class="cat-progress">${checked}/${cat.items.length}</span>
-        </div>
-        <div class="grocery-items" id="cat-${ci}">
-          ${cat.items.map((item, ii) => `
-            <label class="grocery-item" onclick="toggleGrocery(${ci},${ii})">
-              <input type="checkbox" ${groceryState[ci+'_'+ii] ? 'checked' : ''} onclick="event.stopPropagation();toggleGrocery(${ci},${ii})">
-              <span class="grocery-item-name ${groceryState[ci+'_'+ii] ? 'checked' : ''}">${item.name}</span>
-              <span class="grocery-item-qty">${item.qty}</span>
-            </label>`).join('')}
-        </div>
-      </div>`;
-  });
-  updateGroceryProgress();
-}
-
-function toggleGrocery(ci, ii) {
-  const key = ci+'_'+ii;
-  groceryState[key] = !groceryState[key];
-  saveGrocery();
-  renderGrocery();
-}
-
-function clearGrocery() {
-  Object.keys(groceryState).forEach(k => delete groceryState[k]);
-  saveGrocery();
-  renderGrocery();
-}
-
-function updateGroceryProgress() {
-  const total = groceryData.reduce((a,c) => a + c.items.length, 0);
-  const done = Object.values(groceryState).filter(Boolean).length;
-  document.getElementById('groceryProgress').textContent = done + ' of ' + total + ' items checked';
-}
-
-function filterGrocery() {
-  const q = document.getElementById('grocerySearch').value.toLowerCase();
-  document.querySelectorAll('.grocery-item').forEach(el => {
-    el.style.display = el.querySelector('.grocery-item-name').textContent.toLowerCase().includes(q) ? '' : 'none';
-  });
-}
-
-// ── DISH INGREDIENTS MAP ──────────────────────────────────────────────────────
-const dishIngredients = {
-  "poha":           {icon:"🍚", items:["Poha (Flattened Rice)","Potatoes (Aloo)","Mustard Seeds","Curry Leaves","Turmeric Powder","Green Chilies","Onions","Lemon / Lime","Peanuts","Oil"]},
-  "pauva":          {icon:"🍚", items:["Poha (Flattened Rice)","Potatoes (Aloo)","Mustard Seeds","Curry Leaves","Turmeric Powder","Green Chilies","Onions","Lemon / Lime","Peanuts","Oil"]},
-  "dhokla":         {icon:"🟡", items:["Besan (Gram Flour)","Dahi / Yogurt","Ginger","Green Chilies","Turmeric Powder","Mustard Seeds","Sesame Seeds (Til)","Sugar / Jaggery","Oil","Salt"]},
-  "khaman":         {icon:"🟡", items:["Besan (Gram Flour)","Dahi / Yogurt","Ginger","Green Chilies","Turmeric Powder","Mustard Seeds","Sesame Seeds (Til)","Sugar / Jaggery","Oil","Salt"]},
-  "thepla":         {icon:"🫓", items:["Whole Wheat Flour (Atta)","Fenugreek Leaves (Methi)","Dahi / Yogurt","Turmeric Powder","Red Chili Powder","Ginger","Oil","Salt"]},
-  "sabudana khichdi":{icon:"⚪", items:["Sabudana (Sago)","Potatoes (Aloo)","Peanuts","Green Chilies","Cumin Seeds (Jeera)","Ghee","Salt","Lemon / Lime"]},
-  "mung dal khichdi":{icon:"🟢", items:["Mung Dal (yellow split)","Basmati Rice","Ghee","Cumin Seeds (Jeera)","Turmeric Powder","Salt","Whole Milk"]},
-  "khichdi":        {icon:"🍲", items:["Mung Dal (yellow split)","Basmati Rice","Ghee","Cumin Seeds (Jeera)","Turmeric Powder","Salt"]},
-  "upma":           {icon:"🍳", items:["Semolina (Sooji/Rava)","Mustard Seeds","Curry Leaves","Onions","Green Chilies","Ginger","Oil","Salt"]},
-  "idli":           {icon:"⚪", items:["Idli Rice","Urad Dal","Salt"]},
-  "sambar":         {icon:"🍲", items:["Toor Dal","Tomatoes","Tamarind","Mustard Seeds","Curry Leaves","Dry Red Chilies","Turmeric Powder","Oil"]},
-  "aloo paratha":   {icon:"🫓", items:["Whole Wheat Flour (Atta)","Potatoes (Aloo)","Green Chilies","Ginger","Cumin Powder","Salt","Ghee"]},
-  "paratha":        {icon:"🫓", items:["Whole Wheat Flour (Atta)","Potatoes (Aloo)","Green Chilies","Ginger","Salt","Ghee"]},
-  "quesadilla":     {icon:"🌮", items:["Flour Tortillas (large)","Black Beans (canned)","Avocado","Salsa (jar)","Cheese (Mexican blend)","Bell Peppers (mixed)","Corn (frozen)","Guacamole (store-bought)"]},
-  "gujarati dal":   {icon:"🫕", items:["Toor Dal","Tomatoes","Tamarind","Sugar / Jaggery","Mustard Seeds","Cumin Seeds (Jeera)","Turmeric Powder","Red Chili Powder","Ghee","Curry Leaves","Hing (Asafoetida)"]},
-  "mix dal fry":    {icon:"🫕", items:["Toor Dal","Chana Dal","Masoor Dal","Onions","Tomatoes","Ginger","Garlic","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Garam Masala","Oil"]},
-  "dal fry":        {icon:"🫕", items:["Toor Dal","Onions","Tomatoes","Ginger","Garlic","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Garam Masala","Oil"]},
-  "dal makhani":    {icon:"🫕", items:["Urad Dal","Rajma (Kidney Beans)","Butter","Cream / Heavy Cream","Onions","Tomatoes","Garam Masala","Ginger","Garlic"]},
-  "khata mung":     {icon:"🟢", items:["Whole Mung (Green)","Dahi / Yogurt","Turmeric Powder","Mustard Seeds","Curry Leaves","Green Chilies","Ginger","Oil","Sugar / Jaggery"]},
-  "kadhi":          {icon:"🟡", items:["Besan (Gram Flour)","Dahi / Yogurt","Turmeric Powder","Mustard Seeds","Curry Leaves","Green Chilies","Ginger","Oil","Salt"]},
-  "jeera rice":     {icon:"🍚", items:["Basmati Rice","Cumin Seeds (Jeera)","Ghee","Salt"]},
-  "plain rice":     {icon:"🍚", items:["Basmati Rice","Salt"]},
-  "roti":           {icon:"🫓", items:["Whole Wheat Flour (Atta)","Salt","Oil / Ghee"]},
-  "aloo gobi":      {icon:"🥦", items:["Potatoes (Aloo)","Cauliflower (Gobi)","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Coriander Powder","Oil"]},
-  "bhindi masala":  {icon:"🥬", items:["Okra (Bhindi)","Onions","Tomatoes","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Oil"]},
-  "bhindi":         {icon:"🥬", items:["Okra (Bhindi)","Onions","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Oil"]},
-  "mix veg":        {icon:"🥗", items:["Mixed Vegetables (frozen ok)","Onions","Tomatoes","Turmeric Powder","Garam Masala","Cumin Seeds (Jeera)","Oil"]},
-  "mix indian veg": {icon:"🥗", items:["Mixed Vegetables (frozen ok)","Onions","Tomatoes","Turmeric Powder","Garam Masala","Oil"]},
-  "undhiyu":        {icon:"🍲", items:["Baby Potatoes","Yam (Suran)","Eggplant / Brinjal","Fenugreek Leaves (Methi)","Green Chilies","Coconut (grated/frozen)","Sesame Seeds (Til)","Oil","Mustard Seeds"]},
-  "puri":           {icon:"🫓", items:["Whole Wheat Flour (Atta)","Oil (for frying)","Salt"]},
-  "shrikhand":      {icon:"🍮", items:["Dahi / Yogurt","Sugar / Jaggery","Cardamom (elaichi)"]},
-  "chole":          {icon:"🫘", items:["Kabuli Chana (Chickpeas)","Onions","Tomatoes","Chana Masala","Ginger","Garlic","Oil"]},
-  "chana masala":   {icon:"🫘", items:["Kabuli Chana (Chickpeas)","Onions","Tomatoes","Chana Masala","Ginger","Garlic","Oil"]},
-  "bhature":        {icon:"🫓", items:["Whole Wheat Flour (Atta)","Dahi / Yogurt","Oil","Salt"]},
-  "chole bhature":  {icon:"🫘", items:["Kabuli Chana (Chickpeas)","Onions","Tomatoes","Chana Masala","Ginger","Garlic","Whole Wheat Flour (Atta)","Dahi / Yogurt","Oil"]},
-  "rajma":          {icon:"🫘", items:["Rajma (Kidney Beans)","Onions","Tomatoes","Rajma Masala","Ginger","Garlic","Oil"]},
-  "paneer butter masala":{icon:"🧀", items:["Paneer","Butter","Cream / Heavy Cream","Tomatoes","Onions","Ginger","Garlic","Garam Masala"]},
-  "paneer tikka masala":{icon:"🧀", items:["Paneer","Dahi / Yogurt","Bell Peppers (mixed)","Onions","Tomatoes","Ginger","Garlic","Garam Masala","Oil"]},
-  "paneer":         {icon:"🧀", items:["Paneer","Butter","Tomatoes","Onions","Ginger","Garlic","Garam Masala","Cream / Heavy Cream"]},
-  "pasta":          {icon:"🍝", items:["Pasta (penne/rigatoni)","Tomato Paste (canned)","Olive Oil","Garlic","Dried Oregano","Dried Basil","Bell Peppers (mixed)","Zucchini","Mushrooms","Eggplant / Brinjal","Spinach (Palak)"]},
-  "pav bhaji":      {icon:"🍛", items:["Potatoes (Aloo)","Mixed Vegetables (frozen ok)","Tomatoes","Pav Bhaji Masala","Butter","Pav Buns","Onions","Lemon / Lime"]},
-  "palak":          {icon:"🥬", items:["Spinach (Palak)","Onions","Garlic","Ginger","Turmeric Powder","Cumin Seeds (Jeera)","Oil"]},
-  "aloo methi":     {icon:"🥬", items:["Potatoes (Aloo)","Fenugreek Leaves (Methi)","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Oil"]},
-  "dudhi":          {icon:"🥒", items:["Bottle Gourd (Dudhi)","Turmeric Powder","Cumin Seeds (Jeera)","Mustard Seeds","Oil"]},
-  "tindora":        {icon:"🥒", items:["Ivy Gourd (Tindora)","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Oil"]},
-  "naan":           {icon:"🫓", items:["Whole Wheat Flour (Atta)","Dahi / Yogurt","Ghee","Salt"]},
-  "raita":          {icon:"🥛", items:["Dahi / Yogurt","Cucumber","Cumin Powder","Salt"]},
-  "kachumber":      {icon:"🥗", items:["Cucumber","Onions","Tomatoes","Lemon / Lime","Salt"]},
-  "chutney":        {icon:"🟢", items:["Coconut (grated/frozen)","Green Chilies","Ginger","Lemon / Lime","Salt"]},
-  "papad":          {icon:"🔵", items:["Papad"]},
-  "pickle":         {icon:"🫙", items:["Pickle (Mango/Mixed)"]},
-  "dahi":           {icon:"🥛", items:["Whole Milk","Dahi / Yogurt"]},
-  "chai":           {icon:"☕", items:["Whole Milk","Masala Chai Tea","Sugar / Jaggery","Ginger"]},
-  "salad":          {icon:"🥗", items:["Cucumber","Onions","Tomatoes","Lemon / Lime","Salt"]},
-};
-
-// longest-key-first for greedy match
-const dishKeys = Object.keys(dishIngredients).sort((a,b) => b.length - a.length);
-
-function getIngredients(raw) {
-  const norm = raw.toLowerCase().trim();
-  for (const key of dishKeys) {
-    if (norm.includes(key)) return {key, ...dishIngredients[key]};
+function initLogin(){
+  loadUsers();
+  SESS = sessionStorage.getItem('gmp_sess');
+  if(SESS && USERS[SESS]){
+    bootApp();
+    return;
   }
-  return null;
+  // Build existing user list
+  const phones = Object.keys(USERS);
+  if(phones.length){
+    document.getElementById('existingUsers').style.display='block';
+    document.getElementById('userChipList').innerHTML = phones.map(p=>{
+      const u = USERS[p];
+      return `<div class="user-chip" onclick="quickLogin('${p}')">
+        <div class="user-chip-icon">👤</div>
+        <div><div class="user-chip-name">${u.name}</div><div class="user-chip-phone">${maskPhone(p)}</div></div>
+        <span style="margin-left:auto;color:var(--saf);font-size:.8rem">→</span>
+      </div>`;
+    }).join('');
+  }
 }
 
-function makeMealHtml(mealText) {
-  // Split by " + " to get individual dishes
-  return mealText.split(/\s*\+\s*/).map(part => {
-    const match = getIngredients(part);
-    if (match) {
-      return `<span class="dish-pill" onclick="showDishModal('${part.replace(/'/g,"\\'")}', '${match.key}')" title="Tap for ingredients">${part}</span>`;
-    }
-    return part;
-  }).join(' <span style="color:#ccc">+</span> ');
-}
+function maskPhone(p){ return p.slice(0,2)+'*'.repeat(Math.max(0,p.length-4))+p.slice(-2); }
 
-function showDishModal(dishName, key) {
-  const data = dishIngredients[key];
-  if (!data) return;
-  document.getElementById('modalTitle').textContent = data.icon + '  ' + dishName.trim();
-  document.getElementById('modalSub').textContent = 'Ingredients needed for this dish:';
-  const list = document.getElementById('ingList');
-  list.innerHTML = data.items.map(i =>
-    `<li class="ing-item"><span class="ing-icon">🛒</span>${i}</li>`
-  ).join('');
-  document.getElementById('dishModal').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('dishModal').classList.remove('open');
-}
-
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('dishModal')) closeModal();
-}
-
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-// ── NAVIGATION ────────────────────────────────────────────────────────────────
-function showSection(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+function goStep(id){
+  document.querySelectorAll('.login-step').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const tabs = document.querySelectorAll('.main-tab');
-  const map = {overview:0, meals:1, grocery:2};
-  tabs[map[id]].classList.add('active');
 }
 
-function showWeek(n, btn) {
-  document.querySelectorAll('.week-grid').forEach(g => g.classList.remove('active'));
-  document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('week'+n).classList.add('active');
+function clearErr(){ document.querySelectorAll('.login-err').forEach(e=>e.textContent=''); }
+
+function submitPhone(){
+  const ph = document.getElementById('phoneInput').value.trim().replace(/\D/g,'');
+  if(ph.length < 6){ document.getElementById('phoneErr').textContent='Enter a valid phone number.'; return; }
+  pendingPhone = ph;
+  const otp = makeOTP();
+  pendingOTP = otp;
+  if(USERS[ph]){
+    // Existing user
+    document.getElementById('welcomeBack').textContent = 'Welcome back, '+USERS[ph].name+' 👋';
+    document.getElementById('returnOTPDisplay').textContent = otp;
+    goStep('ls3b');
+  } else {
+    // New user
+    document.getElementById('otpDisplay').textContent = otp;
+    goStep('ls3a');
+  }
+}
+
+function verifyOTP(){
+  const entered = document.getElementById('otpInput').value.trim();
+  const name    = document.getElementById('nameInput').value.trim();
+  if(entered !== pendingOTP){ document.getElementById('otpErr').textContent='Incorrect code. Try again.'; return; }
+  if(!name){ document.getElementById('otpErr').textContent='Please enter your name.'; return; }
+  USERS[pendingPhone] = {
+    name,
+    rdb:  JSON.parse(JSON.stringify(DEFAULT_RECIPES)),
+    plan: JSON.parse(JSON.stringify(DEFAULT_PLAN)),
+    done: {},
+    groc: {}
+  };
+  saveUsers();
+  SESS = pendingPhone;
+  sessionStorage.setItem('gmp_sess', SESS);
+  bootApp();
+}
+
+function verifyReturnOTP(){
+  const entered = document.getElementById('returnOTPInput').value.trim();
+  if(entered !== pendingOTP){ document.getElementById('returnErr').textContent='Incorrect code. Try again.'; return; }
+  SESS = pendingPhone;
+  sessionStorage.setItem('gmp_sess', SESS);
+  bootApp();
+}
+
+function quickLogin(phone){
+  pendingPhone = phone;
+  const otp = makeOTP();
+  pendingOTP = otp;
+  document.getElementById('welcomeBack').textContent = 'Welcome back, '+USERS[phone].name+' 👋';
+  document.getElementById('returnOTPDisplay').textContent = otp;
+  goStep('ls3b');
+}
+
+function signOut(){
+  if(!confirm('Sign out?')) return;
+  sessionStorage.removeItem('gmp_sess');
+  location.reload();
+}
+
+function bootApp(){
+  const u = USERS[SESS];
+  recipeDB  = u.rdb;
+  mealPlan  = u.plan;
+  doneState = u.done;
+  grocState = u.groc;
+  document.getElementById('headerUserName').textContent = u.name;
+  document.getElementById('loginScreen').classList.add('gone');
+  detectToday();
+  renderMeals();
+  renderRecipeBook();
+  renderGrocery();
+  updateOverviewStats();
+}
+
+function persist(){
+  if(!SESS || !USERS[SESS]) return;
+  USERS[SESS].rdb  = recipeDB;
+  USERS[SESS].plan = mealPlan;
+  USERS[SESS].done = doneState;
+  USERS[SESS].groc = grocState;
+  saveUsers();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TODAY DETECTION
+// ═══════════════════════════════════════════════════════════════════
+let todayDayNum = null;
+let todayWeek   = null;
+
+function detectToday(){
+  const now   = new Date();
+  const yr    = now.getFullYear();
+  const mo    = now.getMonth(); // 0-based: 6 = July
+  const dayOf = now.getDate();
+  // Plan covers July 2026 days 1–28
+  if(yr === 2026 && mo === 6 && dayOf >= 1 && dayOf <= 28){
+    todayDayNum = dayOf;
+    todayWeek   = Math.ceil(dayOf / 7);
+    const d = mealPlan.find(x=>x.day===dayOf);
+    if(d){
+      const bNames = d.brunch.map(id=>{const r=getRecipe(id);return r?r.name:id;}).join(', ');
+      const diNames = d.dinner.map(id=>{const r=getRecipe(id);return r?r.name:id;}).join(', ');
+      document.getElementById('todayDate').textContent = 'Today · '+d.wday+' '+d.date;
+      document.getElementById('todayMeals').textContent = '🥣 '+bNames+' · 🍽 '+diNames;
+    }
+  } else {
+    document.getElementById('todayBanner').classList.add('hidden');
+  }
+}
+
+function jumpToToday(){
+  if(!todayWeek) return;
+  showSec('meals');
+  const wbtn = document.getElementById('wb'+todayWeek);
+  showWeek(todayWeek, wbtn);
+  setTimeout(()=>{
+    const el = document.getElementById('dc-'+todayDayNum);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'center'});
+  },200);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// MEAL PLAN RENDER
+// ═══════════════════════════════════════════════════════════════════
+function renderMeals(){
+  [1,2,3,4].forEach(w=>{
+    const g = document.getElementById('wg'+w);
+    g.innerHTML = '';
+    mealPlan.slice((w-1)*7, w*7).forEach(d=>{ g.innerHTML += buildDayCard(d); });
+  });
+  updateProgress();
+  // Auto-jump to today's week on first load
+  if(todayWeek){
+    const wbtn = document.getElementById('wb'+todayWeek);
+    if(wbtn) showWeek(todayWeek, wbtn);
+  }
+}
+
+function buildDayCard(d){
+  const done    = !!doneState[d.day];
+  const isToday = d.day === todayDayNum;
+  const bChips  = d.brunch.map(id=>chipHtml(id,'brunch',d.day)).join('');
+  const diChips = d.dinner.map(id=>chipHtml(id,'dinner',d.day)).join('');
+  return `<div class="day-card${done?' done-card':''}${isToday?' today-card':''}" id="dc-${d.day}">
+    <div class="day-head">
+      <div><div class="dn">${d.wday}${isToday?' <span class="today-badge">📅 Today</span>':''}</div><div class="dd">${d.date}</div></div>
+      <div class="day-num">${d.day}</div>
+    </div>
+    <div class="meal-slot">
+      <div class="slot-label brunch">🥣 Brunch <span class="time-tag">10:00 AM</span></div>
+      <div class="dish-chips-row">${bChips}</div>
+      <button class="add-dish-btn" onclick="openPicker(${d.day},'brunch')">＋ Add</button>
+    </div>
+    <div class="meal-slot dinner-slot">
+      <div class="slot-label dinner">🍽 Dinner <span class="time-tag">5:00 PM</span></div>
+      <div class="dish-chips-row">${diChips}</div>
+      <button class="add-dish-btn" onclick="openPicker(${d.day},'dinner')">＋ Add</button>
+    </div>
+    <div class="slot-footer">
+      ${d.notes?`<span style="flex:1;font-size:.72rem;color:var(--muted)">📌 ${d.notes}</span>`:''}
+      <button class="done-btn${done?' on':''}" onclick="toggleDone(${d.day})">${done?'✓ Done':'Mark done'}</button>
+    </div>
+  </div>`;
+}
+
+function chipHtml(id, slot, dayNum){
+  const r = getRecipe(id);
+  const name = r ? r.name : id;
+  const cls = slot==='dinner' ? 'dish-chip dinner-chip' : 'dish-chip';
+  const ico = r ? r.icon+' ' : '';
+  return `<span class="${cls}"><span onclick="showIngModal('${id}')" style="cursor:pointer">${ico}${name}</span><button class="chip-del" onclick="removeDish(${dayNum},'${slot}','${id}')">✕</button></span>`;
+}
+
+function refreshDay(dayNum){
+  const d = mealPlan.find(x=>x.day===dayNum);
+  const card = document.getElementById('dc-'+dayNum);
+  if(d && card) card.outerHTML = buildDayCard(d);
+}
+
+function toggleDone(dayNum){
+  doneState[dayNum] = !doneState[dayNum];
+  persist();
+  refreshDay(dayNum);
+  updateProgress();
+  updateOverviewStats();
+}
+
+function updateProgress(){
+  const n = Object.values(doneState).filter(Boolean).length;
+  const pct = Math.round(n/28*100);
+  document.getElementById('progFill').style.width = pct+'%';
+  document.getElementById('progTxt').textContent = n+' / 28';
+}
+
+function removeDish(dayNum, slot, recId){
+  const d = mealPlan.find(x=>x.day===dayNum);
+  if(!d) return;
+  d[slot] = d[slot].filter(id=>id!==recId);
+  persist();
+  refreshDay(dayNum);
+}
+
+function addDish(dayNum, slot, recId){
+  const d = mealPlan.find(x=>x.day===dayNum);
+  if(!d) return;
+  if(!d[slot].includes(recId)) d[slot].push(recId);
+  persist();
+  refreshDay(dayNum);
+}
+
+function getRecipe(id){ return recipeDB.find(r=>r.id===id); }
+
+// ═══════════════════════════════════════════════════════════════════
+// RECIPE BOOK
+// ═══════════════════════════════════════════════════════════════════
+let activeCat = 'All', recQ = '';
+
+function renderRecipeBook(){
+  document.getElementById('recCount').textContent = recipeDB.length;
+  const cf = document.getElementById('catFilters');
+  cf.innerHTML = CATS.map(c=>`<button class="cat-pill${activeCat===c?' active':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+  const q = recQ.toLowerCase();
+  const filtered = recipeDB.filter(r=>(activeCat==='All'||r.cat===activeCat)&&(r.name.toLowerCase().includes(q)||r.cat.toLowerCase().includes(q)));
+  const g = document.getElementById('recGrid');
+  if(!filtered.length){
+    g.innerHTML='<div class="rec-empty">No recipes found. <button onclick="openAddRecipe()" style="background:var(--saf);color:#fff;border:none;padding:5px 14px;border-radius:10px;cursor:pointer;margin-left:6px;">Add one?</button></div>';
+    return;
+  }
+  g.innerHTML = filtered.map(r=>`
+    <div class="rec-card">
+      <div class="rec-card-head">
+        <span class="rec-icon">${r.icon||'🍽'}</span>
+        <span class="rec-name">${r.name}</span>
+        <span class="rec-cat-tag">${r.cat}</span>
+        <button class="rec-del-btn" onclick="deleteRecipe('${r.id}')" title="Delete recipe">🗑</button>
+      </div>
+      <div class="rec-ings">
+        <div class="rec-ings-title">Ingredients (${r.ing.length})</div>
+        <div class="rec-ing-list">${r.ing.map(i=>`<span class="rec-ing">${i}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+
+function setCat(c){ activeCat=c; renderRecipeBook(); }
+function filterRecipes(){ recQ=document.getElementById('recSearch').value; renderRecipeBook(); }
+
+function deleteRecipe(id){
+  const r = getRecipe(id);
+  if(!r) return;
+  const usedIn = mealPlan.filter(d=>d.brunch.includes(id)||d.dinner.includes(id));
+  const warn = usedIn.length ? '\n⚠️ Also used in '+usedIn.length+' day(s) — will be removed there too.' : '';
+  if(!confirm('Delete "'+r.name+'"?'+warn)) return;
+  recipeDB = recipeDB.filter(x=>x.id!==id);
+  mealPlan.forEach(d=>{ d.brunch=d.brunch.filter(x=>x!==id); d.dinner=d.dinner.filter(x=>x!==id); });
+  persist();
+  renderRecipeBook();
+  renderMeals();
+  updateOverviewStats();
+}
+
+// ── ADD RECIPE ──────────────────────────────────
+let formIngredients = [];
+
+function openAddRecipe(){
+  formIngredients = [];
+  document.getElementById('fName').value='';
+  document.getElementById('fIcon').value='🍽';
+  document.getElementById('fCat').value='Brunch';
+  document.getElementById('fIngInput').value='';
+  renderFormIngList();
+  open1('addRecModal');
+}
+
+function renderFormIngList(){
+  document.getElementById('fIngList').innerHTML = formIngredients.map((ing,i)=>`
+    <div class="ing-row">
+      <input value="${ing}" oninput="formIngredients[${i}]=this.value">
+      <button class="ing-row-del" onclick="removeFormIng(${i})">✕</button>
+    </div>`).join('');
+}
+
+function addIngredientToForm(){
+  const v = document.getElementById('fIngInput').value.trim();
+  if(!v) return;
+  formIngredients.push(v);
+  document.getElementById('fIngInput').value='';
+  renderFormIngList();
+}
+
+function removeFormIng(i){ formIngredients.splice(i,1); renderFormIngList(); }
+
+function saveRecipe(){
+  const name = document.getElementById('fName').value.trim();
+  if(!name){ alert('Please enter a recipe name.'); return; }
+  const icon = document.getElementById('fIcon').value.trim()||'🍽';
+  const cat  = document.getElementById('fCat').value;
+  const id   = name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'')+'-'+Date.now().toString(36);
+  recipeDB.push({id, name, icon, cat, ing:[...formIngredients]});
+  persist();
+  close1('addRecModal');
+  renderRecipeBook();
+  updateOverviewStats();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// RECIPE PICKER
+// ═══════════════════════════════════════════════════════════════════
+let pickerDay=null, pickerSlot=null;
+
+function openPicker(dayNum, slot){
+  pickerDay=dayNum; pickerSlot=slot;
+  const d = mealPlan.find(x=>x.day===dayNum);
+  document.getElementById('pickerTitle').textContent = (slot==='brunch'?'🥣 Add to Brunch':'🍽 Add to Dinner');
+  document.getElementById('pickerSub').textContent = 'Day '+dayNum+(d?' · '+d.date:'')+' — tap a recipe to add';
+  document.getElementById('pickerSearch').value='';
+  renderPicker('');
+  open1('pickerModal');
+}
+
+function renderPicker(q){
+  const day = mealPlan.find(x=>x.day===pickerDay);
+  const already = day ? day[pickerSlot] : [];
+  const filtered = recipeDB.filter(r=>r.name.toLowerCase().includes(q.toLowerCase()));
+  document.getElementById('pickerList').innerHTML = filtered.map(r=>{
+    const added = already.includes(r.id);
+    return `<div class="picker-item" onclick="${added?'':("addFromPicker('"+r.id+"')")}" style="${added?'opacity:.5;cursor:default':''}">
+      <span class="picker-icon">${r.icon||'🍽'}</span>
+      <span class="picker-name">${r.name}</span>
+      <span class="picker-cat">${r.cat}</span>
+      ${added?'<span style="color:var(--grn);font-size:.75rem;font-weight:700">✓ Added</span>':'<span style="color:var(--saf);font-size:.75rem">＋ Add</span>'}
+    </div>`;
+  }).join('');
+}
+
+function filterPicker(){ renderPicker(document.getElementById('pickerSearch').value); }
+
+function addFromPicker(recId){
+  addDish(pickerDay, pickerSlot, recId);
+  renderPicker(document.getElementById('pickerSearch').value);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// INGREDIENT VIEWER
+// ═══════════════════════════════════════════════════════════════════
+function showIngModal(id){
+  const r = getRecipe(id);
+  if(!r) return;
+  document.getElementById('ingTitle').textContent = r.icon+' '+r.name;
+  document.getElementById('ingList').innerHTML = r.ing.map(i=>`<li class="ing-item">🛒 ${i}</li>`).join('');
+  open1('ingModal');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// GROCERY
+// ═══════════════════════════════════════════════════════════════════
+function renderGrocery(){
+  const q = (document.getElementById('grocSearch')||{}).value||'';
+  const g = document.getElementById('grocGrid');
+  g.innerHTML = GROCERY.map((cat,ci)=>{
+    const items = cat.items.filter(([nm])=>nm.toLowerCase().includes(q.toLowerCase()));
+    if(!items.length) return '';
+    const checked = items.filter(([nm])=>{ const oi=cat.items.findIndex(x=>x[0]===nm); return grocState[ci+'_'+oi]; }).length;
+    return `<div class="groc-cat">
+      <div class="groc-cat-hd" style="background:${cat.color};color:${cat.hc}">
+        <span>${cat.cat}</span><span style="font-size:.75rem">${checked}/${items.length}</span>
+      </div>
+      ${items.map(([nm,qty])=>{
+        const oi = cat.items.findIndex(x=>x[0]===nm);
+        const key= ci+'_'+oi;
+        const chk= !!grocState[key];
+        return `<label class="groc-item" onclick="toggleGroc('${key}')">
+          <input type="checkbox" ${chk?'checked':''} onclick="event.stopPropagation();toggleGroc('${key}')">
+          <span class="groc-nm${chk?' done':''}">${nm}</span>
+          <span class="groc-qty">${qty}</span>
+        </label>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+  const total = GROCERY.reduce((a,c)=>a+c.items.length,0);
+  const done  = Object.values(grocState).filter(Boolean).length;
+  document.getElementById('grocProg').textContent = done+' of '+total+' checked';
+}
+
+function toggleGroc(key){ grocState[key]=!grocState[key]; persist(); renderGrocery(); }
+function filterGrocery(){ renderGrocery(); }
+function clearGrocery(){ Object.keys(grocState).forEach(k=>delete grocState[k]); persist(); renderGrocery(); }
+
+// ═══════════════════════════════════════════════════════════════════
+// OVERVIEW STATS
+// ═══════════════════════════════════════════════════════════════════
+function updateOverviewStats(){
+  document.getElementById('recCount').textContent  = (recipeDB||[]).length;
+  document.getElementById('doneCount').textContent = Object.values(doneState||{}).filter(Boolean).length;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// NAV + MODAL HELPERS
+// ═══════════════════════════════════════════════════════════════════
+function showSec(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map={overview:0,meals:1,recipes:2,grocery:3};
+  document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');
+  if(id==='recipes') renderRecipeBook();
+  if(id==='grocery') renderGrocery();
+}
+
+function showWeek(n,btn){
+  document.querySelectorAll('.wgrid').forEach(g=>g.classList.remove('active'));
+  document.querySelectorAll('.wbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('wg'+n).classList.add('active');
   btn.classList.add('active');
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
-renderMeals();
-renderGrocery();
+function open1(id){ document.getElementById(id).classList.add('open'); }
+function close1(id){ document.getElementById(id).classList.remove('open'); }
+function closeIfOverlay(e,id){ if(e.target===document.getElementById(id)) close1(id); }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.overlay.open').forEach(m=>m.classList.remove('open')); });
+
+// ═══════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════
+initLogin();
 </script>
 </body>
 </html>
