@@ -314,6 +314,75 @@
   }
   .section-title::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, #eee, transparent); }
 
+  /* CLICKABLE DISH */
+  .dish-pill {
+    display: inline;
+    cursor: pointer;
+    border-bottom: 1.5px dashed var(--saffron);
+    color: var(--text);
+    transition: color 0.15s, background 0.15s;
+    border-radius: 4px;
+    padding: 0 2px;
+  }
+  .dish-pill:hover { color: var(--saffron); background: var(--saffron-pale); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: white;
+    border-radius: 18px;
+    max-width: 460px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    animation: modalIn 0.2s ease;
+  }
+  @keyframes modalIn { from { transform: scale(0.92); opacity:0; } to { transform: scale(1); opacity:1; } }
+  .modal-header {
+    background: linear-gradient(135deg, #E65100, #FF8F00);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 18px 18px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .modal-title { font-size: 1rem; font-weight: 700; line-height: 1.4; }
+  .modal-close {
+    background: rgba(255,255,255,0.25);
+    border: none; color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.4); }
+  .modal-body { padding: 16px 20px; }
+  .modal-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; }
+  .ing-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .ing-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px;
+    background: #FFF8E1;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    border-left: 3px solid var(--saffron);
+  }
+  .ing-item .ing-icon { font-size: 1rem; flex-shrink: 0; }
+
   /* RESPONSIVE */
   @media(max-width: 600px) {
     header h1 { font-size: 1.5rem; }
@@ -413,6 +482,20 @@
     <button onclick="clearGrocery()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:4px 14px;font-size:0.8rem;cursor:pointer;color:#999;">Clear all</button>
   </div>
   <div class="grocery-grid" id="groceryGrid"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="dishModal" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Dish Name</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-sub" id="modalSub"></div>
+      <ul class="ing-list" id="ingList"></ul>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -536,11 +619,11 @@ function renderMeals() {
           </div>
           <div class="meal-block">
             <div class="meal-label brunch">🥣 Brunch <span class="time-tag">10:00 AM</span></div>
-            <div class="meal-text">${m.brunch}${fusionBrunch ? '<span class="fusion-tag">FUSION</span>' : ''}</div>
+            <div class="meal-text">${makeMealHtml(m.brunch)}${fusionBrunch ? '<span class="fusion-tag">FUSION</span>' : ''}</div>
           </div>
           <div class="meal-block">
             <div class="meal-label dinner">🍽 Dinner <span class="time-tag">5:00 PM</span></div>
-            <div class="meal-text">${m.dinner}${m.special ? '<span class="special-tag">SPECIAL</span>' : ''}${fusionDinner ? '<span class="fusion-tag">FUSION</span>' : ''}</div>
+            <div class="meal-text">${makeMealHtml(m.dinner)}${m.special ? '<span class="special-tag">SPECIAL</span>' : ''}${fusionDinner ? '<span class="fusion-tag">FUSION</span>' : ''}</div>
           </div>
           <div class="notes-row">
             <span class="notes-text">${m.notes ? '📌 ' + m.notes : ''}</span>
@@ -620,6 +703,108 @@ function filterGrocery() {
     el.style.display = el.querySelector('.grocery-item-name').textContent.toLowerCase().includes(q) ? '' : 'none';
   });
 }
+
+// ── DISH INGREDIENTS MAP ──────────────────────────────────────────────────────
+const dishIngredients = {
+  "poha":           {icon:"🍚", items:["Poha (Flattened Rice)","Potatoes (Aloo)","Mustard Seeds","Curry Leaves","Turmeric Powder","Green Chilies","Onions","Lemon / Lime","Peanuts","Oil"]},
+  "pauva":          {icon:"🍚", items:["Poha (Flattened Rice)","Potatoes (Aloo)","Mustard Seeds","Curry Leaves","Turmeric Powder","Green Chilies","Onions","Lemon / Lime","Peanuts","Oil"]},
+  "dhokla":         {icon:"🟡", items:["Besan (Gram Flour)","Dahi / Yogurt","Ginger","Green Chilies","Turmeric Powder","Mustard Seeds","Sesame Seeds (Til)","Sugar / Jaggery","Oil","Salt"]},
+  "khaman":         {icon:"🟡", items:["Besan (Gram Flour)","Dahi / Yogurt","Ginger","Green Chilies","Turmeric Powder","Mustard Seeds","Sesame Seeds (Til)","Sugar / Jaggery","Oil","Salt"]},
+  "thepla":         {icon:"🫓", items:["Whole Wheat Flour (Atta)","Fenugreek Leaves (Methi)","Dahi / Yogurt","Turmeric Powder","Red Chili Powder","Ginger","Oil","Salt"]},
+  "sabudana khichdi":{icon:"⚪", items:["Sabudana (Sago)","Potatoes (Aloo)","Peanuts","Green Chilies","Cumin Seeds (Jeera)","Ghee","Salt","Lemon / Lime"]},
+  "mung dal khichdi":{icon:"🟢", items:["Mung Dal (yellow split)","Basmati Rice","Ghee","Cumin Seeds (Jeera)","Turmeric Powder","Salt","Whole Milk"]},
+  "khichdi":        {icon:"🍲", items:["Mung Dal (yellow split)","Basmati Rice","Ghee","Cumin Seeds (Jeera)","Turmeric Powder","Salt"]},
+  "upma":           {icon:"🍳", items:["Semolina (Sooji/Rava)","Mustard Seeds","Curry Leaves","Onions","Green Chilies","Ginger","Oil","Salt"]},
+  "idli":           {icon:"⚪", items:["Idli Rice","Urad Dal","Salt"]},
+  "sambar":         {icon:"🍲", items:["Toor Dal","Tomatoes","Tamarind","Mustard Seeds","Curry Leaves","Dry Red Chilies","Turmeric Powder","Oil"]},
+  "aloo paratha":   {icon:"🫓", items:["Whole Wheat Flour (Atta)","Potatoes (Aloo)","Green Chilies","Ginger","Cumin Powder","Salt","Ghee"]},
+  "paratha":        {icon:"🫓", items:["Whole Wheat Flour (Atta)","Potatoes (Aloo)","Green Chilies","Ginger","Salt","Ghee"]},
+  "quesadilla":     {icon:"🌮", items:["Flour Tortillas (large)","Black Beans (canned)","Avocado","Salsa (jar)","Cheese (Mexican blend)","Bell Peppers (mixed)","Corn (frozen)","Guacamole (store-bought)"]},
+  "gujarati dal":   {icon:"🫕", items:["Toor Dal","Tomatoes","Tamarind","Sugar / Jaggery","Mustard Seeds","Cumin Seeds (Jeera)","Turmeric Powder","Red Chili Powder","Ghee","Curry Leaves","Hing (Asafoetida)"]},
+  "mix dal fry":    {icon:"🫕", items:["Toor Dal","Chana Dal","Masoor Dal","Onions","Tomatoes","Ginger","Garlic","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Garam Masala","Oil"]},
+  "dal fry":        {icon:"🫕", items:["Toor Dal","Onions","Tomatoes","Ginger","Garlic","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Garam Masala","Oil"]},
+  "dal makhani":    {icon:"🫕", items:["Urad Dal","Rajma (Kidney Beans)","Butter","Cream / Heavy Cream","Onions","Tomatoes","Garam Masala","Ginger","Garlic"]},
+  "khata mung":     {icon:"🟢", items:["Whole Mung (Green)","Dahi / Yogurt","Turmeric Powder","Mustard Seeds","Curry Leaves","Green Chilies","Ginger","Oil","Sugar / Jaggery"]},
+  "kadhi":          {icon:"🟡", items:["Besan (Gram Flour)","Dahi / Yogurt","Turmeric Powder","Mustard Seeds","Curry Leaves","Green Chilies","Ginger","Oil","Salt"]},
+  "jeera rice":     {icon:"🍚", items:["Basmati Rice","Cumin Seeds (Jeera)","Ghee","Salt"]},
+  "plain rice":     {icon:"🍚", items:["Basmati Rice","Salt"]},
+  "roti":           {icon:"🫓", items:["Whole Wheat Flour (Atta)","Salt","Oil / Ghee"]},
+  "aloo gobi":      {icon:"🥦", items:["Potatoes (Aloo)","Cauliflower (Gobi)","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Coriander Powder","Oil"]},
+  "bhindi masala":  {icon:"🥬", items:["Okra (Bhindi)","Onions","Tomatoes","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Oil"]},
+  "bhindi":         {icon:"🥬", items:["Okra (Bhindi)","Onions","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Oil"]},
+  "mix veg":        {icon:"🥗", items:["Mixed Vegetables (frozen ok)","Onions","Tomatoes","Turmeric Powder","Garam Masala","Cumin Seeds (Jeera)","Oil"]},
+  "mix indian veg": {icon:"🥗", items:["Mixed Vegetables (frozen ok)","Onions","Tomatoes","Turmeric Powder","Garam Masala","Oil"]},
+  "undhiyu":        {icon:"🍲", items:["Baby Potatoes","Yam (Suran)","Eggplant / Brinjal","Fenugreek Leaves (Methi)","Green Chilies","Coconut (grated/frozen)","Sesame Seeds (Til)","Oil","Mustard Seeds"]},
+  "puri":           {icon:"🫓", items:["Whole Wheat Flour (Atta)","Oil (for frying)","Salt"]},
+  "shrikhand":      {icon:"🍮", items:["Dahi / Yogurt","Sugar / Jaggery","Cardamom (elaichi)"]},
+  "chole":          {icon:"🫘", items:["Kabuli Chana (Chickpeas)","Onions","Tomatoes","Chana Masala","Ginger","Garlic","Oil"]},
+  "chana masala":   {icon:"🫘", items:["Kabuli Chana (Chickpeas)","Onions","Tomatoes","Chana Masala","Ginger","Garlic","Oil"]},
+  "bhature":        {icon:"🫓", items:["Whole Wheat Flour (Atta)","Dahi / Yogurt","Oil","Salt"]},
+  "chole bhature":  {icon:"🫘", items:["Kabuli Chana (Chickpeas)","Onions","Tomatoes","Chana Masala","Ginger","Garlic","Whole Wheat Flour (Atta)","Dahi / Yogurt","Oil"]},
+  "rajma":          {icon:"🫘", items:["Rajma (Kidney Beans)","Onions","Tomatoes","Rajma Masala","Ginger","Garlic","Oil"]},
+  "paneer butter masala":{icon:"🧀", items:["Paneer","Butter","Cream / Heavy Cream","Tomatoes","Onions","Ginger","Garlic","Garam Masala"]},
+  "paneer tikka masala":{icon:"🧀", items:["Paneer","Dahi / Yogurt","Bell Peppers (mixed)","Onions","Tomatoes","Ginger","Garlic","Garam Masala","Oil"]},
+  "paneer":         {icon:"🧀", items:["Paneer","Butter","Tomatoes","Onions","Ginger","Garlic","Garam Masala","Cream / Heavy Cream"]},
+  "pasta":          {icon:"🍝", items:["Pasta (penne/rigatoni)","Tomato Paste (canned)","Olive Oil","Garlic","Dried Oregano","Dried Basil","Bell Peppers (mixed)","Zucchini","Mushrooms","Eggplant / Brinjal","Spinach (Palak)"]},
+  "pav bhaji":      {icon:"🍛", items:["Potatoes (Aloo)","Mixed Vegetables (frozen ok)","Tomatoes","Pav Bhaji Masala","Butter","Pav Buns","Onions","Lemon / Lime"]},
+  "palak":          {icon:"🥬", items:["Spinach (Palak)","Onions","Garlic","Ginger","Turmeric Powder","Cumin Seeds (Jeera)","Oil"]},
+  "aloo methi":     {icon:"🥬", items:["Potatoes (Aloo)","Fenugreek Leaves (Methi)","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Oil"]},
+  "dudhi":          {icon:"🥒", items:["Bottle Gourd (Dudhi)","Turmeric Powder","Cumin Seeds (Jeera)","Mustard Seeds","Oil"]},
+  "tindora":        {icon:"🥒", items:["Ivy Gourd (Tindora)","Turmeric Powder","Red Chili Powder","Cumin Seeds (Jeera)","Oil"]},
+  "naan":           {icon:"🫓", items:["Whole Wheat Flour (Atta)","Dahi / Yogurt","Ghee","Salt"]},
+  "raita":          {icon:"🥛", items:["Dahi / Yogurt","Cucumber","Cumin Powder","Salt"]},
+  "kachumber":      {icon:"🥗", items:["Cucumber","Onions","Tomatoes","Lemon / Lime","Salt"]},
+  "chutney":        {icon:"🟢", items:["Coconut (grated/frozen)","Green Chilies","Ginger","Lemon / Lime","Salt"]},
+  "papad":          {icon:"🔵", items:["Papad"]},
+  "pickle":         {icon:"🫙", items:["Pickle (Mango/Mixed)"]},
+  "dahi":           {icon:"🥛", items:["Whole Milk","Dahi / Yogurt"]},
+  "chai":           {icon:"☕", items:["Whole Milk","Masala Chai Tea","Sugar / Jaggery","Ginger"]},
+  "salad":          {icon:"🥗", items:["Cucumber","Onions","Tomatoes","Lemon / Lime","Salt"]},
+};
+
+// longest-key-first for greedy match
+const dishKeys = Object.keys(dishIngredients).sort((a,b) => b.length - a.length);
+
+function getIngredients(raw) {
+  const norm = raw.toLowerCase().trim();
+  for (const key of dishKeys) {
+    if (norm.includes(key)) return {key, ...dishIngredients[key]};
+  }
+  return null;
+}
+
+function makeMealHtml(mealText) {
+  // Split by " + " to get individual dishes
+  return mealText.split(/\s*\+\s*/).map(part => {
+    const match = getIngredients(part);
+    if (match) {
+      return `<span class="dish-pill" onclick="showDishModal('${part.replace(/'/g,"\\'")}', '${match.key}')" title="Tap for ingredients">${part}</span>`;
+    }
+    return part;
+  }).join(' <span style="color:#ccc">+</span> ');
+}
+
+function showDishModal(dishName, key) {
+  const data = dishIngredients[key];
+  if (!data) return;
+  document.getElementById('modalTitle').textContent = data.icon + '  ' + dishName.trim();
+  document.getElementById('modalSub').textContent = 'Ingredients needed for this dish:';
+  const list = document.getElementById('ingList');
+  list.innerHTML = data.items.map(i =>
+    `<li class="ing-item"><span class="ing-icon">🛒</span>${i}</li>`
+  ).join('');
+  document.getElementById('dishModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('dishModal').classList.remove('open');
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('dishModal')) closeModal();
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // ── NAVIGATION ────────────────────────────────────────────────────────────────
 function showSection(id) {
