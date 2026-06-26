@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gujarati Meal Plan</title>
+<style>
+  :root {
+    --saffron: #FF6D00;
+    --saffron-light: #FF9800;
+    --saffron-pale: #FFF3E0;
+    --green: #2E7D32;
+    --green-light: #4CAF50;
+    --green-pale: #F1F8E9;
+    --gold: #F9A825;
+    --text: #1A1A1A;
+    --text-muted: #666;
+    --white: #FFFFFF;
+    --shadow: rgba(0,0,0,0.12);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #FFF8E1 0%, #F1F8E9 100%);
+    min-height: 100vh;
+    color: var(--text);
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #E65100, #FF8F00, #FF6D00);
+    color: white;
+    text-align: center;
+    padding: 28px 20px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(230,81,0,0.3);
+  }
+  header h1 { font-size: 2rem; font-weight: 700; letter-spacing: 1px; text-shadow: 0 2px 6px rgba(0,0,0,0.2); }
+  header p { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
+  .header-badges { display: flex; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .badge {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+    backdrop-filter: blur(4px);
+  }
+
+  /* MAIN NAV TABS */
+  .main-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 20px;
+    background: white;
+    border-bottom: 2px solid #eee;
+    flex-wrap: wrap;
+  }
+  .main-tab {
+    padding: 8px 22px;
+    border-radius: 30px;
+    border: 2px solid #ddd;
+    background: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .main-tab:hover { border-color: var(--saffron); color: var(--saffron); }
+  .main-tab.active {
+    background: var(--saffron);
+    border-color: var(--saffron);
+    color: white;
+    box-shadow: 0 3px 10px rgba(255,109,0,0.35);
+  }
+
+  /* CONTENT SECTIONS */
+  .section { display: none; padding: 24px 16px; max-width: 1100px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* WEEK SELECTOR */
+  .week-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+  .week-btn {
+    padding: 7px 18px;
+    border-radius: 20px;
+    border: 2px solid var(--saffron);
+    background: white;
+    color: var(--saffron);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .week-btn:hover, .week-btn.active {
+    background: var(--saffron);
+    color: white;
+    box-shadow: 0 2px 8px rgba(255,109,0,0.3);
+  }
+
+  /* WEEK GRID */
+  .week-grid { display: none; }
+  .week-grid.active { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 16px; }
+
+  /* DAY CARD */
+  .day-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 12px var(--shadow);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .day-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+  .day-card.done { opacity: 0.6; }
+
+  .day-header {
+    background: linear-gradient(135deg, var(--saffron), var(--saffron-light));
+    color: white;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .day-header .day-name { font-weight: 700; font-size: 1rem; }
+  .day-header .day-date { font-size: 0.8rem; opacity: 0.9; }
+  .day-header .day-num {
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.85rem;
+  }
+
+  .meal-block { padding: 12px 14px; border-bottom: 1px solid #f0f0f0; }
+  .meal-block:last-child { border-bottom: none; }
+  .meal-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 5px;
+  }
+  .meal-label.brunch { color: var(--saffron); }
+  .meal-label.dinner { color: var(--green); }
+  .meal-label .time-tag {
+    background: var(--saffron-pale);
+    color: var(--saffron);
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+  }
+  .meal-label.dinner .time-tag { background: var(--green-pale); color: var(--green); }
+  .meal-text { font-size: 0.88rem; line-height: 1.5; color: var(--text); }
+  .fusion-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #7B1FA2, #E91E63);
+    color: white;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+  .special-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--gold), #FF6D00);
+    color: white;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+
+  .notes-row {
+    padding: 7px 14px;
+    background: #FAFAFA;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+  .notes-text { flex: 1; }
+  .done-btn {
+    background: none;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    color: #999;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .done-btn:hover { border-color: var(--green); color: var(--green); }
+  .done-btn.checked { background: var(--green); border-color: var(--green); color: white; }
+
+  /* PROGRESS BAR */
+  .progress-section {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-label { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; }
+  .progress-bar-wrap { flex: 1; background: #eee; border-radius: 10px; height: 10px; overflow: hidden; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--green), var(--green-light)); border-radius: 10px; transition: width 0.4s; }
+  .progress-count { font-weight: 700; color: var(--green); font-size: 0.9rem; white-space: nowrap; }
+
+  /* GROCERY LIST */
+  .grocery-search {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .grocery-search input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 2px solid #ddd;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .grocery-search input:focus { border-color: var(--green); }
+
+  .grocery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .grocery-cat {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: 0 2px 10px var(--shadow);
+    overflow: hidden;
+  }
+  .grocery-cat-header {
+    padding: 11px 16px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .grocery-items { padding: 8px 0; }
+  .grocery-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 16px;
+    border-bottom: 1px solid #f5f5f5;
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  .grocery-item:last-child { border-bottom: none; }
+  .grocery-item:hover { background: #FAFAFA; }
+  .grocery-item input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--green); }
+  .grocery-item-name { flex: 1; font-size: 0.88rem; }
+  .grocery-item-name.checked { text-decoration: line-through; color: #aaa; }
+  .grocery-item-qty { font-size: 0.78rem; color: var(--text-muted); background: #f5f5f5; padding: 2px 8px; border-radius: 10px; }
+  .cat-progress { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* OVERVIEW SECTION */
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 24px; }
+  .stat-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 18px;
+    box-shadow: 0 2px 10px var(--shadow);
+    text-align: center;
+  }
+  .stat-icon { font-size: 2rem; margin-bottom: 8px; }
+  .stat-num { font-size: 1.8rem; font-weight: 700; color: var(--saffron); }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+  .dish-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    background: var(--saffron-pale);
+    color: var(--saffron);
+    border: 1px solid #FFCC80;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+  .chip.fusion { background: #F3E5F5; color: #7B1FA2; border-color: #CE93D8; }
+  .chip.special { background: #E8F5E9; color: var(--green); border-color: #A5D6A7; }
+
+  .section-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    margin: 20px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, #eee, transparent); }
+
+  /* RESPONSIVE */
+  @media(max-width: 600px) {
+    header h1 { font-size: 1.5rem; }
+    .week-grid.active { grid-template-columns: 1fr; }
+    .grocery-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌿 Gujarati Meal Plan</h1>
+  <p>July 2026 &nbsp;·&nbsp; Family of 4 &nbsp;·&nbsp; Frisco, TX</p>
+  <div class="header-badges">
+    <span class="badge">🕙 Brunch 10:00 AM</span>
+    <span class="badge">🍽 Dinner 5:00 PM</span>
+    <span class="badge">🌱 Pure Vegetarian</span>
+    <span class="badge">28 Days</span>
+  </div>
+</header>
+
+<div class="main-tabs">
+  <button class="main-tab active" onclick="showSection('overview')">📋 Overview</button>
+  <button class="main-tab" onclick="showSection('meals')">🗓 Meal Plan</button>
+  <button class="main-tab" onclick="showSection('grocery')">🛒 Grocery List</button>
+</div>
+
+<!-- ═══ OVERVIEW SECTION ═══ -->
+<div class="section active" id="overview">
+  <div class="overview-grid">
+    <div class="stat-card"><div class="stat-icon">👨‍👩‍👧‍👦</div><div class="stat-num">4</div><div class="stat-label">Family Members</div></div>
+    <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-num">28</div><div class="stat-label">Days Planned</div></div>
+    <div class="stat-card"><div class="stat-icon">🥣</div><div class="stat-num">56</div><div class="stat-label">Total Meals</div></div>
+    <div class="stat-card"><div class="stat-icon">🌮</div><div class="stat-num">4</div><div class="stat-label">Fusion Days</div></div>
+  </div>
+
+  <div class="section-title">👨‍👩‍👧‍👦 Family</div>
+  <div style="background:white;border-radius:14px;padding:16px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.08);display:flex;flex-wrap:wrap;gap:14px;">
+    <div style="text-align:center;flex:1;min-width:100px;"><div style="font-size:1.6rem">👩</div><div style="font-weight:700">Mom</div><div style="color:#666;font-size:0.85rem">Age 44</div></div>
+    <div style="text-align:center;flex:1;min-width:100px;"><div style="font-size:1.6rem">👨</div><div style="font-weight:700">Dad</div><div style="color:#666;font-size:0.85rem">Age 49</div></div>
+    <div style="text-align:center;flex:1;min-width:100px;"><div style="font-size:1.6rem">👧</div><div style="font-weight:700">Daughter</div><div style="color:#666;font-size:0.85rem">Age 18</div></div>
+    <div style="text-align:center;flex:1;min-width:100px;"><div style="font-size:1.6rem">👦</div><div style="font-weight:700">Son</div><div style="color:#666;font-size:0.85rem">Age 13</div></div>
+  </div>
+
+  <div class="section-title">🍛 Gujarati Classics</div>
+  <div class="dish-chips">
+    <span class="chip">Gujarati Dal</span><span class="chip">Mix Dal Fry</span><span class="chip">Khata Mung</span>
+    <span class="chip">Mung Dal Khichdi</span><span class="chip">Sabudana Khichdi</span><span class="chip">Dhokla</span>
+    <span class="chip">Khaman</span><span class="chip">Pauva (Poha)</span><span class="chip">Thepla</span>
+    <span class="chip">Kadhi</span><span class="chip">Jeera Rice</span><span class="chip">Plain Rice</span>
+    <span class="chip">Aloo Paratha</span><span class="chip">Idli Sambar</span><span class="chip">Upma</span>
+  </div>
+
+  <div class="section-title">🌮 Fusion Dishes</div>
+  <div class="dish-chips">
+    <span class="chip fusion">Mexican Quesadilla 🌮</span>
+    <span class="chip fusion">Red Sauce Veggie Pasta 🍝</span>
+  </div>
+
+  <div class="section-title">🎉 Special Weekend Meals</div>
+  <div class="dish-chips">
+    <span class="chip special">Undhiyu + Puri + Shrikhand</span>
+    <span class="chip special">Chole Bhature</span>
+    <span class="chip special">Pav Bhaji</span>
+    <span class="chip special">Paneer Butter Masala + Naan</span>
+    <span class="chip special">Rajma + Shrikhand</span>
+    <span class="chip special">Chole Bhature</span>
+  </div>
+
+  <div style="margin-top:24px;text-align:center;">
+    <button onclick="showSection('meals')" style="background:linear-gradient(135deg,#E65100,#FF8F00);color:white;border:none;padding:12px 32px;border-radius:30px;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(230,81,0,0.35);">
+      View Full Meal Plan →
+    </button>
+  </div>
+</div>
+
+<!-- ═══ MEALS SECTION ═══ -->
+<div class="section" id="meals">
+  <div class="progress-section">
+    <span class="progress-label">Monthly Progress</span>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    <span class="progress-count" id="progressCount">0 / 28 days</span>
+  </div>
+
+  <div class="week-selector">
+    <button class="week-btn active" onclick="showWeek(1, this)">Week 1 · Jul 1–7</button>
+    <button class="week-btn" onclick="showWeek(2, this)">Week 2 · Jul 8–14</button>
+    <button class="week-btn" onclick="showWeek(3, this)">Week 3 · Jul 15–21</button>
+    <button class="week-btn" onclick="showWeek(4, this)">Week 4 · Jul 22–28</button>
+  </div>
+
+  <div class="week-grid active" id="week1"></div>
+  <div class="week-grid" id="week2"></div>
+  <div class="week-grid" id="week3"></div>
+  <div class="week-grid" id="week4"></div>
+</div>
+
+<!-- ═══ GROCERY SECTION ═══ -->
+<div class="section" id="grocery">
+  <div class="grocery-search">
+    <input type="text" id="grocerySearch" placeholder="🔍  Search ingredients..." oninput="filterGrocery()">
+  </div>
+  <div style="margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+    <span style="font-size:0.85rem;color:#666;" id="groceryProgress">0 of 0 items checked</span>
+    <button onclick="clearGrocery()" style="background:none;border:1px solid #ddd;border-radius:20px;padding:4px 14px;font-size:0.8rem;cursor:pointer;color:#999;">Clear all</button>
+  </div>
+  <div class="grocery-grid" id="groceryGrid"></div>
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const meals = [
+  // Week 1
+  {day:1,date:"Jul 1",wday:"Wed",brunch:"Poha (Pauva) + Masala Chai",dinner:"Gujarati Dal + Jeera Rice + Roti + Aloo Gobi",notes:"Soak dal in morning",special:false,fusion:false},
+  {day:2,date:"Jul 2",wday:"Thu",brunch:"Dhokla + Green Chutney + Chai",dinner:"Mix Dal Fry + Plain Rice + Roti + Bhindi Masala",notes:"Make dhokla batter night before",special:false,fusion:false},
+  {day:3,date:"Jul 3",wday:"Fri",brunch:"Thepla + Dahi + Mango Pickle",dinner:"Khata Mung + Rice + Roti + Mix Veg Sabji",notes:"Soak mung overnight",special:false,fusion:false},
+  {day:4,date:"Jul 4",wday:"Sat",brunch:"Sabudana Khichdi + Dahi",dinner:"Undhiyu + Puri + Shrikhand",notes:"Soak sabudana overnight; Undhiyu 1 hr",special:true,fusion:false},
+  {day:5,date:"Jul 5",wday:"Sun",brunch:"Mung Dal Khichdi + Kadhi + Papad",dinner:"Chole + Puri + Kachumber Salad",notes:"Soak chole overnight",special:true,fusion:false},
+  {day:6,date:"Jul 6",wday:"Mon",brunch:"Khaman + Chutney + Chai",dinner:"Dal Makhani + Jeera Rice + Roti + Sabji",notes:"Quick khaman from besan",special:false,fusion:false},
+  {day:7,date:"Jul 7",wday:"Tue",brunch:"Upma + Coconut Chutney + Chai",dinner:"Rajma + Plain Rice + Roti + Onion Salad",notes:"Soak rajma overnight",special:false,fusion:false},
+  // Week 2
+  {day:8,date:"Jul 8",wday:"Wed",brunch:"Idli (3 pcs) + Sambar + Chutney",dinner:"Gujarati Dal + Plain Rice + Roti + Aloo Methi",notes:"Soak idli batter previous night",special:false,fusion:false},
+  {day:9,date:"Jul 9",wday:"Thu",brunch:"Aloo Paratha + Dahi + Pickle",dinner:"Mix Dal Fry + Jeera Rice + Roti + Palak Sabji",notes:"",special:false,fusion:false},
+  {day:10,date:"Jul 10",wday:"Fri",brunch:"Pauva Batata + Green Chutney + Chai",dinner:"Khata Mung + Roti + Plain Rice + Tindora Sabji",notes:"Soak mung overnight",special:false,fusion:false},
+  {day:11,date:"Jul 11",wday:"Sat",brunch:"Mexican Quesadilla (Tortilla, Beans, Guac, Salsa, Cheese, Veggies)",dinner:"Paneer Butter Masala + Naan + Jeera Rice + Raita",notes:"Fusion Saturday!",special:true,fusion:true},
+  {day:12,date:"Jul 12",wday:"Sun",brunch:"Dhokla + Khaman Platter + Chai",dinner:"Chole Bhature + Dahi + Salad",notes:"Soak chole overnight",special:true,fusion:false},
+  {day:13,date:"Jul 13",wday:"Mon",brunch:"Methi Thepla + Dahi + Chai",dinner:"Red Sauce Veggie Pasta (Zucchini, Bell Pepper, Mushroom)",notes:"Fusion Monday!",special:false,fusion:true},
+  {day:14,date:"Jul 14",wday:"Tue",brunch:"Sabudana Khichdi + Dahi",dinner:"Gujarati Dal + Plain Rice + Roti + Dudhi Sabji",notes:"Soak sabudana overnight",special:false,fusion:false},
+  // Week 3
+  {day:15,date:"Jul 15",wday:"Wed",brunch:"Khaman + Green Chutney + Chai",dinner:"Mix Dal Fry + Jeera Rice + Roti + Bhindi Masala",notes:"",special:false,fusion:false},
+  {day:16,date:"Jul 16",wday:"Thu",brunch:"Upma + Coconut Chutney + Chai",dinner:"Kadhi + Plain Rice + Roti + Aloo Gobi",notes:"",special:false,fusion:false},
+  {day:17,date:"Jul 17",wday:"Fri",brunch:"Thepla + Dahi + Pickle",dinner:"Mung Dal Khichdi + Kadhi + Papad",notes:"Easy Friday",special:false,fusion:false},
+  {day:18,date:"Jul 18",wday:"Sat",brunch:"Poha (Pauva) + Masala Chai",dinner:"Pav Bhaji",notes:"Butter the pav!",special:true,fusion:false},
+  {day:19,date:"Jul 19",wday:"Sun",brunch:"Mexican Quesadilla (Beans, Salsa, Guac, Cheese, Peppers)",dinner:"Gujarati Dal + Rice + Roti + Mix Indian Veg",notes:"Sunday fusion brunch",special:false,fusion:true},
+  {day:20,date:"Jul 20",wday:"Mon",brunch:"Idli + Sambar + Chutney",dinner:"Chana Masala + Jeera Rice + Roti + Onion Salad",notes:"Soak idli batter night before",special:false,fusion:false},
+  {day:21,date:"Jul 21",wday:"Tue",brunch:"Mung Dal Khichdi + Dahi",dinner:"Red Sauce Veggie Pasta (Eggplant, Spinach, Olives)",notes:"Fusion Tuesday",special:false,fusion:true},
+  // Week 4
+  {day:22,date:"Jul 22",wday:"Wed",brunch:"Dhokla + Green Chutney + Chai",dinner:"Khata Mung + Plain Rice + Roti + Mix Indian Veg",notes:"Soak mung overnight",special:false,fusion:false},
+  {day:23,date:"Jul 23",wday:"Thu",brunch:"Aloo Paratha + Dahi + Pickle",dinner:"Mix Dal Fry + Jeera Rice + Roti + Sabji",notes:"",special:false,fusion:false},
+  {day:24,date:"Jul 24",wday:"Fri",brunch:"Sabudana Khichdi + Dahi",dinner:"Gujarati Dal + Plain Rice + Roti + Aloo Methi",notes:"Soak sabudana overnight",special:false,fusion:false},
+  {day:25,date:"Jul 25",wday:"Sat",brunch:"Poha (Pauva) + Chai",dinner:"Rajma + Rice + Roti + Kachumber + Shrikhand",notes:"Special sweet ending!",special:true,fusion:false},
+  {day:26,date:"Jul 26",wday:"Sun",brunch:"Mexican Quesadilla (Tortilla, Beans, Guac, Salsa, Veggies)",dinner:"Paneer Tikka Masala + Naan + Jeera Rice + Raita",notes:"Sunday special",special:true,fusion:true},
+  {day:27,date:"Jul 27",wday:"Mon",brunch:"Khaman + Chutney + Chai",dinner:"Mix Dal Fry + Plain Rice + Roti + Bhindi Masala",notes:"",special:false,fusion:false},
+  {day:28,date:"Jul 28",wday:"Tue",brunch:"Upma + Coconut Chutney + Chai",dinner:"Mung Dal Khichdi + Kadhi + Papad",notes:"Light week ender",special:false,fusion:false},
+];
+
+const groceryData = [
+  {cat:"🥦 Vegetables", color:"#E8F5E9", hcolor:"#2E7D32", items:[
+    {name:"Potatoes (Aloo)",qty:"5 kg"},{name:"Cauliflower (Gobi)",qty:"4 heads"},
+    {name:"Okra (Bhindi)",qty:"2 kg"},{name:"Spinach (Palak)",qty:"4 bunches"},
+    {name:"Bottle Gourd (Dudhi)",qty:"2 pcs"},{name:"Ivy Gourd (Tindora)",qty:"500 g"},
+    {name:"Fenugreek Leaves (Methi)",qty:"4 bunches"},{name:"Eggplant / Brinjal",qty:"4 pcs"},
+    {name:"Zucchini",qty:"3 pcs"},{name:"Bell Peppers (mixed)",qty:"6 pcs"},
+    {name:"Mushrooms",qty:"500 g"},{name:"Tomatoes",qty:"3 kg"},
+    {name:"Onions",qty:"3 kg"},{name:"Garlic",qty:"3 bulbs"},
+    {name:"Ginger",qty:"300 g"},{name:"Green Chilies",qty:"200 g"},
+    {name:"Cucumber",qty:"8 pcs"},{name:"Lemon / Lime",qty:"12 pcs"},
+    {name:"Avocado",qty:"8 pcs"},{name:"Baby Potatoes",qty:"500 g"},
+    {name:"Yam (Suran)",qty:"300 g"},{name:"Corn (frozen)",qty:"1 bag"},
+  ]},
+  {cat:"🫘 Lentils & Legumes", color:"#FFF3E0", hcolor:"#E65100", items:[
+    {name:"Toor Dal",qty:"2 kg"},{name:"Mung Dal (yellow split)",qty:"1 kg"},
+    {name:"Chana Dal",qty:"500 g"},{name:"Masoor Dal",qty:"500 g"},
+    {name:"Urad Dal",qty:"500 g"},{name:"Rajma (Kidney Beans)",qty:"1.5 kg"},
+    {name:"Kabuli Chana (Chickpeas)",qty:"1.5 kg"},{name:"Black Beans (canned)",qty:"4 cans"},
+    {name:"Whole Mung (Green)",qty:"500 g"},{name:"Roasted Chana",qty:"500 g"},
+  ]},
+  {cat:"🌾 Grains & Flour", color:"#FFFDE7", hcolor:"#F57F17", items:[
+    {name:"Basmati Rice",qty:"5 kg"},{name:"Idli Rice",qty:"1 kg"},
+    {name:"Sabudana (Sago)",qty:"1 kg"},{name:"Poha (Flattened Rice)",qty:"1.5 kg"},
+    {name:"Semolina (Sooji/Rava)",qty:"1 kg"},{name:"Whole Wheat Flour (Atta)",qty:"5 kg"},
+    {name:"Besan (Gram Flour)",qty:"1.5 kg"},{name:"Rice Flour",qty:"500 g"},
+    {name:"Pav Buns",qty:"3 packs"},{name:"Flour Tortillas (large)",qty:"2 packs"},
+    {name:"Pasta (penne/rigatoni)",qty:"1 kg"},
+  ]},
+  {cat:"🥛 Dairy", color:"#E3F2FD", hcolor:"#1565C0", items:[
+    {name:"Whole Milk",qty:"8 litres"},{name:"Dahi / Yogurt",qty:"3 kg"},
+    {name:"Paneer",qty:"1 kg"},{name:"Ghee",qty:"500 g"},
+    {name:"Butter",qty:"250 g"},{name:"Cheese (Mexican blend)",qty:"400 g"},
+    {name:"Cream / Heavy Cream",qty:"200 ml"},{name:"Shrikhand",qty:"2 cups"},
+  ]},
+  {cat:"🫙 Pantry & Spices", color:"#F3E5F5", hcolor:"#6A1B9A", items:[
+    {name:"Mustard Seeds",qty:"100 g"},{name:"Cumin Seeds (Jeera)",qty:"150 g"},
+    {name:"Turmeric Powder",qty:"150 g"},{name:"Red Chili Powder",qty:"150 g"},
+    {name:"Coriander Powder",qty:"150 g"},{name:"Garam Masala",qty:"100 g"},
+    {name:"Cumin Powder",qty:"100 g"},{name:"Hing (Asafoetida)",qty:"1 bottle"},
+    {name:"Curry Leaves",qty:"3 packs"},{name:"Dry Red Chilies",qty:"100 g"},
+    {name:"Pav Bhaji Masala",qty:"2 packs"},{name:"Rajma Masala",qty:"2 packs"},
+    {name:"Chana Masala",qty:"2 packs"},{name:"Sugar / Jaggery",qty:"500 g"},
+    {name:"Salt",qty:"1 kg"},{name:"Oil (Sunflower/Canola)",qty:"3 litres"},
+    {name:"Olive Oil",qty:"500 ml"},{name:"Tamarind",qty:"100 g"},
+    {name:"Tomato Paste (canned)",qty:"4 cans"},{name:"Salsa (jar)",qty:"2 jars"},
+    {name:"Dried Oregano",qty:"1 bottle"},{name:"Dried Basil",qty:"1 bottle"},
+    {name:"Coconut (grated/frozen)",qty:"400 g"},{name:"Peanuts",qty:"500 g"},
+  ]},
+  {cat:"🍿 Snacks & Extras", color:"#FCE4EC", hcolor:"#C62828", items:[
+    {name:"Makhana (Fox Nuts)",qty:"400 g"},{name:"Papad",qty:"2 packs"},
+    {name:"Pickle (Mango/Mixed)",qty:"1 jar"},{name:"Guacamole (store-bought)",qty:"2 packs"},
+    {name:"Chakli",qty:"1 pack"},
+  ]},
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+const doneState = JSON.parse(localStorage.getItem('gmp_done') || '{}');
+const groceryState = JSON.parse(localStorage.getItem('gmp_grocery') || '{}');
+
+function saveDone() { try { localStorage.setItem('gmp_done', JSON.stringify(doneState)); } catch(e){} }
+function saveGrocery() { try { localStorage.setItem('gmp_grocery', JSON.stringify(groceryState)); } catch(e){} }
+
+// ── RENDER MEALS ──────────────────────────────────────────────────────────────
+function renderMeals() {
+  [1,2,3,4].forEach(w => {
+    const grid = document.getElementById('week'+w);
+    grid.innerHTML = '';
+    const wMeals = meals.slice((w-1)*7, w*7);
+    wMeals.forEach(m => {
+      const done = !!doneState[m.day];
+      const fusionBrunch = m.fusion && (m.brunch.toLowerCase().includes('quesadilla'));
+      const fusionDinner = m.fusion && !fusionBrunch;
+      grid.innerHTML += `
+        <div class="day-card ${done ? 'done' : ''}" id="card-${m.day}">
+          <div class="day-header">
+            <div>
+              <div class="day-name">${m.wday}</div>
+              <div class="day-date">${m.date}</div>
+            </div>
+            <div class="day-num">${m.day}</div>
+          </div>
+          <div class="meal-block">
+            <div class="meal-label brunch">🥣 Brunch <span class="time-tag">10:00 AM</span></div>
+            <div class="meal-text">${m.brunch}${fusionBrunch ? '<span class="fusion-tag">FUSION</span>' : ''}</div>
+          </div>
+          <div class="meal-block">
+            <div class="meal-label dinner">🍽 Dinner <span class="time-tag">5:00 PM</span></div>
+            <div class="meal-text">${m.dinner}${m.special ? '<span class="special-tag">SPECIAL</span>' : ''}${fusionDinner ? '<span class="fusion-tag">FUSION</span>' : ''}</div>
+          </div>
+          <div class="notes-row">
+            <span class="notes-text">${m.notes ? '📌 ' + m.notes : ''}</span>
+            <button class="done-btn ${done ? 'checked' : ''}" onclick="toggleDone(${m.day})">${done ? '✓ Done' : 'Mark done'}</button>
+          </div>
+        </div>`;
+    });
+  });
+  updateProgress();
+}
+
+function toggleDone(day) {
+  doneState[day] = !doneState[day];
+  saveDone();
+  const card = document.getElementById('card-' + day);
+  card.classList.toggle('done', !!doneState[day]);
+  const btn = card.querySelector('.done-btn');
+  btn.classList.toggle('checked', !!doneState[day]);
+  btn.textContent = doneState[day] ? '✓ Done' : 'Mark done';
+  updateProgress();
+}
+
+function updateProgress() {
+  const count = Object.values(doneState).filter(Boolean).length;
+  const pct = Math.round((count / 28) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = count + ' / 28 days';
+}
+
+// ── RENDER GROCERY ────────────────────────────────────────────────────────────
+function renderGrocery() {
+  const grid = document.getElementById('groceryGrid');
+  grid.innerHTML = '';
+  groceryData.forEach((cat, ci) => {
+    const checked = cat.items.filter((_, ii) => groceryState[ci+'_'+ii]).length;
+    grid.innerHTML += `
+      <div class="grocery-cat">
+        <div class="grocery-cat-header" style="background:${cat.color};color:${cat.hcolor}">
+          <span>${cat.cat}</span>
+          <span class="cat-progress">${checked}/${cat.items.length}</span>
+        </div>
+        <div class="grocery-items" id="cat-${ci}">
+          ${cat.items.map((item, ii) => `
+            <label class="grocery-item" onclick="toggleGrocery(${ci},${ii})">
+              <input type="checkbox" ${groceryState[ci+'_'+ii] ? 'checked' : ''} onclick="event.stopPropagation();toggleGrocery(${ci},${ii})">
+              <span class="grocery-item-name ${groceryState[ci+'_'+ii] ? 'checked' : ''}">${item.name}</span>
+              <span class="grocery-item-qty">${item.qty}</span>
+            </label>`).join('')}
+        </div>
+      </div>`;
+  });
+  updateGroceryProgress();
+}
+
+function toggleGrocery(ci, ii) {
+  const key = ci+'_'+ii;
+  groceryState[key] = !groceryState[key];
+  saveGrocery();
+  renderGrocery();
+}
+
+function clearGrocery() {
+  Object.keys(groceryState).forEach(k => delete groceryState[k]);
+  saveGrocery();
+  renderGrocery();
+}
+
+function updateGroceryProgress() {
+  const total = groceryData.reduce((a,c) => a + c.items.length, 0);
+  const done = Object.values(groceryState).filter(Boolean).length;
+  document.getElementById('groceryProgress').textContent = done + ' of ' + total + ' items checked';
+}
+
+function filterGrocery() {
+  const q = document.getElementById('grocerySearch').value.toLowerCase();
+  document.querySelectorAll('.grocery-item').forEach(el => {
+    el.style.display = el.querySelector('.grocery-item-name').textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = document.querySelectorAll('.main-tab');
+  const map = {overview:0, meals:1, grocery:2};
+  tabs[map[id]].classList.add('active');
+}
+
+function showWeek(n, btn) {
+  document.querySelectorAll('.week-grid').forEach(g => g.classList.remove('active'));
+  document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('week'+n).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderMeals();
+renderGrocery();
+</script>
+</body>
+</html>
