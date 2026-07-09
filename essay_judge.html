@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Essay Competition Judge — Lexington Community Semiquincentennial Festival</title>
+<style>
+  :root{
+    --navy:#1b2a4a; --red:#b5262b; --cream:#faf6ee; --gold:#c8a13c;
+    --gray:#6b7280; --border:#e2e0d8; --green:#1f7a4d;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--cream); color:#232323;
+  }
+  header{
+    background:var(--navy); color:#fff; padding:20px 28px; display:flex; align-items:center;
+    justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+  header h1{margin:0; font-size:20px; letter-spacing:.3px;}
+  header p{margin:2px 0 0; font-size:13px; color:#c9d2e5;}
+  nav{display:flex; gap:6px; padding:10px 28px; background:#fff; border-bottom:1px solid var(--border); flex-wrap:wrap;}
+  nav button{
+    border:none; background:transparent; padding:9px 16px; font-size:14px; font-weight:600;
+    color:var(--gray); cursor:pointer; border-radius:6px; transition:.15s;
+  }
+  nav button.active{background:var(--navy); color:#fff;}
+  nav button:not(.active):hover{background:#f0eee6;}
+  main{max-width:980px; margin:0 auto; padding:24px 20px 60px;}
+  .card{background:#fff; border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:16px;}
+  h2{margin-top:0; font-size:17px; color:var(--navy);}
+  label{display:block; font-size:13px; font-weight:600; margin:14px 0 5px; color:#333;}
+  input[type=text], input[type=password], select, textarea{
+    width:100%; padding:9px 10px; border:1px solid var(--border); border-radius:6px; font-size:14px; font-family:inherit;
+  }
+  textarea{resize:vertical; min-height:60px;}
+  .file-drop{
+    border:2px dashed var(--border); border-radius:8px; padding:22px; text-align:center; color:var(--gray);
+    font-size:13px; cursor:pointer; margin-top:6px;
+  }
+  .file-drop.drag{border-color:var(--gold); background:#fdf9ee;}
+  .thumbs{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+  .thumbs img{height:70px; border-radius:5px; border:1px solid var(--border); object-fit:cover;}
+  .btn{
+    background:var(--navy); color:#fff; border:none; padding:10px 18px; border-radius:6px;
+    font-size:14px; font-weight:600; cursor:pointer;
+  }
+  .btn:hover{background:#101d38;}
+  .btn.secondary{background:#fff; color:var(--navy); border:1px solid var(--navy);}
+  .btn.danger{background:#fff; color:var(--red); border:1px solid var(--red);}
+  .btn.small{padding:6px 12px; font-size:12px;}
+  .btn:disabled{opacity:.5; cursor:not-allowed;}
+  .row{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;}
+  .badge{display:inline-block; padding:2px 9px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:.3px;}
+  .badge.pending{background:#f0eee6; color:var(--gray);}
+  .badge.judged{background:#e4f3ea; color:var(--green);}
+  .badge.error{background:#fbe6e6; color:var(--red);}
+  .essay-card{border:1px solid var(--border); border-radius:8px; padding:14px 16px; margin-bottom:12px;}
+  .essay-head{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;}
+  .essay-head .meta{font-size:12px; color:var(--gray); margin-top:3px;}
+  .score-total{font-size:22px; font-weight:800; color:var(--navy);}
+  .rubric-row{display:flex; justify-content:space-between; font-size:13px; padding:4px 0; border-bottom:1px solid #f2f0e8;}
+  .feedback-box{background:#f7f5ee; border-radius:6px; padding:12px 14px; margin-top:10px; font-size:13px; line-height:1.5;}
+  .strengths, .improvements{margin:6px 0 0 18px; font-size:13px;}
+  .empty{color:var(--gray); font-size:14px; text-align:center; padding:30px 10px;}
+  .leader-group{margin-bottom:26px;}
+  .leader-group h3{color:var(--navy); border-bottom:2px solid var(--gold); padding-bottom:6px; font-size:15px;}
+  table{width:100%; border-collapse:collapse; font-size:13px;}
+  th, td{text-align:left; padding:8px 6px; border-bottom:1px solid var(--border);}
+  th{color:var(--gray); font-weight:600; font-size:12px; text-transform:uppercase; letter-spacing:.4px;}
+  .rank{font-weight:800; color:var(--red);}
+  .hint{font-size:12px; color:var(--gray); margin-top:6px;}
+  .toast{
+    position:fixed; bottom:22px; right:22px; background:var(--navy); color:#fff; padding:12px 18px;
+    border-radius:8px; font-size:13px; box-shadow:0 4px 14px rgba(0,0,0,.2); max-width:320px; z-index:50;
+  }
+  .toast.err{background:var(--red);}
+  details summary{cursor:pointer; font-size:13px; font-weight:600; color:var(--navy); margin-top:10px;}
+  .spinner{
+    display:inline-block; width:13px; height:13px; border:2px solid #ffffff55; border-top-color:#fff;
+    border-radius:50%; animation:spin .7s linear infinite; margin-right:6px; vertical-align:-2px;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Essay Competition Judge</h1>
+    <p>Lexington Community Semiquincentennial Festival — Youth Essay Evaluation</p>
+  </div>
+</header>
+
+<nav>
+  <button data-tab="upload" class="active">Upload Essay</button>
+  <button data-tab="essays">All Essays</button>
+  <button data-tab="leaderboard">Leaderboard</button>
+  <button data-tab="settings">Settings</button>
+</nav>
+
+<main>
+
+  <!-- UPLOAD TAB -->
+  <section id="tab-upload">
+    <div class="card">
+      <h2>Upload an Essay</h2>
+      <label>Student Name</label>
+      <input type="text" id="f-name" placeholder="e.g. Ava Johnson">
+
+      <label>Age Group</label>
+      <select id="f-group">
+        <option value="elementary">Group 1: Elementary (Ages 6–10)</option>
+        <option value="middle">Group 2: Middle School (Ages 11–13)</option>
+        <option value="high">Group 3: High School (Ages 14–18)</option>
+      </select>
+
+      <label>Essay Theme</label>
+      <select id="f-theme"></select>
+
+      <label>Notes (optional)</label>
+      <textarea id="f-notes" placeholder="Anything else worth noting, e.g. pages out of order, illegible sections..."></textarea>
+
+      <label>Essay Photo(s)</label>
+      <div class="file-drop" id="drop-zone">Click to choose photos, or drag them here — upload every page of the essay</div>
+      <input type="file" id="f-files" accept="image/*" multiple style="display:none">
+      <div class="thumbs" id="f-thumbs"></div>
+
+      <div class="row">
+        <button class="btn" id="btn-add">Add Essay</button>
+      </div>
+      <p class="hint">Photos are stored only in this browser, on this computer.</p>
+    </div>
+  </section>
+
+  <!-- ESSAYS TAB -->
+  <section id="tab-essays" style="display:none">
+    <div class="card">
+      <h2>All Essays</h2>
+      <div class="row" style="margin-top:0">
+        <select id="filter-group" style="max-width:260px">
+          <option value="all">All groups</option>
+          <option value="elementary">Group 1: Elementary</option>
+          <option value="middle">Group 2: Middle School</option>
+          <option value="high">Group 3: High School</option>
+        </select>
+      </div>
+      <div id="essay-list" style="margin-top:16px"></div>
+    </div>
+  </section>
+
+  <!-- LEADERBOARD TAB -->
+  <section id="tab-leaderboard" style="display:none">
+    <div class="card">
+      <h2>Leaderboard</h2>
+      <div id="leaderboard-content"></div>
+    </div>
+  </section>
+
+  <!-- SETTINGS TAB -->
+  <section id="tab-settings" style="display:none">
+    <div class="card">
+      <h2>AI Judging Settings</h2>
+      <p class="hint" style="margin-top:0">An Anthropic API key is required so this page can send essay photos to Claude for scoring. The key is saved only in this browser's local storage on this computer — it is never sent anywhere except Anthropic's API.</p>
+      <label>Anthropic API Key</label>
+      <input type="password" id="s-apikey" placeholder="sk-ant-...">
+      <label>Model</label>
+      <select id="s-model">
+        <option value="claude-sonnet-5">Claude Sonnet 5 (recommended)</option>
+        <option value="claude-opus-4-8">Claude Opus 4.8 (highest quality, slower)</option>
+        <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 (fastest)</option>
+      </select>
+      <div class="row">
+        <button class="btn" id="btn-save-settings">Save Settings</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Rubric Reference</h2>
+      <div id="rubric-reference"></div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* ---------- Rubric & theme configuration ---------- */
+const GROUPS = {
+  elementary: {
+    label: "Group 1: Elementary (Ages 6–10)",
+    themes: ["What Heritage Means to Me", "A Family Freedom Story"],
+    ageNote: "Judge with age-appropriate expectations: value clear personal ideas and effort over polished mechanics. Simple sentence structure and minor spelling errors are normal and should not be harshly penalized.",
+    rubric: [
+      {key:"theme", label:"Theme Connection", max:20, desc:"Essay clearly relates to the chosen theme (heritage / family freedom story)."},
+      {key:"content", label:"Ideas & Content", max:20, desc:"Ideas are clear, personal, and show genuine effort and specific detail."},
+      {key:"organization", label:"Organization", max:20, desc:"Essay has a recognizable beginning, middle, and end."},
+      {key:"language", label:"Language & Mechanics", max:20, desc:"Age-appropriate spelling, grammar, and sentence construction."},
+      {key:"creativity", label:"Creativity & Voice", max:20, desc:"Original thinking, personal voice, enthusiasm and heart."}
+    ]
+  },
+  middle: {
+    label: "Group 2: Middle School (Ages 11–13)",
+    themes: ["A Historic Moment", "The Evolution of Freedom"],
+    ageNote: "Judge with age-appropriate expectations: expect a clear thesis or main idea, supporting detail, and developing command of grammar. Some stylistic imperfection is normal at this age.",
+    rubric: [
+      {key:"theme", label:"Theme Connection", max:20, desc:"Essay clearly and thoughtfully addresses the chosen theme."},
+      {key:"content", label:"Ideas & Content", max:20, desc:"Ideas are well developed with relevant supporting detail or examples."},
+      {key:"organization", label:"Organization & Structure", max:20, desc:"Clear intro/body/conclusion with logical flow between ideas."},
+      {key:"language", label:"Language & Grammar", max:20, desc:"Grammar, spelling, and word choice appropriate for middle school."},
+      {key:"creativity", label:"Creativity & Voice", max:20, desc:"Original perspective, engaging voice, thoughtful insight."}
+    ]
+  },
+  high: {
+    label: "Group 3: High School (Ages 14–18)",
+    themes: ["The Evolution of Freedom", "My Role as a Global Citizen"],
+    ageNote: "Judge with age-appropriate expectations: expect a clear argument or thesis, analytical depth, well-organized paragraphs, and command of standard grammar.",
+    rubric: [
+      {key:"theme", label:"Theme Connection", max:20, desc:"Essay directly and thoughtfully engages the chosen theme."},
+      {key:"content", label:"Argument & Analysis", max:20, desc:"Clear thesis, developed reasoning, and use of evidence/examples."},
+      {key:"organization", label:"Organization & Structure", max:20, desc:"Coherent structure with strong transitions and paragraphing."},
+      {key:"language", label:"Language & Grammar", max:20, desc:"Command of grammar, syntax, and precise word choice."},
+      {key:"creativity", label:"Originality & Voice", max:20, desc:"Distinctive voice, original insight, intellectual maturity."}
+    ]
+  }
+};
+
+/* ---------- IndexedDB storage ---------- */
+const DB_NAME = "essayJudgeDB";
+const STORE = "essays";
+function openDB(){
+  return new Promise((resolve, reject)=>{
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = ()=>{
+      const db = req.result;
+      if(!db.objectStoreNames.contains(STORE)){
+        db.createObjectStore(STORE, {keyPath:"id"});
+      }
+    };
+    req.onsuccess = ()=> resolve(req.result);
+    req.onerror = ()=> reject(req.error);
+  });
+}
+async function dbGetAll(){
+  const db = await openDB();
+  return new Promise((resolve, reject)=>{
+    const tx = db.transaction(STORE, "readonly");
+    const req = tx.objectStore(STORE).getAll();
+    req.onsuccess = ()=> resolve(req.result || []);
+    req.onerror = ()=> reject(req.error);
+  });
+}
+async function dbPut(essay){
+  const db = await openDB();
+  return new Promise((resolve, reject)=>{
+    const tx = db.transaction(STORE, "readwrite");
+    tx.objectStore(STORE).put(essay);
+    tx.oncomplete = ()=> resolve();
+    tx.onerror = ()=> reject(tx.error);
+  });
+}
+async function dbDelete(id){
+  const db = await openDB();
+  return new Promise((resolve, reject)=>{
+    const tx = db.transaction(STORE, "readwrite");
+    tx.objectStore(STORE).delete(id);
+    tx.oncomplete = ()=> resolve();
+    tx.onerror = ()=> reject(tx.error);
+  });
+}
+
+/* ---------- App state ---------- */
+let essays = [];
+let pendingFiles = []; // {dataUrl, mediaType}
+
+/* ---------- Utility ---------- */
+function toast(msg, isErr){
+  const t = document.createElement("div");
+  t.className = "toast" + (isErr ? " err" : "");
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=> t.remove(), 4200);
+}
+
+function resizeImage(file, maxDim=1500, quality=0.85){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        let {width, height} = img;
+        if(width > maxDim || height > maxDim){
+          const scale = maxDim / Math.max(width, height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width; canvas.height = height;
+        canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL("image/jpeg", quality);
+        resolve({dataUrl, mediaType:"image/jpeg"});
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function populateThemeSelect(){
+  const group = document.getElementById("f-group").value;
+  const sel = document.getElementById("f-theme");
+  sel.innerHTML = GROUPS[group].themes.map(t=>`<option value="${t}">${t}</option>`).join("");
+}
+
+function escapeHtml(s){
+  return (s||"").replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ---------- Tabs ---------- */
+document.querySelectorAll("nav button").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    ["upload","essays","leaderboard","settings"].forEach(t=>{
+      document.getElementById("tab-"+t).style.display = (t === btn.dataset.tab) ? "block" : "none";
+    });
+    if(btn.dataset.tab === "essays") renderEssayList();
+    if(btn.dataset.tab === "leaderboard") renderLeaderboard();
+  });
+});
+
+/* ---------- Upload form ---------- */
+document.getElementById("f-group").addEventListener("change", populateThemeSelect);
+populateThemeSelect();
+
+const dropZone = document.getElementById("drop-zone");
+const fileInput = document.getElementById("f-files");
+dropZone.addEventListener("click", ()=> fileInput.click());
+["dragover","dragenter"].forEach(evt=> dropZone.addEventListener(evt, e=>{ e.preventDefault(); dropZone.classList.add("drag"); }));
+["dragleave","drop"].forEach(evt=> dropZone.addEventListener(evt, e=>{ e.preventDefault(); dropZone.classList.remove("drag"); }));
+dropZone.addEventListener("drop", e=>{
+  handleFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener("change", e=> handleFiles(e.target.files));
+
+async function handleFiles(fileList){
+  const files = Array.from(fileList).filter(f=> f.type.startsWith("image/"));
+  for(const file of files){
+    try{
+      const resized = await resizeImage(file);
+      pendingFiles.push(resized);
+    }catch(e){
+      console.error(e);
+    }
+  }
+  renderThumbs();
+}
+
+function renderThumbs(){
+  const wrap = document.getElementById("f-thumbs");
+  wrap.innerHTML = pendingFiles.map((f,i)=>`<img src="${f.dataUrl}" title="Page ${i+1}">`).join("");
+}
+
+document.getElementById("btn-add").addEventListener("click", async ()=>{
+  const name = document.getElementById("f-name").value.trim();
+  const group = document.getElementById("f-group").value;
+  const theme = document.getElementById("f-theme").value;
+  const notes = document.getElementById("f-notes").value.trim();
+
+  if(!name){ toast("Please enter the student's name.", true); return; }
+  if(pendingFiles.length === 0){ toast("Please add at least one essay photo.", true); return; }
+
+  const essay = {
+    id: "e_" + Date.now() + "_" + Math.random().toString(36).slice(2,7),
+    studentName: name,
+    group, theme, notes,
+    images: pendingFiles.slice(),
+    status: "pending",
+    result: null,
+    createdAt: new Date().toISOString()
+  };
+  await dbPut(essay);
+  essays.push(essay);
+
+  document.getElementById("f-name").value = "";
+  document.getElementById("f-notes").value = "";
+  pendingFiles = [];
+  renderThumbs();
+  toast("Essay added for " + name + ".");
+});
+
+/* ---------- Essay list / judging ---------- */
+document.getElementById("filter-group").addEventListener("change", renderEssayList);
+
+function renderEssayList(){
+  const filter = document.getElementById("filter-group").value;
+  const list = document.getElementById("essay-list");
+  const shown = essays
+    .filter(e=> filter === "all" || e.group === filter)
+    .sort((a,b)=> new Date(b.createdAt) - new Date(a.createdAt));
+
+  if(shown.length === 0){
+    list.innerHTML = `<div class="empty">No essays yet. Add one from the Upload tab.</div>`;
+    return;
+  }
+
+  list.innerHTML = shown.map(e=> essayCardHtml(e)).join("");
+
+  shown.forEach(e=>{
+    const judgeBtn = document.getElementById("judge-"+e.id);
+    if(judgeBtn) judgeBtn.addEventListener("click", ()=> judgeEssay(e.id));
+    const delBtn = document.getElementById("del-"+e.id);
+    if(delBtn) delBtn.addEventListener("click", ()=> deleteEssay(e.id));
+  });
+}
+
+function essayCardHtml(e){
+  const g = GROUPS[e.group];
+  const badge = e.status === "judged" ? `<span class="badge judged">Judged</span>`
+              : e.status === "error" ? `<span class="badge error">Error</span>`
+              : `<span class="badge pending">Not judged</span>`;
+  const thumbs = e.images.map(img=>`<img src="${img.dataUrl}">`).join("");
+
+  let scoreBlock = "";
+  let feedbackBlock = "";
+  if(e.status === "judged" && e.result){
+    const r = e.result;
+    scoreBlock = `<div class="score-total">${r.total}/100</div>`;
+    const rows = g.rubric.map(c=>{
+      const val = (r.scores && r.scores[c.key] != null) ? r.scores[c.key] : "-";
+      return `<div class="rubric-row"><span>${c.label}</span><span>${val} / ${c.max}</span></div>`;
+    }).join("");
+    feedbackBlock = `
+      <div class="feedback-box">
+        ${rows}
+        <p style="margin:10px 0 4px"><strong>Overall feedback:</strong> ${escapeHtml(r.feedback||"")}</p>
+        ${r.strengths && r.strengths.length ? `<div><strong>Strengths</strong><ul class="strengths">${r.strengths.map(s=>`<li>${escapeHtml(s)}</li>`).join("")}</ul></div>` : ""}
+        ${r.improvements && r.improvements.length ? `<div><strong>Areas to improve</strong><ul class="improvements">${r.improvements.map(s=>`<li>${escapeHtml(s)}</li>`).join("")}</ul></div>` : ""}
+        <details><summary>View transcription used for judging</summary><p style="white-space:pre-wrap">${escapeHtml(r.transcription||"")}</p></details>
+      </div>`;
+  } else if(e.status === "error"){
+    feedbackBlock = `<div class="feedback-box">Judging failed: ${escapeHtml(e.errorMsg||"Unknown error")}</div>`;
+  }
+
+  return `
+    <div class="essay-card">
+      <div class="essay-head">
+        <div>
+          <strong>${escapeHtml(e.studentName)}</strong> ${badge}
+          <div class="meta">${g.label} · Theme: ${escapeHtml(e.theme)}${e.notes ? " · " + escapeHtml(e.notes) : ""}</div>
+        </div>
+        ${scoreBlock}
+      </div>
+      <div class="thumbs">${thumbs}</div>
+      ${feedbackBlock}
+      <div class="row">
+        <button class="btn small" id="judge-${e.id}">${e.status === "judged" ? "Re-judge with AI" : "Judge with AI"}</button>
+        <button class="btn small danger" id="del-${e.id}">Delete</button>
+      </div>
+    </div>`;
+}
+
+async function deleteEssay(id){
+  if(!confirm("Delete this essay? This cannot be undone.")) return;
+  await dbDelete(id);
+  essays = essays.filter(e=> e.id !== id);
+  renderEssayList();
+}
+
+/* ---------- AI Judging ---------- */
+function buildSystemPrompt(){
+  return `You are an experienced, fair, and encouraging judge for a community youth essay competition (the Lexington Community Semiquincentennial Festival). You will be shown one or more photos of a handwritten or printed essay written by a child or teenager. Your job:
+1. Carefully read and transcribe the essay from the photo(s) as accurately as possible. If any words are illegible, note that briefly in the transcription rather than guessing wildly.
+2. Score the essay against the provided rubric, using age-appropriate expectations for the stated age group — do not judge a young child's essay by adult standards.
+3. Be constructive and encouraging in tone, appropriate for feedback that may be shared with a child and their family.
+Respond with ONLY a single valid JSON object, no markdown fences, no extra commentary, matching exactly this shape:
+{"transcription": "string", "scores": {"<rubric_key>": number, ...}, "total": number, "feedback": "2-4 sentence overall summary", "strengths": ["string","string"], "improvements": ["string","string"]}`;
+}
+
+function buildUserText(essay){
+  const g = GROUPS[essay.group];
+  const rubricText = g.rubric.map(c=> `- ${c.key} ("${c.label}", max ${c.max}): ${c.desc}`).join("\n");
+  return `Age group: ${g.label}
+Age-appropriate expectations: ${g.ageNote}
+Essay theme chosen by student: ${essay.theme}
+Student name (for your context only, do not include in transcription): ${essay.studentName}
+${essay.notes ? "Judge's notes: " + essay.notes : ""}
+
+Rubric (score each 0 to max, then sum for "total" out of 100):
+${rubricText}
+
+The essay photo(s) follow, in page order. Transcribe and score the essay now, returning only the JSON object described in your instructions.`;
+}
+
+async function judgeEssay(id){
+  const essay = essays.find(e=> e.id === id);
+  if(!essay) return;
+  const apiKey = localStorage.getItem("essayJudgeApiKey");
+  const model = localStorage.getItem("essayJudgeModel") || "claude-sonnet-5";
+  if(!apiKey){
+    toast("Add your Anthropic API key in Settings first.", true);
+    document.querySelector('nav button[data-tab="settings"]').click();
+    return;
+  }
+
+  const btn = document.getElementById("judge-"+id);
+  if(btn){ btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Judging…'; }
+
+  const content = [{type:"text", text: buildUserText(essay)}];
+  essay.images.forEach(img=>{
+    const base64 = img.dataUrl.split(",")[1];
+    content.push({type:"image", source:{type:"base64", media_type: img.mediaType, data: base64}});
+  });
+
+  try{
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method:"POST",
+      headers:{
+        "x-api-key": apiKey,
+        "anthropic-version":"2023-06-01",
+        "anthropic-dangerous-direct-browser-access":"true",
+        "content-type":"application/json"
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 2000,
+        system: buildSystemPrompt(),
+        messages: [{role:"user", content}]
+      })
+    });
+
+    const data = await res.json();
+    if(!res.ok){
+      throw new Error((data && data.error && data.error.message) || ("HTTP " + res.status));
+    }
+    let text = data.content && data.content[0] && data.content[0].text;
+    if(!text) throw new Error("No response text from model.");
+    text = text.trim().replace(/^```json/i, "").replace(/^```/, "").replace(/```$/,"").trim();
+    const parsed = JSON.parse(text);
+
+    essay.result = parsed;
+    essay.status = "judged";
+    essay.errorMsg = null;
+  }catch(err){
+    console.error(err);
+    essay.status = "error";
+    essay.errorMsg = err.message || String(err);
+    toast("Judging failed: " + essay.errorMsg, true);
+  }
+
+  await dbPut(essay);
+  renderEssayList();
+}
+
+/* ---------- Leaderboard ---------- */
+function renderLeaderboard(){
+  const wrap = document.getElementById("leaderboard-content");
+  const groupsOrder = ["elementary","middle","high"];
+  let html = "";
+  groupsOrder.forEach(gk=>{
+    const g = GROUPS[gk];
+    const inGroup = essays.filter(e=> e.group === gk);
+    const judged = inGroup.filter(e=> e.status === "judged" && e.result)
+      .sort((a,b)=> b.result.total - a.result.total);
+    const pendingCount = inGroup.length - judged.length;
+
+    html += `<div class="leader-group"><h3>${g.label}</h3>`;
+    if(judged.length === 0){
+      html += `<div class="empty">No judged essays yet in this group.</div>`;
+    } else {
+      html += `<table><thead><tr><th>Rank</th><th>Student</th><th>Theme</th><th>Score</th></tr></thead><tbody>`;
+      judged.forEach((e,i)=>{
+        html += `<tr><td class="rank">#${i+1}</td><td>${escapeHtml(e.studentName)}</td><td>${escapeHtml(e.theme)}</td><td>${e.result.total}/100</td></tr>`;
+      });
+      html += `</tbody></table>`;
+    }
+    if(pendingCount > 0){
+      html += `<p class="hint">${pendingCount} essay(s) in this group still need judging.</p>`;
+    }
+    html += `</div>`;
+  });
+  wrap.innerHTML = html;
+}
+
+/* ---------- Settings ---------- */
+function loadSettings(){
+  document.getElementById("s-apikey").value = localStorage.getItem("essayJudgeApiKey") || "";
+  document.getElementById("s-model").value = localStorage.getItem("essayJudgeModel") || "claude-sonnet-5";
+}
+document.getElementById("btn-save-settings").addEventListener("click", ()=>{
+  localStorage.setItem("essayJudgeApiKey", document.getElementById("s-apikey").value.trim());
+  localStorage.setItem("essayJudgeModel", document.getElementById("s-model").value);
+  toast("Settings saved.");
+});
+
+function renderRubricReference(){
+  const wrap = document.getElementById("rubric-reference");
+  wrap.innerHTML = Object.values(GROUPS).map(g=>`
+    <details>
+      <summary>${g.label}</summary>
+      <p style="font-size:13px; color:var(--gray)">${g.ageNote}</p>
+      <p style="font-size:13px">Themes: ${g.themes.join(" / ")}</p>
+      ${g.rubric.map(c=>`<div class="rubric-row"><span>${c.label} (max ${c.max})</span><span style="color:var(--gray); text-align:right; max-width:60%">${c.desc}</span></div>`).join("")}
+    </details>`).join("");
+}
+
+/* ---------- Init ---------- */
+(async function init(){
+  try{
+    essays = await dbGetAll();
+  }catch(e){
+    console.error("Could not load stored essays", e);
+    essays = [];
+  }
+  loadSettings();
+  renderRubricReference();
+  renderEssayList();
+  renderLeaderboard();
+})();
+</script>
+</body>
+</html>
