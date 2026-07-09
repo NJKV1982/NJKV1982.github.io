@@ -130,7 +130,7 @@
       <div class="row">
         <button class="btn" id="btn-add">Add Essay</button>
       </div>
-      <p class="hint">Photos are stored only in this browser, on this computer.</p>
+      <p class="hint">Photos are stored only in this browser, on this computer. This tool is completely free to use — go to "All Essays" after adding one to enter your own score against the rubric, no API key needed.</p>
     </div>
   </section>
 
@@ -162,7 +162,8 @@
   <section id="tab-settings" style="display:none">
     <div class="card">
       <h2>AI Judging Settings</h2>
-      <p class="hint" style="margin-top:0">An Anthropic API key is required so this page can send essay photos to Claude for scoring. The key is saved only in this browser's local storage on this computer — it is never sent anywhere except Anthropic's API.</p>
+      <p class="hint" style="margin-top:0">An Anthropic API key is required so this page can send essay photos to Claude for automatic scoring. The key is saved only in this browser's local storage on this computer — it is never sent anywhere except Anthropic's API. Using the API costs a small amount per essay (usage-based billing).</p>
+      <p class="hint"><strong>No API key? No problem.</strong> Every essay also has an "Enter Score Manually" button so you can grade it yourself against the same rubric, at no cost — see the Rubric Reference below.</p>
       <label>Anthropic API Key</label>
       <input type="password" id="s-apikey" placeholder="sk-ant-...">
       <label>Model</label>
@@ -412,12 +413,61 @@ function renderEssayList(){
     if(judgeBtn) judgeBtn.addEventListener("click", ()=> judgeEssay(e.id));
     const delBtn = document.getElementById("del-"+e.id);
     if(delBtn) delBtn.addEventListener("click", ()=> deleteEssay(e.id));
+    const manualToggle = document.getElementById("manual-toggle-"+e.id);
+    if(manualToggle) manualToggle.addEventListener("click", ()=>{
+      const div = document.getElementById("manual-form-"+e.id);
+      div.style.display = (div.style.display === "none") ? "block" : "none";
+    });
+    const saveManualBtn = document.getElementById("save-manual-"+e.id);
+    if(saveManualBtn) saveManualBtn.addEventListener("click", ()=> saveManualScore(e.id));
   });
+}
+
+async function saveManualScore(id){
+  const essay = essays.find(e=> e.id === id);
+  if(!essay) return;
+  const g = GROUPS[essay.group];
+  const scores = {};
+  let total = 0;
+  let valid = true;
+  g.rubric.forEach(c=>{
+    const input = document.getElementById(`m-${c.key}-${id}`);
+    const val = parseFloat(input.value);
+    if(isNaN(val) || val < 0 || val > c.max){
+      valid = false;
+      input.style.borderColor = "var(--red)";
+    } else {
+      input.style.borderColor = "";
+      scores[c.key] = val;
+      total += val;
+    }
+  });
+  if(!valid){
+    toast("Enter a valid score (within range) for every category.", true);
+    return;
+  }
+  const feedback = document.getElementById(`m-feedback-${id}`).value.trim();
+  essay.result = {
+    transcription: (essay.result && essay.result.transcription) || "",
+    scores,
+    total,
+    feedback,
+    strengths: (essay.result && essay.result.strengths) || [],
+    improvements: (essay.result && essay.result.improvements) || [],
+    source: "manual"
+  };
+  essay.status = "judged";
+  essay.errorMsg = null;
+  await dbPut(essay);
+  toast("Score saved for " + essay.studentName + ".");
+  renderEssayList();
+  renderLeaderboard();
 }
 
 function essayCardHtml(e){
   const g = GROUPS[e.group];
-  const badge = e.status === "judged" ? `<span class="badge judged">Judged</span>`
+  const isManual = e.result && e.result.source === "manual";
+  const badge = e.status === "judged" ? `<span class="badge judged">Judged${isManual ? " · You" : " · AI"}</span>`
               : e.status === "error" ? `<span class="badge error">Error</span>`
               : `<span class="badge pending">Not judged</span>`;
   const thumbs = e.images.map(img=>`<img src="${img.dataUrl}">`).join("");
@@ -434,10 +484,10 @@ function essayCardHtml(e){
     feedbackBlock = `
       <div class="feedback-box">
         ${rows}
-        <p style="margin:10px 0 4px"><strong>Overall feedback:</strong> ${escapeHtml(r.feedback||"")}</p>
+        ${r.feedback ? `<p style="margin:10px 0 4px"><strong>Overall feedback:</strong> ${escapeHtml(r.feedback)}</p>` : ""}
         ${r.strengths && r.strengths.length ? `<div><strong>Strengths</strong><ul class="strengths">${r.strengths.map(s=>`<li>${escapeHtml(s)}</li>`).join("")}</ul></div>` : ""}
         ${r.improvements && r.improvements.length ? `<div><strong>Areas to improve</strong><ul class="improvements">${r.improvements.map(s=>`<li>${escapeHtml(s)}</li>`).join("")}</ul></div>` : ""}
-        <details><summary>View transcription used for judging</summary><p style="white-space:pre-wrap">${escapeHtml(r.transcription||"")}</p></details>
+        ${r.transcription ? `<details><summary>View transcription used for judging</summary><p style="white-space:pre-wrap">${escapeHtml(r.transcription)}</p></details>` : ""}
       </div>`;
   } else if(e.status === "error"){
     feedbackBlock = `<div class="feedback-box">Judging failed: ${escapeHtml(e.errorMsg||"Unknown error")}</div>`;
@@ -455,9 +505,30 @@ function essayCardHtml(e){
       <div class="thumbs">${thumbs}</div>
       ${feedbackBlock}
       <div class="row">
-        <button class="btn small" id="judge-${e.id}">${e.status === "judged" ? "Re-judge with AI" : "Judge with AI"}</button>
+        <button class="btn small" id="manual-toggle-${e.id}">${e.status === "judged" ? "Edit My Score" : "Enter Score"}</button>
+        <button class="btn small secondary" id="judge-${e.id}">${e.status === "judged" ? "Re-judge with AI" : "Judge with AI (optional, costs $)"}</button>
         <button class="btn small danger" id="del-${e.id}">Delete</button>
       </div>
+      <div id="manual-form-${e.id}" style="display:none; margin-top:12px; border-top:1px solid var(--border); padding-top:12px;">
+        ${renderManualFormHtml(e, g)}
+      </div>
+    </div>`;
+}
+
+function renderManualFormHtml(e, g){
+  const existing = (e.result && e.result.scores) || {};
+  const rows = g.rubric.map(c=>`
+    <label>${c.label} — ${c.desc} (0–${c.max})</label>
+    <input type="text" inputmode="numeric" id="m-${c.key}-${e.id}" value="${existing[c.key] != null ? existing[c.key] : ""}" placeholder="0-${c.max}">
+  `).join("");
+  const feedbackVal = (e.result && e.result.feedback) || "";
+  return `
+    <strong style="font-size:13px; color:var(--navy)">Your score for this essay</strong>
+    ${rows}
+    <label>Feedback for the student (optional)</label>
+    <textarea id="m-feedback-${e.id}" placeholder="A sentence or two of feedback...">${escapeHtml(feedbackVal)}</textarea>
+    <div class="row">
+      <button class="btn small" id="save-manual-${e.id}">Save Score</button>
     </div>`;
 }
 
