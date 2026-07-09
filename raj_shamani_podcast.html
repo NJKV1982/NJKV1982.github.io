@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figuring Out With Raj Shamani — Episode Guide</title>
+<meta name="description" content="A searchable guide to Raj Shamani's Figuring Out podcast episodes — summaries and highlights for every guest.">
+<style>
+  :root{
+    --bg:#0e0c0b;
+    --bg-alt:#171311;
+    --card:#1c1714;
+    --accent:#e8b04b;
+    --accent-2:#c9a15a;
+    --text:#f2ece4;
+    --text-dim:#b8ab9c;
+    --border:#332c25;
+    --tag-bg:#2a2019;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(circle at 20% 0%, #201812 0%, var(--bg) 45%);
+    color:var(--text);
+    min-height:100vh;
+  }
+  header{
+    padding:48px 20px 28px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(232,176,75,0.07), transparent);
+  }
+  header h1{
+    margin:0 0 8px;
+    font-size:2.1rem;
+    letter-spacing:0.5px;
+  }
+  header h1 span{ color:var(--accent); }
+  header p{
+    margin:0 auto;
+    max-width:620px;
+    color:var(--text-dim);
+    font-size:0.98rem;
+    line-height:1.5;
+  }
+  .wrap{
+    max-width:880px;
+    margin:0 auto;
+    padding:32px 20px 80px;
+  }
+  .picker{
+    background:var(--bg-alt);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:28px;
+  }
+  .picker label{
+    display:block;
+    font-size:0.82rem;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--accent-2);
+    margin-bottom:8px;
+  }
+  select{
+    width:100%;
+    padding:14px 16px;
+    font-size:1rem;
+    background:var(--card);
+    color:var(--text);
+    border:1px solid var(--border);
+    border-radius:10px;
+    appearance:none;
+    -webkit-appearance:none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--accent) 50%), linear-gradient(135deg, var(--accent) 50%, transparent 50%);
+    background-position: calc(100% - 22px) calc(1em + 2px), calc(100% - 17px) calc(1em + 2px);
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    cursor:pointer;
+  }
+  select:focus{ outline:2px solid var(--accent); }
+  .filters{
+    display:flex;
+    gap:10px;
+    margin-top:14px;
+    flex-wrap:wrap;
+  }
+  .filters input[type="text"]{
+    flex:1;
+    min-width:180px;
+    padding:10px 14px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:8px;
+    color:var(--text);
+    font-size:0.9rem;
+  }
+  .filters select{
+    width:auto;
+    padding:10px 34px 10px 14px;
+    font-size:0.9rem;
+  }
+  #emptyState{
+    text-align:center;
+    color:var(--text-dim);
+    padding:60px 20px;
+    border:1px dashed var(--border);
+    border-radius:14px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:30px;
+    display:none;
+    animation: fadeIn 0.25s ease;
+  }
+  .card.active{ display:block; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    flex-wrap:wrap;
+    margin-bottom:6px;
+  }
+  .ep-tag{
+    display:inline-block;
+    background:var(--tag-bg);
+    color:var(--accent);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:4px 12px;
+    font-size:0.78rem;
+    font-weight:600;
+    letter-spacing:0.5px;
+    margin-bottom:10px;
+  }
+  .cat-tag{
+    display:inline-block;
+    background:transparent;
+    color:var(--text-dim);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:4px 12px;
+    font-size:0.78rem;
+    margin-left:8px;
+  }
+  .card h2{
+    margin:0 0 4px;
+    font-size:1.45rem;
+    line-height:1.35;
+  }
+  .guest-role{
+    color:var(--accent-2);
+    font-size:0.95rem;
+    margin:0 0 4px;
+  }
+  .meta{
+    color:var(--text-dim);
+    font-size:0.85rem;
+    margin-bottom:20px;
+  }
+  .meta b{ color:var(--text); }
+  .section-label{
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:0.78rem;
+    color:var(--accent-2);
+    margin:24px 0 10px;
+  }
+  .summary{
+    line-height:1.65;
+    color:var(--text);
+    font-size:0.98rem;
+  }
+  ul.highlights{
+    margin:0;
+    padding:0;
+    list-style:none;
+  }
+  ul.highlights li{
+    position:relative;
+    padding:10px 0 10px 28px;
+    border-bottom:1px solid var(--border);
+    line-height:1.5;
+    font-size:0.95rem;
+  }
+  ul.highlights li:last-child{ border-bottom:none; }
+  ul.highlights li::before{
+    content:"\2726";
+    position:absolute;
+    left:0;
+    top:10px;
+    color:var(--accent);
+    font-size:0.85rem;
+  }
+  .watch-link{
+    display:inline-block;
+    margin-top:26px;
+    padding:11px 20px;
+    background:var(--accent);
+    color:#1a1410;
+    font-weight:700;
+    text-decoration:none;
+    border-radius:8px;
+    font-size:0.9rem;
+  }
+  .watch-link:hover{ background:var(--accent-2); }
+  footer{
+    text-align:center;
+    color:var(--text-dim);
+    font-size:0.8rem;
+    padding:30px 20px 50px;
+  }
+  .count-note{
+    text-align:center;
+    color:var(--text-dim);
+    font-size:0.82rem;
+    margin-top:10px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Figuring Out <span>With Raj Shamani</span></h1>
+  <p>An episode guide to the Figuring Out podcast — pick an episode below to read a written summary and the key highlights from that conversation.</p>
+</header>
+
+<div class="wrap">
+
+  <div class="picker">
+    <label for="episodeSelect">Choose an episode</label>
+    <select id="episodeSelect">
+      <option value="">— Select an episode & guest —</option>
+    </select>
+
+    <div class="filters">
+      <input type="text" id="searchBox" placeholder="Search by guest name or topic...">
+      <select id="categoryFilter">
+        <option value="">All categories</option>
+      </select>
+    </div>
+    <div class="count-note" id="countNote"></div>
+  </div>
+
+  <div id="emptyState">Select an episode from the dropdown above to see its summary and highlights.</div>
+
+  <div class="card" id="episodeCard">
+    <div class="card-top">
+      <div>
+        <span class="ep-tag" id="cardEp"></span>
+        <span class="cat-tag" id="cardCat"></span>
+      </div>
+    </div>
+    <h2 id="cardTitle"></h2>
+    <p class="guest-role" id="cardRole"></p>
+    <p class="meta" id="cardMeta"></p>
+
+    <div class="section-label">Summary</div>
+    <p class="summary" id="cardSummary"></p>
+
+    <div class="section-label">Key Highlights</div>
+    <ul class="highlights" id="cardHighlights"></ul>
+
+    <a class="watch-link" id="cardWatch" href="#" target="_blank" rel="noopener">Watch on YouTube ↗</a>
+  </div>
+
+</div>
+
+<footer>
+  Built from public episode data on youtube.com/@RajShamani · Summaries are original writeups based on episode topics, not transcripts.<br>
+  Currently covering 32 episodes — spanning FO1 (2021) through FO530 (2026). More being added over time.
+</footer>
+
+<script>
+const EPISODES = [
+{
+  ep: "FO 1", guest: "Kunal Shah", role: "Founder, CRED", category: "Business",
+  views: "1.3M", date: "~2021 (4 yrs ago)",
+  title: "The Secret Of Creating Wealth ft. Kunal Shah",
+  summary: "The very first episode of Figuring Out. Raj sits down with CRED founder Kunal Shah to unpack how wealth is actually built in India. Kunal talks about why he dropped out of college, how fame can become a trap for young founders, and why there are practically unlimited ways to create wealth if you stop copying a single template. The conversation moves into how Indians spend time and money differently from the West, whether India is capable of producing more billionaires, and why female workforce participation is a huge untapped growth lever for the economy. Kunal also shares his personal theory of learning fast, his views on content creation as a career, and why he got into fintech and lending in the first place. The episode closes with a rapid-fire round covering credit cards, myths around debt, and quick personal opinions.",
+  highlights: [
+    "Wealth isn't created by one formula — there are unlimited paths to it, most people just copy the one they've seen.",
+    "Fame early in a career can be a curse as much as a blessing if it stops you from doing real work.",
+    "India's growth is capped by how little of its female talent pool is actually working.",
+    "Founders should worry less about looking smart and more about learning fast, even publicly.",
+    "Content creation is becoming a legitimate business skill, not just a hobby.",
+    "Credit cards aren't inherently bad — the discipline of the user is what matters.",
+    "Spending patterns reveal more about a person's psychology than their income does.",
+    "Dropping out isn't a strategy — it only works if you replace college with obsessive learning."
+  ]
+},
+{
+  ep: "FO 23", guest: "Ashneer Grover", role: "Co-founder, BharatPe / Shark Tank India", category: "Business",
+  views: "6M", date: "~2021 (4 yrs ago)",
+  title: "Ashneer Grover Shares EASY Hacks To Make A Profitable Business",
+  summary: "Recorded at the peak of Ashneer Grover's Shark Tank India fame, this episode digs into his blunt, no-nonsense approach to entrepreneurship. He explains why obsessing over a product's MRP is a rookie mistake, why ticket size (the average value per transaction) often matters more than customer count, and what actually goes into building a brand people trust. Ashneer walks through his role in scaling BharatPe from scratch, the mindset he brought to Shark Tank evaluations, and why he believes brutal honesty — even when it hurts feelings — builds better companies faster. He also gives a practical framework for saying no to people (investors, employees, partners) without ruining relationships, shares an investor's-eye view of what makes a startup fundable, and flags what he sees as the next big industry opportunity in India.",
+  highlights: [
+    "Chasing a lower MRP is the wrong obsession — chasing a higher ticket size per customer usually is not.",
+    "Brand trust is built through consistency, not through marketing spend alone.",
+    "Being brutally honest with a team saves time, even when it's uncomfortable in the moment.",
+    "Investors size up founders on clarity of thought faster than on the business plan itself.",
+    "Saying no directly and early is kinder than a slow, vague no.",
+    "Fundamentals of entrepreneurship rarely change — only the packaging around them does.",
+    "A teetotaller mindset (in habits, not just alcohol) helped him stay focused while scaling BharatPe."
+  ]
+},
+{
+  ep: "FO 87", guest: "Rajesh Dembla", role: "Entrepreneur (Just Dial, Zoozle)", category: "Business",
+  views: "2.7M", date: "~2023 (2 yrs ago)",
+  title: "The ART Of Making Money, Wealth & Success",
+  summary: "Rajesh Dembla takes Raj through a rags-to-riches arc that starts with literally sleeping at a railway station and ends with building and studying some of India's biggest internet businesses. He breaks down what went right at DMart and Dunzo, and dissects what really went wrong at Just Dial — a business he was closely involved with — including the build-vs-buy dilemma that trips up many founders. He explains the anatomy of a sale (why people actually buy), lessons from his very first odd jobs, and why Indian consumers and teams behave differently from their Western counterparts. The conversation ends on his current venture, Zoozle, and his skeptical take on how sustainable the e-commerce industry's economics really are.",
+  highlights: [
+    "Every founder's first business lesson usually comes from a failure, not a success.",
+    "The 'build vs buy' decision is one of the most under-discussed reasons companies collapse.",
+    "Selling is a repeatable formula once you understand what people are actually buying — status, safety, or time.",
+    "Consumerism in India rewards trust and word of mouth more than flashy advertising.",
+    "Many e-commerce business models in India are not yet structurally profitable at scale.",
+    "The best lessons in business often come from the worst days, like nights spent with nothing.",
+    "Indian teams and Western teams need to be managed differently — copy-paste playbooks don't work."
+  ]
+},
+{
+  ep: "FO 126", guest: "Revant Himatsingka (Food Pharmer)", role: "Food-label activist, Wharton MBA", category: "Health",
+  views: "4.8M", date: "~2023 (2 yrs ago)",
+  title: "EXPOSING Food Items You Consume Daily",
+  summary: "Food Pharmer built a massive following by decoding the fine print on Indian packaged food, and this episode is where that mission goes mainstream. He explains how he became 'Food Pharmer' after his Wharton MBA, then walks through everyday products — biscuits marketed as healthy, 'whole wheat' claims, atta noodles, hazelnut spreads and ketchup — showing the gap between marketing language and actual nutrition labels. He calls out the 'immunity' claims brands slapped on packaging post-COVID and the 'low fat' trick that often means more sugar. Raj and Revant also talk about the backlash and legal pressure such honesty invites, and what career opportunities look like for someone choosing awareness-building over a conventional corporate job.",
+  highlights: [
+    "'Whole wheat' and 'low fat' on a label don't guarantee the product is actually healthy.",
+    "Many everyday biscuits marketed around health claims fail basic nutrition scrutiny.",
+    "Post-pandemic 'immunity' branding was largely a marketing exercise, not a nutritional one.",
+    "Reading the ingredients list matters more than reading the front-of-pack claims.",
+    "Calling out big food brands publicly invites real legal and reputational pushback.",
+    "A Wharton MBA can be used to build public awareness, not just a corporate career.",
+    "Ketchup, spreads, and 'fresh' claims are some of the most manipulated categories on shelves."
+  ]
+},
+{
+  ep: "FO 135", guest: "Lt Gen Satish Dua", role: "Former Indian Army General, architect of the Uri surgical strike", category: "Defence",
+  views: "2.9M", date: "~2023 (2 yrs ago)",
+  title: "Indian Army, URI Surgical Strike, Terrorism & Threat To India",
+  summary: "Lt Gen Satish Dua was the general who planned the 2016 Uri surgical strike, and here he separates the real operation from its Bollywood dramatization. He walks through the actual decision-making under pressure, what the hardest moment of a soldier's career looks like, and the story of Naib Subedar Chuni Lal, one of the operation's unsung heroes. The conversation covers army hierarchy, real salary and pension structures, and a plain-English explanation of the Agniveer scheme. Dua also compares India's military preparedness against Pakistan and China, discusses whether POK could ever realistically rejoin India, and reflects on the intelligence failures Israel experienced, drawing lessons India should take from that war. He ends with a direct message to India's youth about service and purpose.",
+  highlights: [
+    "The Uri strike's cinematic version leaves out most of the actual planning and risk involved.",
+    "The hardest part of high command isn't combat — it's the decisions made in total uncertainty.",
+    "Agniveer is often misunderstood; the real structure differs from public perception.",
+    "Israel's intelligence failure is a warning about complacency, not just a foreign news story.",
+    "India's preparedness against a two-front threat (Pakistan and China) requires constant reassessment.",
+    "Unsung soldiers, not just commanders, are usually the reason missions succeed.",
+    "Military pension and salary realities are far more modest than most civilians assume."
+  ]
+},
+{
+  ep: "FO 137", guest: "Kishore Biyani", role: "Founder, Big Bazaar / Future Group", category: "Business",
+  views: "1.3M", date: "~2023 (2 yrs ago)",
+  title: "Kishore Biyani – Big Bazaar Failure, DMart, Branding & Retail",
+  summary: "The man who effectively invented modern Indian retail with Big Bazaar reflects candidly on its collapse and what DMart got right that Future Group didn't. Biyani discusses branding at scale, the operational discipline retail demands, and why a first-mover advantage in India doesn't guarantee long-term survival if capital structure and execution slip. It's a rare, humble retrospective from a founder who built and then lost an empire, offering hard-earned lessons on debt, competition, and retail economics in India.",
+  highlights: [
+    "Being first to market in Indian retail wasn't enough to guarantee staying on top.",
+    "DMart's discipline on costs proved more durable than Big Bazaar's scale-first approach.",
+    "Overleveraging growth with debt is one of the fastest ways to lose control of a company.",
+    "Retail margins are thin enough that operational execution beats branding in the long run.",
+    "Founders need to separate ego from strategy when a business model stops working.",
+    "Indian retail rewards trust built over years, not aggressive short-term expansion."
+  ]
+},
+{
+  ep: "FO 147", guest: "Dr. Tanaya Narendra (Dr Cuterus)", role: "Doctor, sexual & reproductive health educator", category: "Health",
+  views: "14M", date: "~2023 (2 yrs ago)",
+  title: "On Sexual Health, Orgasm, G-Spot, Oral Sex, NoFap & Infertility",
+  summary: "One of the most-watched episodes on the channel, this conversation with Dr Tanaya Narendra (known online as Dr Cuterus) tackles the topics Indian media usually avoids: sexual health, orgasm and anatomy myths, oral sex, the NoFap movement, and infertility. Speaking with clinical clarity rather than sensationalism, she busts common misconceptions Indian audiences grow up with, explains what infertility actually looks like medically versus how it's stigmatized, and answers the questions most people are too embarrassed to ask a doctor directly.",
+  highlights: [
+    "Most 'facts' about sexual anatomy that circulate on social media aren't medically accurate.",
+    "NoFap's health claims are largely not supported by clinical evidence.",
+    "Infertility is frequently misattributed to women alone when the cause can be either partner.",
+    "Comfort discussing sexual health openly reduces shame-driven misinformation.",
+    "Basic reproductive health literacy is still missing from most Indian school curricula.",
+    "Talking to a doctor directly beats trusting anonymous internet claims about sexual health.",
+    "Normalizing these conversations is itself a public health intervention."
+  ]
+},
+{
+  ep: "FO 148", guest: "Zakir Khan", role: "Stand-up comedian", category: "Entertainment",
+  views: "7.6M", date: "~2023 (2 yrs ago)",
+  title: "Zakir Khan On Parents, Relationship, Bollywood, Success, Money",
+  summary: "Zakir Khan gets unusually personal in this episode, moving well beyond his comedy persona. He talks about growing up in Indore, performing at London's Royal Albert Hall, and why he considers himself one of the most 'anti-social' people on social media despite his fame. The heart of the episode is his relationship with his parents — an emotional, funny exchange about his mother and a story about fathers that lands somewhere between comedy and confession. He also opens up about loneliness, what security in a relationship actually feels like, his ideal life partner, and whether love is something worth chasing at all, before Raj presses him on his earnings and a possible Bollywood future.",
+  highlights: [
+    "Storytelling works because it's built on specific, honest details, not generic jokes.",
+    "Public confidence and private loneliness can coexist in the same person.",
+    "A comedian's relationship with his parents often shapes his material more than his career does.",
+    "Winning at life, for him, isn't about fame — it's about feeling secure internally.",
+    "Love is worth pursuing, but security has to come from within first.",
+    "Staying 'anti-social' on social media can be a deliberate choice to protect mental peace.",
+    "Success brings money, but it doesn't automatically resolve old insecurities."
+  ]
+},
+{
+  ep: "FO 151", guest: "Dr. Raghuram Rajan", role: "Former Governor, Reserve Bank of India", category: "Economy",
+  views: "3.1M", date: "~2023 (2 yrs ago)",
+  title: "Worst Decision Of RBI, Demonetisation, PM Modi & Indian Economy",
+  summary: "Former RBI Governor Raghuram Rajan gives a candid, technical-yet-accessible breakdown of how economies actually grow, what a central bank governor's job really involves, and why he considers a particular RBI decision the worst in its history. He explains the logic (and controversy) behind printing large currency notes, why the ₹2000 note was eventually withdrawn, and revisits demonetisation and its relationship to black money. Rajan compares the Modi and Manmohan Singh economic approaches, discusses India's shifting position in the world order versus China and a rising Saudi Arabia, and shares blunt views on India's manufacturing ambitions versus its service-sector strengths. He closes with practical financial advice for young Indians and a plug for his book, 'Breaking the Mould.'",
+  highlights: [
+    "A central bank's toughest decisions are judged fairly only years after they're made.",
+    "Bigger currency denominations make black money easier to store, not harder.",
+    "India's manufacturing ambitions face real headwinds against China's existing scale.",
+    "Comparing Modi and Manmohan Singh eras requires separating politics from economics.",
+    "Saudi Arabia's economic repositioning is an underrated story in global trade shifts.",
+    "Sound personal finance advice rarely changes: save early, understand risk, avoid herd decisions.",
+    "Currency and monetary policy decisions ripple through the economy for years, not months."
+  ]
+},
+{
+  ep: "FO 164", guest: "Dr. Bimal Chhajer", role: "Cardiologist, Founder SAAOL Heart Center", category: "Health",
+  views: "4.1M", date: "~2024 (2 yrs ago)",
+  title: "Watch This To Avoid Heart Attack",
+  summary: "Dr Bimal Chhajer delivers a comprehensive, practical breakdown of heart health: what actually happens during a heart attack, how to detect risk early through angiography, ECGs, and treadmill tests, and why smartwatch ECGs are useful but not diagnostic on their own. He lists roughly a dozen underlying causes of heart attacks, takes aim at common cooking oils and champions his 'zero-oil cooking' philosophy, and answers the divisive question of whether ghee is actually healthy. He distinguishes acidity pain from real cardiac pain, explains bypass surgery and stents in plain language, and controversially claims many heart disease cases can be reversed through lifestyle changes rather than surgery alone — a stance that has made him both popular and controversial among peers.",
+  highlights: [
+    "Not all chest pain is cardiac — telling acidity apart from a heart attack can save critical time.",
+    "Smartwatch ECGs are a helpful early signal, not a medical diagnosis.",
+    "Zero-oil cooking is his central prescription for reducing heart disease risk.",
+    "Heart disease reversal through lifestyle change is possible in many cases, not just prevention.",
+    "Genetics load the gun on heart attacks, but lifestyle often pulls the trigger.",
+    "Younger people are increasingly at risk due to stress, sleep, and processed food, not just age.",
+    "Good cholesterol and bad cholesterol require completely different management strategies."
+  ]
+},
+{
+  ep: "FO 174", guest: "Dr. A. Velumani", role: "Founder, Thyrocare", category: "Business",
+  views: "5.8M", date: "~2024 (2 yrs ago)",
+  title: "Dr. Velumani On Building ₹5000 Crore Business, Poverty & Success",
+  summary: "Dr Velumani's origin story starts with genuine poverty — he became head of his family at age 10 — and ends with building Thyrocare into a company eventually sold for a headline-grabbing ₹5000 crore cheque. He walks through his education, an early government job at BARC, and the exact moment he decided to resign and bet everything on Thyrocare's idea. He shares the specific strategies that let him scale the company with zero external investors, why he deliberately preferred hiring freshers over experienced staff, and his philosophy comparing 'pampered' versus 'parented' children as a lens for understanding future entrepreneurs. The episode ends with his reflections on why and how he eventually chose to sell the business.",
+  highlights: [
+    "Being 'fortunately born poor' gave him a work ethic no MBA could teach.",
+    "Thyrocare scaled for years without taking on outside investors.",
+    "Freshers, hired right, often outperform experienced staff because they aren't set in old habits.",
+    "A 7am-to-11pm work ethic isn't sustainable for everyone, but it built his company.",
+    "Cost control is a strategy in itself in Indian markets, not just a fallback.",
+    "'Pampered vs parented' children grow into very different kinds of adults and employees.",
+    "Selling a life's work is as much an emotional decision as a financial one."
+  ]
+},
+{
+  ep: "FO 175", guest: "Deepak Sharma", role: "Former Jailor, Tihar Jail", category: "Crime & Justice",
+  views: "8.7M", date: "~2024 (2 yrs ago)",
+  title: "Tihar Jail, Criminals, Smuggling, Nirbhaya Case & VIP Treatment",
+  summary: "A former Tihar Jail jailor pulls back the curtain on what actually happens behind India's most infamous prison walls. He describes how criminal networks continue operating from inside jail, revisits the final days of the Nirbhaya case convicts and the mechanics of executions in Indian jails, and discusses the Sukesh Chandrasekhar case as an example of sophisticated in-jail crime. He details the daily routine of inmates, how smuggling actually gets past security, why India has relatively few women's jails, and how 'VIP treatment' quietly persists for powerful or wealthy inmates — including a candid account of being offered a bribe himself. He closes on the reality of a jailor's modest salary and pension despite the intensity of the job.",
+  highlights: [
+    "Criminal networks don't stop operating just because their leaders are incarcerated.",
+    "VIP treatment inside Indian jails is an open secret, not a rumor.",
+    "The execution process for death row convicts is more procedurally intense than most people realize.",
+    "Smuggling into high-security jails happens through gaps in low-level enforcement, not grand conspiracies.",
+    "Jailors are offered bribes regularly, and refusing them carries its own risks.",
+    "India has a shortage of dedicated women's prisons relative to need.",
+    "A jailor's pay is strikingly low given the responsibility and danger of the role."
+  ]
+},
+{
+  ep: "FO 176", guest: "Dr. S. Jaishankar", role: "Minister of External Affairs, Government of India", category: "Geopolitics",
+  views: "11M", date: "~2024 (2 yrs ago)",
+  title: "India, Geopolitics, International Relations, US Visa & PM Modi",
+  summary: "India's External Affairs Minister lays out how the country navigates a fractured world order — from its balancing act on the Russia-Ukraine war to its trade imbalance and strategic wariness of China's debt-trap diplomacy. He explains India's 'neighbourhood first' policy, the state of relations with Canada, and plans to expand India's foreign service. On the US visa backlog frustrating Indian applicants, he gives a direct, occasionally sharp response. He identifies India's top export markets, describes how the ministry is repositioning India's global 'brand', and explains candidly why PM Modi handed him the external affairs portfolio. The conversation closes on India's place in a changing world order and his personal vision for the country's future.",
+  highlights: [
+    "India's neutrality on Russia-Ukraine reflects strategic interest, not indecision.",
+    "China's debt-trap diplomacy is a direct concern shaping India's regional foreign policy.",
+    "The US visa backlog is a persistent irritant in an otherwise strong India-US relationship.",
+    "India's 'neighbourhood first' policy prioritizes stability over ideology.",
+    "Diplomacy today is as much about branding a country as it is about treaties.",
+    "India's trade deficit with China remains a structural, not easily solved, problem.",
+    "Expanding the foreign service is a long-term bet on India's rising global role."
+  ]
+},
+{
+  ep: "FO 184", guest: "Anil Swarup", role: "Former IAS officer, Ex-Coal Secretary of India", category: "Governance",
+  views: "3.5M", date: "~2024 (2 yrs ago)",
+  title: "IAS Officer Vs Politicians, Coal Scam, Corruption, India & PM Modi",
+  summary: "A career civil servant who rose to become India's Coal Secretary recounts navigating ethical dilemmas throughout his IAS journey, including receiving death threats while posted in Naxal-affected areas. He categorizes the three basic types of bribes offered to officers, recalls working under Mayawati, and walks through the mechanics of the multi-lakh-crore coal allocation scam from the inside. He discusses tension between honest bureaucrats and political pressure, his first meeting with PM Modi, and why so few educated Indians choose to enter politics despite complaining about it. He also breaks down a coal secretary's real salary and perks, and names the three fastest-growing sectors he sees in India's future.",
+  highlights: [
+    "The coal allocation scam cost India an estimated ₹1.86 lakh crore by his account.",
+    "There are three common categories of bribes officers face, each with different risk levels.",
+    "Bureaucrats in sensitive postings sometimes work under literal threat to their lives.",
+    "Educated Indians avoid politics partly because the personal cost is higher than the reward.",
+    "An honest officer's biggest test is often a transfer to an inconvenient posting, not a bribe offer.",
+    "Government salary and perks are modest relative to the scale of decisions officers make.",
+    "Reform in India moves faster with political will than with bureaucratic effort alone."
+  ]
+},
+{
+  ep: "FO 190", guest: "Ankur Warikoo", role: "Entrepreneur, author, content creator", category: "Business",
+  views: "2.4M", date: "~2024 (2 yrs ago)",
+  title: "Ankur Warikoo On Money, Getting Rich, Content Creation & Hustle Culture",
+  summary: "Ankur Warikoo and Raj compare notes on money, trust, and personal branding in modern India. Warikoo argues India functions as a 'trust-deficit economy' and contrasts business culture in Mumbai versus Delhi. He shares his personal three-stages framework for financial freedom, reflects on years without much money, and explains why customer trust — more than product features — is what lets companies go global, using Tata as his central example. The conversation turns to building a personal brand, the '3 Cs' of content, SEBI's rules for financial content creators, and his blunt criticism of hustle culture as a hiring and life philosophy, ending with mutual reflections on how the two have influenced each other's thinking.",
+  highlights: [
+    "India operates as a low-trust economy, which shapes how businesses must earn loyalty.",
+    "Financial freedom happens in three distinct stages, not as a single finish line.",
+    "Tata's global trust was built over decades, not through a single marketing campaign.",
+    "Personal branding today follows a repeatable '3 Cs' content framework.",
+    "SEBI's rules increasingly constrain what financial creators can legally say online.",
+    "Hustle culture, taken too far, becomes a bad hiring filter and a worse life philosophy.",
+    "Money can't buy happiness directly, but it removes entire categories of daily stress."
+  ]
+},
+{
+  ep: "FO 196", guest: "Mitesh & Indu Khatri", role: "Law of Attraction coaches", category: "Mindset",
+  views: "5.9M", date: "~2024 (2 yrs ago)",
+  title: "How To Attract Money, Love & Career? Manifest, Law Of Attraction",
+  summary: "Life coaches Mitesh and Indu Khatri walk through their version of the Law of Attraction, framing emotions as habits that can be deliberately changed rather than fixed traits. They introduce the idea of treating every crisis as a hidden opportunity, teach a process for identifying whether your current emotional pattern helps or hurts you, and describe how to consciously choose a new one. They explain what it means to 'align' feelings, thoughts, beliefs and actions toward a goal, address the common criticism that manifestation is 'only for the rich', and take on the harder question of whether people can subconsciously attract illness. The episode closes with a look at what a life coach actually earns.",
+  highlights: [
+    "Emotional patterns are treated here as habits — meaning they can be deliberately reprogrammed.",
+    "Every crisis contains a disguised opportunity if you change how you interpret it.",
+    "Manifestation, in their framework, requires aligning feelings, thoughts, beliefs and actions together.",
+    "The criticism that 'manifestation is only for the rich' is directly addressed and disputed.",
+    "Conditional patterns picked up in childhood often quietly drive adult financial behaviour.",
+    "Coaching and manifestation work has become a genuine, well-paying career path in India.",
+    "Changing your environment alone doesn't guarantee change — internal alignment matters more."
+  ]
+},
+{
+  ep: "FO 198", guest: "Lucky Bisht", role: "Former Indian intelligence operative", category: "Crime & Defence",
+  views: "27M", date: "~2024 (2 yrs ago)",
+  title: "Indian Spy: Dark Reality China, Weapons, Commando Training & Jail",
+  summary: "The channel's most-viewed episode by a wide margin. A former Indian intelligence operative, once ranked among the world's top snipers, recounts real spy operations, sensitive cases, and years spent across 11 different jails. He walks through his path into the forces, the brutal physical and mental training involved, and the background-check tradecraft used in secret service work. He discusses ISI-linked scams, the Rabinder Singh 2001 espionage case, and the layered structure of VIP security (Z+, NSG, SPG), including a story involving Rajnath Singh's security detail. He also recalls being approached by underworld figure Chhota Rajan and the darker links between organised crime and politics, before touching on the assassination of Indira Gandhi and Rajiv Gandhi and contract-killing networks connected to the Sidhu Moose Wala case.",
+  highlights: [
+    "Elite intelligence training pushes physical and mental limits most people never encounter.",
+    "Security tiers like Z+, NSG and SPG operate in specific, layered rings most people misunderstand.",
+    "Even top operatives can spend years cycling through multiple jails over false or contested charges.",
+    "Organised crime networks maintain direct, if hidden, links to political power.",
+    "Espionage cases like the Rabinder Singh affair reveal how deeply intelligence can be compromised from within.",
+    "Contract killing networks referenced in cases like Sidhu Moose Wala's murder are more organised than public accounts suggest.",
+    "China is described as India's most serious long-term strategic adversary."
+  ]
+},
+{
+  ep: "FO 201", guest: "Meeran Chadha Borwankar", role: "Former IPS officer", category: "Crime & Justice",
+  views: "3.3M", date: "~2024 (2 yrs ago)",
+  title: "Dawood, Crime, Underworld, Corruption, Police & Politics",
+  summary: "One of India's most senior former women police officers reflects on a career spent confronting the underworld and organised crime. She recounts receiving extortion calls directly from underworld figures, a harrowing incident involving 70 rounds of gunfire, and the earliest case that shaped her approach to justice. She discusses systemic issues in India's criminal justice system, the notorious Jalgaon sex scandal, and how politicians frequently use civil servants as instruments rather than partners. The conversation covers how organised crime networks evaded law enforcement for years, a personal account of being stalked, and hard questions about whether police favour the wealthy and powerful — closing with her perspective on the Mumbai terror attacks and the Bilkis Bano case's perpetrators.",
+  highlights: [
+    "Underworld figures have, in the past, directly contacted senior officers to intimidate or extort them.",
+    "Politicians frequently treat civil servants as tools for their own agendas rather than as independent professionals.",
+    "The Jalgaon sex scandal exposed systemic institutional failures beyond a single case.",
+    "Wealth and political connections still visibly influence how policing is applied in India.",
+    "Even senior, powerful officers are not immune to being personally stalked or threatened.",
+    "Communal riots have historically had underworld involvement behind the scenes.",
+    "Long-term organised crime networks survive by adapting faster than enforcement does."
+  ]
+},
+{
+  ep: "FO 204", guest: "C Sivasankaran", role: "Telecom entrepreneur, founder of Aircel", category: "Business",
+  views: "1.7M", date: "~2024 (2 yrs ago)",
+  title: "Fall Of Aircel, Losing Money, Ratan Tata, Telecom & Health Sector",
+  summary: "Telecom entrepreneur C Sivasankaran, once a billionaire, discusses the dramatic rise and collapse of Aircel, his relationship with figures like Ratan Tata and Atal Bihari Vajpayee, and why he believes he can spot global trends before they hit the mainstream. He shares a genuinely alarming mid-flight story, reflects candidly on going from immense wealth to major financial losses, and explains why he thinks Vodafone and Idea have struggled competitively. The conversation pivots into health, where he claims roughly 70% of Indians suffer from undiagnosed brain fog, and argues preventive wellness — not reactive treatment — is India's biggest missed healthcare opportunity.",
+  highlights: [
+    "Aircel's collapse is framed as a case study in overextension within India's brutal telecom price wars.",
+    "Losing billionaire-level wealth doesn't erase the pattern-recognition skills that built it in the first place.",
+    "He estimates a striking 70% of Indians are affected by some form of undiagnosed brain fog.",
+    "Preventive healthcare remains underdeveloped in India compared to reactive, treatment-based medicine.",
+    "Personal relationships with figures like Ratan Tata shaped major business decisions behind the scenes.",
+    "Spotting a trend early is valuable only if you also have the capital discipline to act on it.",
+    "Telecom economics in India punish anyone who can't sustain a long price war."
+  ]
+},
+{
+  ep: "FO 215", guest: "Diljit Dosanjh", role: "Singer, actor", category: "Entertainment",
+  views: "4M", date: "~2024 (2 yrs ago)",
+  title: "Diljit Dosanjh On Music, Love Life, Childhood, Bollywood, Money, SRK & India",
+  summary: "Punjabi music icon and Bollywood star Diljit Dosanjh opens up about taking regional music to a global stage, and why he believes Punjabi artists have historically been underrated in Bollywood. He shares why Shah Rukh Khan once called him one of the best actors around, the story of running away from home as a young man, and how his hit 'G.O.A.T.' came together. Diljit reflects on staying culturally relevant for over two decades, his fears, his evolving diet, and his eventual Coachella performance — a landmark moment for Punjabi music globally. He also discusses his approach to music-making, why he keeps working with new collaborators, how he became a personal brand distinct from Bollywood, and closes on his family, his dreams, and India as, in his view, simply the best place to live.",
+  highlights: [
+    "Punjabi artists were historically underrepresented in Bollywood despite huge popular appeal.",
+    "His Coachella performance marked a landmark moment for Punjabi music on the world stage.",
+    "Staying relevant for 22+ years required constant reinvention, not repeating a winning formula.",
+    "Working with new, less established collaborators keeps his music from becoming stale.",
+    "Money, in his view, is not the primary marker of a successful creative career.",
+    "Building a personal brand outside of film roles gave him leverage Bollywood alone couldn't.",
+    "He considers India, despite its flaws, the best place in the world to live."
+  ]
+},
+{
+  ep: "FO 223", guest: "Sunil Chhetri", role: "Former captain, Indian national football team", category: "Sports",
+  views: "2.8M", date: "~2024 (2 yrs ago)",
+  title: "Sunil Chhetri On Indian Football, Retirement, Love Life, Family & Virat Kohli",
+  summary: "India's greatest modern footballer reflects on why fans love him, and reveals — perhaps surprisingly — that his biggest competitor throughout his career has been his own mother. He discusses moments he lost his composure on the field, what real accountability looks like for a professional athlete, and how playing alongside world-class international players sharpened his own game. The conversation covers discipline, ice baths and recovery routines, celebrating small wins, and leadership style, before turning to systemic issues in Indian football — politics, scouting failures, and why India still hasn't qualified for a FIFA World Cup. He also shares his love story, his views on work-life balance in high-stress careers, and reflects on conversations with fellow athlete Virat Kohli.",
+  highlights: [
+    "Indian football's biggest obstacle isn't talent — it's politics and broken scouting systems.",
+    "Elite athletes are pushed further by playing alongside, not just against, world-class players.",
+    "Ice baths and recovery routines are treated as seriously as training itself at the top level.",
+    "Taking full accountability for losses, not blaming teammates, defines his leadership style.",
+    "India not qualifying for the World Cup reflects structural issues, not a talent gap.",
+    "Balancing a high-stress sporting career with personal relationships requires deliberate boundaries.",
+    "Small, consistent wins matter more to long-term motivation than chasing one big moment."
+  ]
+},
+{
+  ep: "FO 232", guest: "Col Kaushal Kashyap", role: "Former NSG Commando, 52 SAG", category: "Defence",
+  views: "7.3M", date: "~2025 (1 yr ago)",
+  title: "Hijacks, Para SF Training, NSGs & Safety of India Exposed",
+  summary: "A former NSG commando who led Special Action Group 52 breaks down how hijack situations actually unfold and what passengers should realistically do if caught in one. He details the brutal training regimen for NSG and Para Special Forces, the origin of the codename 'Wagh Nakh', and what jungle and mountain warfare genuinely demands — including surviving on insects and unconventional food sources in the field. He compares US Navy SEALs to Indian Special Forces, describes serving in Ladakh's extreme conditions, and reveals how modest Special Forces salaries are relative to the risk. He also discusses the ongoing security situation in Manipur, the difference between militants and terrorists, and what life looks like for elite soldiers after retirement.",
+  highlights: [
+    "Most civilians dramatically overestimate how prepared they'd be during a real hijack situation.",
+    "NSG and Para SF training is designed to break and rebuild a soldier's limits deliberately.",
+    "Special Forces salaries are surprisingly modest given the extreme risk of the job.",
+    "Jungle warfare sometimes requires surviving on insects and unconventional food for days.",
+    "The distinction between 'militant' and 'terrorist' matters operationally, not just semantically.",
+    "Manipur's security situation is described as more complex and unresolved than public coverage suggests.",
+    "Serving in Ladakh's terrain and climate is its own distinct category of hardship."
+  ]
+},
+{
+  ep: "FO 335", guest: "Bill Gates", role: "Co-founder, Microsoft; Chair, Gates Foundation", category: "Global / Tech",
+  views: "5.7M", date: "~2025 (1 yr ago)",
+  title: "Bill Gates On India, Billion-Dollar Business Opportunities, PM Modi & Children",
+  summary: "One of the biggest international guest gets of the channel. Bill Gates shares his long-running observations on India, calling it a global talent capital, and discusses his personal views on inheritance and wealth transfer to his own children. He talks about the people he'd most like to meet again, mistakes he's made despite his success, and advice he'd give young people navigating today's world. Gates reflects on problems money genuinely cannot fix, behaviours he thinks everyone should adopt, and how accurate his own past predictions about technology have actually been. He shares personal fears, admits to being something of a 'maniac' in his 20s, and describes what he's currently learning himself. The conversation closes on India's role in the Gates Foundation's global strategy and which problems he believes will be solved within five years.",
+  highlights: [
+    "India is described as a genuine global talent capital, not just a large market.",
+    "He does not believe in passing on unlimited inherited wealth to his own children.",
+    "Even history's most successful entrepreneurs openly admit to significant personal mistakes.",
+    "Money solves resource problems but cannot fix problems rooted in human behaviour or trust.",
+    "His own past technology predictions have been a mix of remarkably accurate and notably wrong.",
+    "India plays a central role in the Gates Foundation's global health and development strategy.",
+    "He describes being genuinely obsessive, even reckless, about work in his 20s."
+  ]
+},
+{
+  ep: "FO 389", guest: "Kunal Shah", role: "Founder, CRED (return appearance)", category: "Mindset / Business",
+  views: "2.9M", date: "~2025 (11 months ago)",
+  title: "Why the Rich Think Differently: Millionaire Mindset & Wealth Secrets",
+  summary: "Kunal Shah returns years after episode 1 for a much deeper, more personal conversation with Raj about how successful people actually think. They discuss childhood influences on personality, why fear can be reframed as curiosity, and why mocking someone is, in Kunal's framing, a low-status act. He argues truly successful people rarely gossip, and unpacks the difference between being liked and being respected. The two explore how relationships are changing in an AI-saturated world, why many Indians settle for average careers despite high aspirations, and what 'becoming extraordinary' actually requires. Kunal shares his own fear of escaping difficulty, his views on trust — in people, apps, and institutions — status-seeking, and how greed and money interact with genuine ambition, closing with reflections on shame, reputation, and how Gen Z signals status differently on social media.",
+  highlights: [
+    "Reframing fear as curiosity is a deliberate mental habit, not a personality trait people are born with.",
+    "Truly successful people tend not to gossip — it's treated as a marker of insecurity, not power.",
+    "Being liked and being respected are different goals that often pull in opposite directions.",
+    "Many Indians settle for average careers despite genuinely high personal aspirations.",
+    "Trust in people is quietly being replaced by trust in apps and algorithms.",
+    "Reputation is often misunderstood — it's shaped by patterns, not single moments.",
+    "Gen Z signals status on social media through entirely different cues than previous generations.",
+    "Ambition without truth-seeking often turns into empty validation-seeking."
+  ]
+},
+{
+  ep: "FO 473", guest: "H.E. Emmanuel Macron", role: "President of France", category: "Global / Geopolitics",
+  views: "9.1M", date: "~2026 (4 months ago)",
+  title: "President of France on Trump, India, Modi, Tech & Future",
+  summary: "A landmark diplomatic get for the channel — a sitting French President sits down with an Indian podcaster. Macron discusses what France lacks technologically, what makes France's approach to AI 'sovereign' rather than dependent on the US or China, and what his government offers young startup founders. He names the specific technology he's betting on for 'France 2035', and shares his view that the world is moving toward multipolarity rather than staying US-centric. Macron addresses whether the world should be wary of American leadership today, gives his read on whether dollar dominance is ending, and — with his presidential term approaching its end — opens up about what scares him and what makes him optimistic about the future.",
+  highlights: [
+    "France is positioning its AI strategy as 'sovereign' — independent of both US and Chinese tech stacks.",
+    "Macron frames the emerging world order as multipolar rather than dominated by a single superpower.",
+    "He expresses real questions about whether dollar dominance is beginning to erode.",
+    "France's bet for 2035 centers on a specific next-generation technology investment.",
+    "Young founders in France are being offered fresh incentives to build rather than emigrate.",
+    "A sitting world leader openly discussing personal fears near the end of a term is rare on any podcast.",
+    "The conversation signals growing France-India strategic and technological engagement."
+  ]
+},
+{
+  ep: "FO 475", guest: "Dr. Joe Dispenza", role: "Author, neuroscience & meditation researcher", category: "Mindset / Health",
+  views: "2.6M", date: "~2026 (4 months ago)",
+  title: "Dr Joe Dispenza: Rewire Your Brain, Heal Your Mind, Fear & Anxiety",
+  summary: "Dr Joe Dispenza explains the neuroscience behind rewiring negative thought patterns, and why the newer generation seems to be experiencing a kind of 'emotional decay'. He discusses whether people can genuinely retrain themselves to imagine and build toward a different future, breaks down brainwave states (alpha, beta, gamma, theta, delta), and addresses the difficult reality of trying to help someone transform when they're not ready to change. He explores why people fail, the difference between operating from fear versus gratitude, and options for people who can't attend his in-person retreats. The conversation touches on Paramahansa Yogananda's 'Autobiography of a Yogi' as a personally transformative book, ancient Indian practices intersecting with modern neuroscience, rising mental health issues in India, and whether meditation can produce effects comparable to psychedelics.",
+  highlights: [
+    "The brain can be deliberately retrained toward a different emotional default, according to his research.",
+    "Operating from fear versus gratitude changes measurable brain and body chemistry.",
+    "Meditation, done consistently, is compared to producing effects similar to psychedelics.",
+    "Ancient Indian spiritual practices are increasingly validated by modern neuroscience research.",
+    "You cannot transform someone who isn't internally ready for change, no matter the method.",
+    "Rising mental health issues among India's youth are linked to disconnection and 'emotional decay'.",
+    "Nothing changes in a person's life until something changes internally first."
+  ]
+},
+{
+  ep: "FO 503", guest: "Mark Manson", role: "Author, 'The Subtle Art of Not Giving a F*ck'", category: "Psychology / Relationships",
+  views: "841K", date: "~2026 (2 months ago)",
+  title: "Psychology of Love: Narcissism, Toxic Love & Male Identity",
+  summary: "Bestselling author Mark Manson compares individualist Western culture to India's community-first mindset, especially around how partners are chosen. He unpacks manipulative pickup-artist tactics people should be able to recognize, the psychology of building genuine social proof, and why status and mimetic desire drive so much modern attraction. He distinguishes narcissistic confidence from real confidence, discusses why people fall for toxic partners despite knowing better, and tackles harder questions — whether women prefer vulnerability or dominance, the rise of OnlyFans as a 'pleasure market', and why figures like Andrew Tate attract such large followings among men. Manson also discusses male pain as a shared, often unspoken, struggle, Freud's theory of sublimation, and why overachievers are frequently more insecure than they appear.",
+  highlights: [
+    "India's community-first mindset shapes partner selection very differently from the West's individualism.",
+    "Genuine social proof is built through consistent behaviour, not performative status signals.",
+    "Narcissistic confidence and real confidence can look identical on the surface but function oppositely.",
+    "People are drawn to toxic partners often because 'exciting' gets confused with 'right'.",
+    "Andrew Tate's appeal is rooted in addressing real, unspoken male pain, even if his answers are flawed.",
+    "Overachievers are frequently more insecure internally than their outward success suggests.",
+    "A harsh truth for 'nice guys': being nice isn't the same as being emotionally secure.",
+    "Performative healing on social media is common and rarely reflects real internal change."
+  ]
+},
+{
+  ep: "FO 509", guest: "Sourav Ganguly", role: "Former captain, Indian cricket team; former BCCI President", category: "Sports",
+  views: "1.3M", date: "~2026 (1 month ago)",
+  title: "Sourav Ganguly on Leadership, Team Building, BCCI, Match-Fixing Era & Aggression",
+  summary: "Former Indian cricket captain Sourav Ganguly reflects on how Indian cricket changed the moment he took over captaincy, right after the sport's darkest chapter — the match-fixing era. He explains why he deliberately brought aggression into the Indian team's culture, drawing a sharp line between aggression and anger, and how he scouted talent from smaller states long before it became standard practice. Ganguly recalls the moment MS Dhoni asked him to take up captaincy again, a bold decision to personally measure a ground in Australia, and the Wasim Akram reverse-swing controversy. He shares his philosophy of defending players publicly while criticizing them only in private, discusses his biggest regret as captain, the power of visualization, and closes on more personal reflections — his father, insecurities, and why he holds back tears more easily than most.",
+  highlights: [
+    "Aggression and anger are entirely different things — one builds a team, the other destroys it.",
+    "Scouting cricket talent from smaller states, now standard, was a deliberate strategic bet he made early.",
+    "'Defend in public, criticise in private' shaped his entire approach to leading a team.",
+    "Indian cricket's culture shifted dramatically as captaincy changed hands right after the match-fixing scandal.",
+    "Visualization before a match is treated as seriously as physical practice.",
+    "A single wrong personnel decision as captain still weighs on him as his biggest regret.",
+    "Leadership sometimes means measuring the literal playing field yourself rather than trusting reports."
+  ]
+},
+{
+  ep: "FO 512", guest: "Chris Williamson", role: "Host, Modern Wisdom podcast", category: "Mindset",
+  views: "913K", date: "~2026 (1 month ago)",
+  title: "Champion Mindset Explained: High Performance, Discipline & Obsession",
+  summary: "Podcaster Chris Williamson and Raj discuss why high achievers never feel satisfied even after reaching their goals, and whether obsessively tracking rankings is healthy or corrosive. Williamson explains the 'grass is greener' phenomenon, states plainly that he doesn't want to be a billionaire, and unpacks discipline, motivation, and obsession as three distinct forces. They debate whether arrogance is a necessary ingredient for becoming the best in a field, and introduce the idea of 'strategically managed suffering' as a performance tool. The conversation shifts into British culture — class obsession, why colonization is glossed over in British education, and whether he or his friends ever recognized their own privilege — before returning to relationships: structure versus free will in becoming a man, vulnerability, and how outsiders often outperform insiders precisely because they have something to prove.",
+  highlights: [
+    "High achievers rarely feel 'done' — the goalpost moves the moment it's reached.",
+    "Discipline, motivation, and obsession are three different engines, not interchangeable synonyms.",
+    "'Strategically managed suffering' is framed as a deliberate performance tool, not just hardship.",
+    "Outsiders often outperform insiders because they still have something left to prove.",
+    "Wanting more isn't inherently unhealthy — the danger is in how it's chased.",
+    "British education is described as glossing over the realities of colonization.",
+    "Vulnerability and traditional masculinity aren't opposites — they can reinforce each other."
+  ]
+},
+{
+  ep: "FO 520", guest: "Amit Kilhor", role: "IAS trainer, ex-bureaucracy insider", category: "Governance",
+  views: "3.9M", date: "~2026 (4 weeks ago)",
+  title: "Inside India's Bureaucracy: UPSC, IAS, Corruption & Political Power",
+  summary: "Amit Kilhor calls the IAS a 'steel cage' — powerful in theory, constrained in practice — and walks through exactly where corruption typically starts inside India's bureaucracy. He outlines three basic patterns by which officers get pulled into corruption, where corruption money is typically kept, and whether there's ever a genuine point of no return once an officer crosses that line. He explains why ordinary Indians remain wary of police, how the system gradually wears down even honest officers, and why firing an IPS officer is far harder than most people assume. The conversation covers how much of scheme funding actually reaches its intended beneficiaries, whether higher bureaucrat salaries would meaningfully reduce corruption, and closes with his views on China's economic model, global leadership, and why India remains one of the hardest countries in the world to govern.",
+  highlights: [
+    "The IAS is described as a 'steel cage' — powerful on paper, heavily constrained in daily practice.",
+    "There are three common, identifiable patterns by which officers first fall into corruption.",
+    "A meaningful share of government scheme funding never fully reaches its intended beneficiaries.",
+    "Firing a corrupt IPS officer is procedurally far harder than the public assumes.",
+    "Higher salaries alone are unlikely to solve systemic bureaucratic corruption.",
+    "The system itself can gradually wear down even a genuinely honest officer over time.",
+    "India's scale and diversity make it one of the structurally hardest countries in the world to govern."
+  ]
+},
+{
+  ep: "FO 527", guest: "Dr. DY Chandrachud", role: "Former Chief Justice of India", category: "Governance / Law",
+  views: "884K", date: "~2026 (13 days ago)",
+  title: "Inside India's Supreme Court: Money, Justice & Free Speech",
+  summary: "India's 50th Chief Justice reflects on why he became a judge, what he learned at Harvard Law School that his own judge father never taught him, and whether India truly enjoys 100% freedom of speech. He explains whether the Supreme Court can overrule government policy, compares the Indian and American justice systems, and unpacks how India actually appoints judges — including why the collegium system is nicknamed the 'old boys' club'. Chandrachud reveals a real Supreme Court judge's salary, defends his decision to decriminalize adultery, and is pressed on why marital rape still isn't a crime in India. He discusses whether India is capitalist or socialist, 'how many Indias' effectively coexist within one country, and closes with his personal definition of justice and what he believes India needs to grow further.",
+  highlights: [
+    "The 'collegium system' for appointing judges is candidly nicknamed the 'old boys' club'.",
+    "He personally reveals what a sitting Supreme Court judge actually earns in India.",
+    "Decriminalizing adultery is defended as a matter of personal liberty, not moral endorsement.",
+    "Marital rape not being criminalized in India remains a deliberately unresolved legal gap.",
+    "India is described as effectively containing multiple 'Indias' living under one constitution.",
+    "The Supreme Court's power to overrule government policy has real but specific limits.",
+    "Freedom of speech in India, in his own assessment, isn't yet at 100%."
+  ]
+},
+{
+  ep: "FO 530", guest: "Hasan Minhaj", role: "Stand-up comedian, writer", category: "Entertainment",
+  views: "118K", date: "~2026 (6 days ago)",
+  title: "Comedian Hasan Minhaj on The American Dream, Stand-Up, Identity & Global Fame",
+  summary: "American comedian Hasan Minhaj discusses what it actually feels like to 'win' as an Indian-origin performer abroad, and whether stand-up comedy in a city like New York is tougher than people assume. He compares the creative freedom older generations of comedians had against today's more scrutinized climate, and traces where his relentless drive actually comes from. Minhaj is candid about whether financial insecurity ever fully disappears even after major success, and whether he'd want his own kids to choose a career this unstable. He explains why he keeps choosing a field that rejects performers daily, addresses the cancellation of one of his shows directly, and shares his biggest remaining dream. The conversation closes with his read on India's vision on the world stage and what he hopes his daughter eventually thinks of his career.",
+  highlights: [
+    "Financial insecurity from a modest upbringing doesn't fully disappear even after major success.",
+    "Stand-up comedy demands choosing a career that rejects you publicly on a nightly basis.",
+    "Older generations of comedians operated with noticeably more creative freedom than today.",
+    "He addresses the cancellation of one of his own shows directly and without deflection.",
+    "Parental validation is described as a hidden but powerful fuel behind high achievers' drive.",
+    "He's candid about whether he'd actually want his own children to choose this career path.",
+    "His read on India's global standing comes from a genuine outsider-insider perspective."
+  ]
+}
+];
+
+const select = document.getElementById('episodeSelect');
+const categoryFilter = document.getElementById('categoryFilter');
+const searchBox = document.getElementById('searchBox');
+const card = document.getElementById('episodeCard');
+const emptyState = document.getElementById('emptyState');
+const countNote = document.getElementById('countNote');
+
+// sort episodes numerically by FO number
+function epNum(e){
+  const m = e.ep.match(/\d+/);
+  return m ? parseInt(m[0],10) : 0;
+}
+const sorted = [...EPISODES].sort((a,b)=> epNum(a)-epNum(b));
+
+// populate category filter
+const categories = [...new Set(sorted.map(e=>e.category))].sort();
+categories.forEach(c=>{
+  const opt = document.createElement('option');
+  opt.value = c; opt.textContent = c;
+  categoryFilter.appendChild(opt);
+});
+
+function optionLabel(e){
+  return `${e.ep} — ${e.guest}`;
+}
+
+function renderOptions(){
+  const term = searchBox.value.trim().toLowerCase();
+  const cat = categoryFilter.value;
+  select.innerHTML = '<option value="">— Select an episode & guest —</option>';
+  let shown = 0;
+  sorted.forEach(e=>{
+    const matchesTerm = !term || e.guest.toLowerCase().includes(term) || e.title.toLowerCase().includes(term) || e.category.toLowerCase().includes(term);
+    const matchesCat = !cat || e.category === cat;
+    if(matchesTerm && matchesCat){
+      const opt = document.createElement('option');
+      opt.value = e.ep;
+      opt.textContent = optionLabel(e);
+      select.appendChild(opt);
+      shown++;
+    }
+  });
+  countNote.textContent = `${shown} of ${sorted.length} episodes shown`;
+}
+
+function showEpisode(epValue){
+  const ep = sorted.find(e=>e.ep === epValue);
+  if(!ep){
+    card.classList.remove('active');
+    emptyState.style.display = 'block';
+    return;
+  }
+  emptyState.style.display = 'none';
+  card.classList.add('active');
+  document.getElementById('cardEp').textContent = ep.ep;
+  document.getElementById('cardCat').textContent = ep.category;
+  document.getElementById('cardTitle').textContent = ep.title;
+  document.getElementById('cardRole').textContent = `${ep.guest} — ${ep.role}`;
+  document.getElementById('cardMeta').innerHTML = `<b>${ep.views}</b> views · ${ep.date}`;
+  document.getElementById('cardSummary').textContent = ep.summary;
+
+  const hl = document.getElementById('cardHighlights');
+  hl.innerHTML = '';
+  ep.highlights.forEach(h=>{
+    const li = document.createElement('li');
+    li.textContent = h;
+    hl.appendChild(li);
+  });
+
+  const q = encodeURIComponent(ep.title + ' Raj Shamani ' + ep.ep);
+  document.getElementById('cardWatch').href = `https://www.youtube.com/results?search_query=${q}`;
+}
+
+select.addEventListener('change', ()=> showEpisode(select.value));
+searchBox.addEventListener('input', renderOptions);
+categoryFilter.addEventListener('change', renderOptions);
+
+renderOptions();
+</script>
+
+</body>
+</html>
