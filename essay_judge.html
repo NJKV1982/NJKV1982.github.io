@@ -42,6 +42,13 @@
   .file-drop.drag{border-color:var(--gold); background:#fdf9ee;}
   .thumbs{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
   .thumbs img{height:70px; border-radius:5px; border:1px solid var(--border); object-fit:cover;}
+  .filechip{
+    display:flex; align-items:center; gap:6px; height:70px; padding:0 12px; border-radius:5px;
+    border:1px solid var(--border); background:#f7f5ee; color:var(--navy); text-decoration:none;
+    font-size:12px; font-weight:600; max-width:160px;
+  }
+  .filechip .icon{font-size:20px;}
+  .filechip span.name{overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
   .btn{
     background:var(--navy); color:#fff; border:none; padding:10px 18px; border-radius:6px;
     font-size:14px; font-weight:600; cursor:pointer;
@@ -122,15 +129,15 @@
       <label>Notes (optional)</label>
       <textarea id="f-notes" placeholder="Anything else worth noting, e.g. pages out of order, illegible sections..."></textarea>
 
-      <label>Essay Photo(s)</label>
-      <div class="file-drop" id="drop-zone">Click to choose photos, or drag them here — upload every page of the essay</div>
-      <input type="file" id="f-files" accept="image/*" multiple style="display:none">
+      <label>Essay File(s) — PDF or photos</label>
+      <div class="file-drop" id="drop-zone">Click to choose files, or drag them here — a PDF of the essay, or a photo per page</div>
+      <input type="file" id="f-files" accept="application/pdf,image/*" multiple style="display:none">
       <div class="thumbs" id="f-thumbs"></div>
 
       <div class="row">
         <button class="btn" id="btn-add">Add Essay</button>
       </div>
-      <p class="hint">Photos are stored only in this browser, on this computer. This tool is completely free to use — go to "All Essays" after adding one to enter your own score against the rubric, no API key needed.</p>
+      <p class="hint">Files are stored only in this browser, on this computer. This tool is completely free to use — go to "All Essays" after adding one to enter your own score against the rubric, no API key needed.</p>
     </div>
   </section>
 
@@ -162,7 +169,7 @@
   <section id="tab-settings" style="display:none">
     <div class="card">
       <h2>AI Judging Settings</h2>
-      <p class="hint" style="margin-top:0">An Anthropic API key is required so this page can send essay photos to Claude for automatic scoring. The key is saved only in this browser's local storage on this computer — it is never sent anywhere except Anthropic's API. Using the API costs a small amount per essay (usage-based billing).</p>
+      <p class="hint" style="margin-top:0">An Anthropic API key is required so this page can send essay files (PDF or photos) to Claude for automatic scoring. The key is saved only in this browser's local storage on this computer — it is never sent anywhere except Anthropic's API. Using the API costs a small amount per essay (usage-based billing).</p>
       <p class="hint"><strong>No API key? No problem.</strong> Every essay also has an "Enter Score Manually" button so you can grade it yourself against the same rubric, at no cost — see the Rubric Reference below.</p>
       <label>Anthropic API Key</label>
       <input type="password" id="s-apikey" placeholder="sk-ant-...">
@@ -271,7 +278,7 @@ async function dbDelete(id){
 
 /* ---------- App state ---------- */
 let essays = [];
-let pendingFiles = []; // {dataUrl, mediaType}
+let pendingFiles = []; // {dataUrl, mediaType, name}
 
 /* ---------- Utility ---------- */
 function toast(msg, isErr){
@@ -298,11 +305,20 @@ function resizeImage(file, maxDim=1500, quality=0.85){
         canvas.width = width; canvas.height = height;
         canvas.getContext("2d").drawImage(img, 0, 0, width, height);
         const dataUrl = canvas.toDataURL("image/jpeg", quality);
-        resolve({dataUrl, mediaType:"image/jpeg"});
+        resolve({dataUrl, mediaType:"image/jpeg", name:file.name});
       };
       img.onerror = reject;
       img.src = e.target.result;
     };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function readFileAsDataUrl(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=> resolve({dataUrl: e.target.result, mediaType: file.type || "application/pdf", name: file.name});
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
@@ -346,21 +362,31 @@ dropZone.addEventListener("drop", e=>{
 fileInput.addEventListener("change", e=> handleFiles(e.target.files));
 
 async function handleFiles(fileList){
-  const files = Array.from(fileList).filter(f=> f.type.startsWith("image/"));
+  const files = Array.from(fileList).filter(f=> f.type.startsWith("image/") || f.type === "application/pdf");
   for(const file of files){
     try{
-      const resized = await resizeImage(file);
-      pendingFiles.push(resized);
+      const loaded = file.type === "application/pdf" ? await readFileAsDataUrl(file) : await resizeImage(file);
+      pendingFiles.push(loaded);
     }catch(e){
       console.error(e);
+      toast("Could not read file: " + file.name, true);
     }
   }
   renderThumbs();
 }
 
+function fileChipHtml(f, key){
+  if(f.mediaType === "application/pdf"){
+    return `<a class="filechip" href="${f.dataUrl}" target="_blank" title="${escapeHtml(f.name||'essay.pdf')}">
+      <span class="icon">📄</span><span class="name">${escapeHtml(f.name||'essay.pdf')}</span>
+    </a>`;
+  }
+  return `<img src="${f.dataUrl}" title="${escapeHtml(f.name||('Page '+key))}">`;
+}
+
 function renderThumbs(){
   const wrap = document.getElementById("f-thumbs");
-  wrap.innerHTML = pendingFiles.map((f,i)=>`<img src="${f.dataUrl}" title="Page ${i+1}">`).join("");
+  wrap.innerHTML = pendingFiles.map((f,i)=> fileChipHtml(f, i+1)).join("");
 }
 
 document.getElementById("btn-add").addEventListener("click", async ()=>{
@@ -370,7 +396,7 @@ document.getElementById("btn-add").addEventListener("click", async ()=>{
   const notes = document.getElementById("f-notes").value.trim();
 
   if(!name){ toast("Please enter the student's name.", true); return; }
-  if(pendingFiles.length === 0){ toast("Please add at least one essay photo.", true); return; }
+  if(pendingFiles.length === 0){ toast("Please add the essay file (PDF or photo).", true); return; }
 
   const essay = {
     id: "e_" + Date.now() + "_" + Math.random().toString(36).slice(2,7),
@@ -470,7 +496,7 @@ function essayCardHtml(e){
   const badge = e.status === "judged" ? `<span class="badge judged">Judged${isManual ? " · You" : " · AI"}</span>`
               : e.status === "error" ? `<span class="badge error">Error</span>`
               : `<span class="badge pending">Not judged</span>`;
-  const thumbs = e.images.map(img=>`<img src="${img.dataUrl}">`).join("");
+  const thumbs = e.images.map((img,i)=> fileChipHtml(img, i+1)).join("");
 
   let scoreBlock = "";
   let feedbackBlock = "";
@@ -541,8 +567,8 @@ async function deleteEssay(id){
 
 /* ---------- AI Judging ---------- */
 function buildSystemPrompt(){
-  return `You are an experienced, fair, and encouraging judge for a community youth essay competition (the Lexington Community Semiquincentennial Festival). You will be shown one or more photos of a handwritten or printed essay written by a child or teenager. Your job:
-1. Carefully read and transcribe the essay from the photo(s) as accurately as possible. If any words are illegible, note that briefly in the transcription rather than guessing wildly.
+  return `You are an experienced, fair, and encouraging judge for a community youth essay competition (the Lexington Community Semiquincentennial Festival). You will be shown one or more photos, and/or a PDF, of a handwritten or printed essay written by a child or teenager. Your job:
+1. Carefully read and transcribe the essay from the file(s) as accurately as possible. If any words are illegible, note that briefly in the transcription rather than guessing wildly.
 2. Score the essay against the provided rubric, using age-appropriate expectations for the stated age group — do not judge a young child's essay by adult standards.
 3. Be constructive and encouraging in tone, appropriate for feedback that may be shared with a child and their family.
 Respond with ONLY a single valid JSON object, no markdown fences, no extra commentary, matching exactly this shape:
@@ -561,7 +587,7 @@ ${essay.notes ? "Judge's notes: " + essay.notes : ""}
 Rubric (score each 0 to max, then sum for "total" out of 100):
 ${rubricText}
 
-The essay photo(s) follow, in page order. Transcribe and score the essay now, returning only the JSON object described in your instructions.`;
+The essay file(s) follow, in page order (photos and/or a PDF). Transcribe and score the essay now, returning only the JSON object described in your instructions.`;
 }
 
 async function judgeEssay(id){
@@ -581,7 +607,11 @@ async function judgeEssay(id){
   const content = [{type:"text", text: buildUserText(essay)}];
   essay.images.forEach(img=>{
     const base64 = img.dataUrl.split(",")[1];
-    content.push({type:"image", source:{type:"base64", media_type: img.mediaType, data: base64}});
+    if(img.mediaType === "application/pdf"){
+      content.push({type:"document", source:{type:"base64", media_type:"application/pdf", data: base64}});
+    } else {
+      content.push({type:"image", source:{type:"base64", media_type: img.mediaType, data: base64}});
+    }
   });
 
   try{
