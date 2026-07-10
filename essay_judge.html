@@ -124,7 +124,9 @@
       </select>
 
       <label>Essay Theme</label>
-      <select id="f-theme"></select>
+      <input type="text" id="f-theme" list="theme-suggestions" placeholder="Type the essay's theme (any wording)">
+      <datalist id="theme-suggestions"></datalist>
+      <p class="hint" style="margin-top:4px">Type any theme — the suggestions are just from the festival poster, not required.</p>
 
       <label>Notes (optional)</label>
       <textarea id="f-notes" placeholder="Anything else worth noting, e.g. pages out of order, illegible sections..."></textarea>
@@ -326,8 +328,8 @@ function readFileAsDataUrl(file){
 
 function populateThemeSelect(){
   const group = document.getElementById("f-group").value;
-  const sel = document.getElementById("f-theme");
-  sel.innerHTML = GROUPS[group].themes.map(t=>`<option value="${t}">${t}</option>`).join("");
+  const list = document.getElementById("theme-suggestions");
+  list.innerHTML = GROUPS[group].themes.map(t=>`<option value="${t}">`).join("");
 }
 
 function escapeHtml(s){
@@ -392,10 +394,11 @@ function renderThumbs(){
 document.getElementById("btn-add").addEventListener("click", async ()=>{
   const name = document.getElementById("f-name").value.trim();
   const group = document.getElementById("f-group").value;
-  const theme = document.getElementById("f-theme").value;
+  const theme = document.getElementById("f-theme").value.trim();
   const notes = document.getElementById("f-notes").value.trim();
 
   if(!name){ toast("Please enter the student's name.", true); return; }
+  if(!theme){ toast("Please type the essay's theme.", true); return; }
   if(pendingFiles.length === 0){ toast("Please add the essay file (PDF or photo).", true); return; }
 
   const essay = {
@@ -411,6 +414,7 @@ document.getElementById("btn-add").addEventListener("click", async ()=>{
   essays.push(essay);
 
   document.getElementById("f-name").value = "";
+  document.getElementById("f-theme").value = "";
   document.getElementById("f-notes").value = "";
   pendingFiles = [];
   renderThumbs();
